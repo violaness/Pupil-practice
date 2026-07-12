@@ -792,6 +792,11 @@ header {
 .tuner-center-line { position: absolute; left: 50%; top: 3px; bottom: 3px; width: 2px; background: var(--forest); transform: translateX(-50%); }
 .tuner-needle { position: absolute; top: 3px; bottom: 3px; width: 4px; border-radius: 2px; background: var(--mid-blue); left: 50%; transform: translateX(-50%); transition: left 0.08s linear, background 0.1s; }
 .tuner-cents { font-size: 0.8rem; color: var(--muted); }
+/* In-tune feedback */
+.tuner-display { border-radius: 14px; transition: background 0.2s, box-shadow 0.2s; padding: 10px 6px 14px; }
+.tuner-display.in-tune { background: rgba(46,125,50,0.10); box-shadow: 0 0 0 2px rgba(46,125,50,0.35) inset; }
+.tuner-display.in-tune .tuner-note { color: var(--forest); }
+.tuner-display.in-tune .tuner-cents { color: var(--forest); font-weight: 700; }
 /* Dynamics meter */
 .db-meter-wrap { padding: 4px 0 4px; }
 .db-bar-track { height: 22px; background: var(--warm); border-radius: 11px; overflow: hidden; margin-bottom: 8px; }
@@ -2104,7 +2109,7 @@ function getMic(){
     micStream = stream;
     micSource = ctx.createMediaStreamSource(stream);
     micAnalyser = ctx.createAnalyser();
-    micAnalyser.fftSize = 2048;
+    micAnalyser.fftSize = 4096; // larger buffer → resolves low strings (viola/cello C)
     micBuf = new Float32Array(micAnalyser.fftSize);
     micSource.connect(micAnalyser);
     return true;
@@ -2119,6 +2124,8 @@ function releaseMicIfIdle(){
 
 // ── Tuner (autocorrelation pitch detection) ──
 var tunerRunning = false, tunerRAF = null;
+var tunerFreqHistory = [];     // recent detected freqs for smoothing
+var tunerHoldCount = 0;        // frames the current note has been stable
 var NOTE_NAMES = ['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
 function freqToNote(freq){
   var noteNum = 12 * (Math.log(freq/getA4())/Math.log(2)) + 69; // A4 = chosen reference
@@ -2131,44 +2138,81 @@ function autoCorrelate(buf, sampleRate){
   var SIZE = buf.length, rms = 0;
   for(var i=0;i<SIZE;i++){ rms += buf[i]*buf[i]; }
   rms = Math.sqrt(rms/SIZE);
-  if(rms < 0.01) return -1; // too quiet
+  if(rms < 0.008) return { freq:-1, clarity:0 }; // too quiet
   var r1=0, r2=SIZE-1, thres=0.2;
   for(var i2=0;i2<SIZE/2;i2++){ if(Math.abs(buf[i2])<thres){ r1=i2; break; } }
   for(var j=1;j<SIZE/2;j++){ if(Math.abs(buf[SIZE-j])<thres){ r2=SIZE-j; break; } }
   buf = buf.slice(r1, r2); SIZE = buf.length;
+  if(SIZE < 8) return { freq:-1, clarity:0 };
   var c = new Array(SIZE).fill(0);
   for(var i3=0;i3<SIZE;i3++){ for(var j2=0;j2<SIZE-i3;j2++){ c[i3] += buf[j2]*buf[j2+i3]; } }
-  var d=0; while(c[d]>c[d+1]) d++;
+  var d=0; while(d<SIZE-1 && c[d]>c[d+1]) d++;
   var maxval=-1, maxpos=-1;
   for(var i4=d;i4<SIZE;i4++){ if(c[i4]>maxval){ maxval=c[i4]; maxpos=i4; } }
   var T0 = maxpos;
-  if(T0<=0) return -1;
-  return sampleRate / T0;
+  if(T0<=0) return { freq:-1, clarity:0 };
+  // Parabolic interpolation around the peak for sub-sample accuracy (helps low notes)
+  var x1=c[T0-1]||0, x2=c[T0], x3=c[T0+1]||0;
+  var a=(x1+x3-2*x2)/2, b=(x3-x1)/2;
+  if(a){ T0 = T0 - b/(2*a); }
+  // clarity = peak height relative to zero-lag energy (0..1)
+  var clarity = c[0] ? (maxval / c[0]) : 0;
+  return { freq: sampleRate / T0, clarity: clarity };
 }
 function tunerTick(){
   if(!tunerRunning) return;
   var ctx = getAudioCtx();
   micAnalyser.getFloatTimeDomainData(micBuf);
-  var freq = autoCorrelate(micBuf, ctx.sampleRate);
+  var res = autoCorrelate(micBuf, ctx.sampleRate);
   var noteEl = document.getElementById('tunerNote');
   var centsEl = document.getElementById('tunerCents');
   var needle = document.getElementById('tunerNeedle');
-  if(freq === -1){
+  var display = document.getElementById('tunerDisplay');
+
+  // Confidence gate: ignore unclear / noisy input
+  var clear = res.freq > 0 && res.clarity > 0.8 && res.freq >= 55 && res.freq <= 1400;
+  if(!clear){
+    tunerFreqHistory = [];
+    tunerHoldCount = 0;
     noteEl.textContent = '—';
     centsEl.textContent = 'Play a steady note…';
     needle.style.left = '50%';
+    needle.style.background = 'var(--mid-blue)';
+    if(display) display.classList.remove('in-tune');
+    tunerRAF = requestAnimationFrame(tunerTick);
+    return;
+  }
+
+  // Smoothing: keep a short rolling history, use the median (robust to blips)
+  tunerFreqHistory.push(res.freq);
+  if(tunerFreqHistory.length > 6) tunerFreqHistory.shift();
+  var sorted = tunerFreqHistory.slice().sort(function(a,b){ return a-b; });
+  var smoothFreq = sorted[Math.floor(sorted.length/2)];
+
+  var n = freqToNote(smoothFreq);
+  noteEl.textContent = n.name;
+
+  // Needle position (-50..+50 cents → 5%..95%)
+  var clamped = Math.max(-50, Math.min(50, n.cents));
+  needle.style.left = (50 + clamped*0.9) + '%';
+
+  // Friendly wording + in-tune feedback
+  var inTune = Math.abs(n.cents) <= 5;
+  if(inTune){
+    tunerHoldCount++;
+    needle.style.background = 'var(--forest)';
+    if(display) display.classList.add('in-tune');
+    centsEl.textContent = '✓ In tune';
   } else {
-    var n = freqToNote(freq);
-    noteEl.textContent = n.name;
-    var sign = n.cents>0?'+':'';
-    centsEl.textContent = sign+n.cents+' cents ('+Math.round(freq)+' Hz)';
-    // map -50..+50 cents to 5%..95%
-    var pct = 50 + (n.cents); // cents already ~ -50..50
-    pct = Math.max(5, Math.min(95, pct+ ( -0 )));
-    // clamp using cents range
-    var clamped = Math.max(-50, Math.min(50, n.cents));
-    needle.style.left = (50 + clamped*0.9) + '%';
-    needle.style.background = Math.abs(n.cents)<=5 ? 'var(--forest)' : 'var(--mid-blue)';
+    tunerHoldCount = 0;
+    needle.style.background = 'var(--mid-blue)';
+    if(display) display.classList.remove('in-tune');
+    var dir = n.cents < 0 ? 'flat' : 'sharp';
+    var amt = Math.abs(n.cents);
+    var word = amt<=12 ? ('a little '+dir) : amt<=28 ? dir : ('very '+dir);
+    // Nudge which way to go
+    var arrow = n.cents < 0 ? '↑ tune up' : '↓ tune down';
+    centsEl.textContent = word + ' · ' + arrow;
   }
   tunerRAF = requestAnimationFrame(tunerTick);
 }
@@ -2186,9 +2230,12 @@ function startTuner(){
 function stopTuner(){
   tunerRunning = false;
   if(tunerRAF) cancelAnimationFrame(tunerRAF);
+  tunerFreqHistory = [];
+  tunerHoldCount = 0;
   var btn = document.getElementById('tunerBtn');
   if(btn){ btn.textContent = '▶ Start tuner'; btn.classList.remove('active'); }
   var noteEl = document.getElementById('tunerNote'); if(noteEl) noteEl.textContent='—';
+  var disp = document.getElementById('tunerDisplay'); if(disp) disp.classList.remove('in-tune');
   releaseMicIfIdle();
 }
 document.getElementById('tunerBtn').addEventListener('click', function(){
