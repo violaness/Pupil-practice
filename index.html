@@ -797,6 +797,13 @@ header {
 .tuner-display.in-tune { background: rgba(46,125,50,0.10); box-shadow: 0 0 0 2px rgba(46,125,50,0.35) inset; }
 .tuner-display.in-tune .tuner-note { color: var(--forest); }
 .tuner-display.in-tune .tuner-cents { color: var(--forest); font-weight: 700; }
+/* Precision slider */
+.tuner-precision { margin: 4px 0 12px; }
+.tuner-prec-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.tuner-prec-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.tuner-prec-val { font-size: 0.78rem; color: var(--ink); font-weight: 600; }
+.tuner-precision input[type="range"] { width: 100%; }
+.tuner-prec-ends { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--muted); margin-top: 2px; }
 /* Dynamics meter */
 .db-meter-wrap { padding: 4px 0 4px; }
 .db-bar-track { height: 22px; background: var(--warm); border-radius: 11px; overflow: hidden; margin-bottom: 8px; }
@@ -975,6 +982,14 @@ header {
       <div class="tuner-note" id="tunerNote">—</div>
       <div class="tuner-cents-bar"><div class="tuner-needle" id="tunerNeedle"></div><div class="tuner-center-line"></div></div>
       <div class="tuner-cents" id="tunerCents">Tap Start and play a note</div>
+    </div>
+    <div class="tuner-precision">
+      <div class="tuner-prec-head">
+        <span class="tuner-prec-label">Precision</span>
+        <span class="tuner-prec-val" id="tunerPrecVal">±5 cents · Improving</span>
+      </div>
+      <input type="range" id="tunerPrec" min="2" max="10" step="1" value="5">
+      <div class="tuner-prec-ends"><span>Strict</span><span>Forgiving</span></div>
     </div>
     <div class="tool-row">
       <button class="tool-toggle-btn primary" id="tunerBtn">▶ Start tuner</button>
@@ -1158,7 +1173,7 @@ header {
     <!-- faint full spiral behind, so pupils see what will fill -->
     <path d="M50.00 48.00 L49.88 47.99 L49.75 47.96 L49.63 47.92 L49.52 47.86 L49.42 47.78 L49.32 47.69 L49.23 47.58 L49.16 47.46 L49.10 47.32 L49.06 47.18 L49.03 47.02 L49.03 46.86 L49.04 46.69 L49.07 46.52 L49.12 46.35 L49.19 46.17 L49.28 46.00 L49.39 45.83 L49.52 45.67 L49.67 45.52 L49.85 45.38 L50.04 45.25 L50.24 45.14 L50.47 45.04 L50.71 44.96 L50.96 44.90 L51.23 44.86 L51.51 44.84 L51.79 44.85 L52.08 44.88 L52.38 44.94 L52.68 45.03 L52.97 45.14 L53.27 45.28 L53.56 45.45 L53.84 45.65 L54.11 45.87 L54.36 46.12 L54.61 46.40 L54.83 46.71 L55.03 47.03 L55.21 47.38 L55.37 47.75 L55.50 48.14 L55.60 48.55 L55.67 48.97 L55.70 49.41 L55.71 49.85 L55.67 50.31 L55.61 50.76 L55.50 51.22 L55.36 51.68 L55.18 52.14 L54.96 52.58 L54.70 53.02 L54.41 53.44 L54.07 53.85 L53.71 54.23 L53.31 54.59 L52.87 54.93 L52.40 55.24 L51.91 55.51 L51.38 55.75 L50.84 55.96 L50.27 56.12 L49.68 56.24 L49.07 56.32 L48.45 56.36 L47.82 56.35 L47.19 56.29 L46.55 56.18 L45.91 56.02 L45.28 55.81 L44.66 55.55 L44.05 55.25 L43.46 54.89 L42.89 54.49 L42.34 54.04 L41.83 53.54 L41.34 53.00 L40.89 52.42 L40.48 51.80 L40.11 51.14 L39.79 50.45 L39.52 49.73 L39.30 48.98 L39.13 48.21 L39.02 47.42 L38.96 46.62 L38.97 45.81 L39.03 44.98 L39.16 44.16 L39.35 43.34 L39.60 42.53 L39.92 41.73 L40.29 40.95 L40.73 40.19 L41.23 39.45 L41.78 38.75 L42.39 38.08 L43.05 37.46 L43.77 36.88 L44.53 36.34 L45.34 35.86 L46.19 35.44 L47.08 35.08 L47.99 34.78 L48.94 34.54 L49.91 34.38 L50.90 34.28 L51.90 34.26 L52.91 34.31 L53.92 34.43 L54.93 34.63 L55.93 34.91 L56.92 35.26 L57.88 35.68 L58.83 36.18 L59.73 36.75 L60.61 37.39 L61.44 38.10 L62.22 38.88 L62.95 39.71 L63.62 40.60 L64.23 41.55 L64.78 42.55 L65.25 43.59 L65.65 44.67 L65.97 45.79 L66.22 46.94 L66.37 48.11 L66.45 49.29 L66.44 50.49 L66.34 51.70 L66.15 52.90 L65.87 54.09 L65.50 55.27 L65.05 56.43 L64.51 57.56 L63.88 58.65 L63.17 59.71 L62.39 60.71 L61.52 61.67 L60.58 62.56 L59.57 63.39 L58.50 64.15 L57.36 64.83 L56.18 65.44 L54.94 65.96 L53.66 66.39 L52.34 66.73 L50.99 66.97 L49.62 67.12 L48.24 67.17 L46.84 67.12 L45.45 66.96 L44.06 66.70 L42.68 66.34 L41.33 65.88 L40.00 65.32 L38.71 64.66 L37.46 63.90 L36.27 63.05 L35.13 62.11 L34.06 61.08 L33.05 59.98 L32.13 58.79 L31.29 57.53 L30.54 56.21 L29.88 54.83 L29.32 53.40 L28.86 51.92 L28.51 50.40 L28.27 48.85 L28.14 47.28 L28.12 45.70 L28.22 44.11 L28.43 42.52 L28.77 40.95 L29.21 39.39 L29.77 37.86 L30.45 36.37 L31.23 34.92 L32.13 33.53 L33.12 32.19 L34.22 30.93 L35.41 29.74 L36.69 28.63 L38.05 27.62 L39.50 26.70 L41.01 25.88 L42.58 25.17 L44.21 24.58 L45.89 24.10 L47.61 23.74 L49.36 23.51 L51.13 23.40 L52.91 23.42 L54.69 23.57 L56.47 23.85 L58.23 24.26 L59.97 24.80 L61.67 25.47 L63.32 26.26 L64.93 27.17 L66.47 28.20 L67.93 29.35 L69.32 30.60 L70.62 31.96 L71.83 33.42 L72.93 34.96 L73.92 36.59 L74.79 38.30 L75.55 40.07 L76.17 41.90 L76.67 43.78 L77.03 45.69 L77.25 47.64 L77.33 49.61 L77.26 51.59 L77.06 53.57 L76.71 55.53 L76.21 57.48 L75.58 59.39 L74.80 61.26 L73.89 63.07 L72.85 64.83 L71.67 66.51 L70.37 68.11 L68.96 69.62 L67.43 71.02 L65.79 72.32 L64.06 73.50 L62.25 74.56 L60.35 75.49 L58.38 76.29 L56.35 76.94 L54.27 77.44 L52.15 77.80 L50.00 78.00" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
     <!-- the gold spiral that draws itself in -->
-    <path id="spiralFill" d="M50.00 48.00 L49.88 47.99 L49.75 47.96 L49.63 47.92 L49.52 47.86 L49.42 47.78 L49.32 47.69 L49.23 47.58 L49.16 47.46 L49.10 47.32 L49.06 47.18 L49.03 47.02 L49.03 46.86 L49.04 46.69 L49.07 46.52 L49.12 46.35 L49.19 46.17 L49.28 46.00 L49.39 45.83 L49.52 45.67 L49.67 45.52 L49.85 45.38 L50.04 45.25 L50.24 45.14 L50.47 45.04 L50.71 44.96 L50.96 44.90 L51.23 44.86 L51.51 44.84 L51.79 44.85 L52.08 44.88 L52.38 44.94 L52.68 45.03 L52.97 45.14 L53.27 45.28 L53.56 45.45 L53.84 45.65 L54.11 45.87 L54.36 46.12 L54.61 46.40 L54.83 46.71 L55.03 47.03 L55.21 47.38 L55.37 47.75 L55.50 48.14 L55.60 48.55 L55.67 48.97 L55.70 49.41 L55.71 49.85 L55.67 50.31 L55.61 50.76 L55.50 51.22 L55.36 51.68 L55.18 52.14 L54.96 52.58 L54.70 53.02 L54.41 53.44 L54.07 53.85 L53.71 54.23 L53.31 54.59 L52.87 54.93 L52.40 55.24 L51.91 55.51 L51.38 55.75 L50.84 55.96 L50.27 56.12 L49.68 56.24 L49.07 56.32 L48.45 56.36 L47.82 56.35 L47.19 56.29 L46.55 56.18 L45.91 56.02 L45.28 55.81 L44.66 55.55 L44.05 55.25 L43.46 54.89 L42.89 54.49 L42.34 54.04 L41.83 53.54 L41.34 53.00 L40.89 52.42 L40.48 51.80 L40.11 51.14 L39.79 50.45 L39.52 49.73 L39.30 48.98 L39.13 48.21 L39.02 47.42 L38.96 46.62 L38.97 45.81 L39.03 44.98 L39.16 44.16 L39.35 43.34 L39.60 42.53 L39.92 41.73 L40.29 40.95 L40.73 40.19 L41.23 39.45 L41.78 38.75 L42.39 38.08 L43.05 37.46 L43.77 36.88 L44.53 36.34 L45.34 35.86 L46.19 35.44 L47.08 35.08 L47.99 34.78 L48.94 34.54 L49.91 34.38 L50.90 34.28 L51.90 34.26 L52.91 34.31 L53.92 34.43 L54.93 34.63 L55.93 34.91 L56.92 35.26 L57.88 35.68 L58.83 36.18 L59.73 36.75 L60.61 37.39 L61.44 38.10 L62.22 38.88 L62.95 39.71 L63.62 40.60 L64.23 41.55 L64.78 42.55 L65.25 43.59 L65.65 44.67 L65.97 45.79 L66.22 46.94 L66.37 48.11 L66.45 49.29 L66.44 50.49 L66.34 51.70 L66.15 52.90 L65.87 54.09 L65.50 55.27 L65.05 56.43 L64.51 57.56 L63.88 58.65 L63.17 59.71 L62.39 60.71 L61.52 61.67 L60.58 62.56 L59.57 63.39 L58.50 64.15 L57.36 64.83 L56.18 65.44 L54.94 65.96 L53.66 66.39 L52.34 66.73 L50.99 66.97 L49.62 67.12 L48.24 67.17 L46.84 67.12 L45.45 66.96 L44.06 66.70 L42.68 66.34 L41.33 65.88 L40.00 65.32 L38.71 64.66 L37.46 63.90 L36.27 63.05 L35.13 62.11 L34.06 61.08 L33.05 59.98 L32.13 58.79 L31.29 57.53 L30.54 56.21 L29.88 54.83 L29.32 53.40 L28.86 51.92 L28.51 50.40 L28.27 48.85 L28.14 47.28 L28.12 45.70 L28.22 44.11 L28.43 42.52 L28.77 40.95 L29.21 39.39 L29.77 37.86 L30.45 36.37 L31.23 34.92 L32.13 33.53 L33.12 32.19 L34.22 30.93 L35.41 29.74 L36.69 28.63 L38.05 27.62 L39.50 26.70 L41.01 25.88 L42.58 25.17 L44.21 24.58 L45.89 24.10 L47.61 23.74 L49.36 23.51 L51.13 23.40 L52.91 23.42 L54.69 23.57 L56.47 23.85 L58.23 24.26 L59.97 24.80 L61.67 25.47 L63.32 26.26 L64.93 27.17 L66.47 28.20 L67.93 29.35 L69.32 30.60 L70.62 31.96 L71.83 33.42 L72.93 34.96 L73.92 36.59 L74.79 38.30 L75.55 40.07 L76.17 41.90 L76.67 43.78 L77.03 45.69 L77.25 47.64 L77.33 49.61 L77.26 51.59 L77.06 53.57 L76.71 55.53 L76.21 57.48 L75.58 59.39 L74.80 61.26 L73.89 63.07 L72.85 64.83 L71.67 66.51 L70.37 68.11 L68.96 69.62 L67.43 71.02 L65.79 72.32 L64.06 73.50 L62.25 74.56 L60.35 75.49 L58.38 76.29 L56.35 76.94 L54.27 77.44 L52.15 77.80 L50.00 78.00" fill="none" stroke="url(#spiralGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="spiralFill" stroke-dasharray="263" stroke-dashoffset="263" d="M50.00 48.00 L49.88 47.99 L49.75 47.96 L49.63 47.92 L49.52 47.86 L49.42 47.78 L49.32 47.69 L49.23 47.58 L49.16 47.46 L49.10 47.32 L49.06 47.18 L49.03 47.02 L49.03 46.86 L49.04 46.69 L49.07 46.52 L49.12 46.35 L49.19 46.17 L49.28 46.00 L49.39 45.83 L49.52 45.67 L49.67 45.52 L49.85 45.38 L50.04 45.25 L50.24 45.14 L50.47 45.04 L50.71 44.96 L50.96 44.90 L51.23 44.86 L51.51 44.84 L51.79 44.85 L52.08 44.88 L52.38 44.94 L52.68 45.03 L52.97 45.14 L53.27 45.28 L53.56 45.45 L53.84 45.65 L54.11 45.87 L54.36 46.12 L54.61 46.40 L54.83 46.71 L55.03 47.03 L55.21 47.38 L55.37 47.75 L55.50 48.14 L55.60 48.55 L55.67 48.97 L55.70 49.41 L55.71 49.85 L55.67 50.31 L55.61 50.76 L55.50 51.22 L55.36 51.68 L55.18 52.14 L54.96 52.58 L54.70 53.02 L54.41 53.44 L54.07 53.85 L53.71 54.23 L53.31 54.59 L52.87 54.93 L52.40 55.24 L51.91 55.51 L51.38 55.75 L50.84 55.96 L50.27 56.12 L49.68 56.24 L49.07 56.32 L48.45 56.36 L47.82 56.35 L47.19 56.29 L46.55 56.18 L45.91 56.02 L45.28 55.81 L44.66 55.55 L44.05 55.25 L43.46 54.89 L42.89 54.49 L42.34 54.04 L41.83 53.54 L41.34 53.00 L40.89 52.42 L40.48 51.80 L40.11 51.14 L39.79 50.45 L39.52 49.73 L39.30 48.98 L39.13 48.21 L39.02 47.42 L38.96 46.62 L38.97 45.81 L39.03 44.98 L39.16 44.16 L39.35 43.34 L39.60 42.53 L39.92 41.73 L40.29 40.95 L40.73 40.19 L41.23 39.45 L41.78 38.75 L42.39 38.08 L43.05 37.46 L43.77 36.88 L44.53 36.34 L45.34 35.86 L46.19 35.44 L47.08 35.08 L47.99 34.78 L48.94 34.54 L49.91 34.38 L50.90 34.28 L51.90 34.26 L52.91 34.31 L53.92 34.43 L54.93 34.63 L55.93 34.91 L56.92 35.26 L57.88 35.68 L58.83 36.18 L59.73 36.75 L60.61 37.39 L61.44 38.10 L62.22 38.88 L62.95 39.71 L63.62 40.60 L64.23 41.55 L64.78 42.55 L65.25 43.59 L65.65 44.67 L65.97 45.79 L66.22 46.94 L66.37 48.11 L66.45 49.29 L66.44 50.49 L66.34 51.70 L66.15 52.90 L65.87 54.09 L65.50 55.27 L65.05 56.43 L64.51 57.56 L63.88 58.65 L63.17 59.71 L62.39 60.71 L61.52 61.67 L60.58 62.56 L59.57 63.39 L58.50 64.15 L57.36 64.83 L56.18 65.44 L54.94 65.96 L53.66 66.39 L52.34 66.73 L50.99 66.97 L49.62 67.12 L48.24 67.17 L46.84 67.12 L45.45 66.96 L44.06 66.70 L42.68 66.34 L41.33 65.88 L40.00 65.32 L38.71 64.66 L37.46 63.90 L36.27 63.05 L35.13 62.11 L34.06 61.08 L33.05 59.98 L32.13 58.79 L31.29 57.53 L30.54 56.21 L29.88 54.83 L29.32 53.40 L28.86 51.92 L28.51 50.40 L28.27 48.85 L28.14 47.28 L28.12 45.70 L28.22 44.11 L28.43 42.52 L28.77 40.95 L29.21 39.39 L29.77 37.86 L30.45 36.37 L31.23 34.92 L32.13 33.53 L33.12 32.19 L34.22 30.93 L35.41 29.74 L36.69 28.63 L38.05 27.62 L39.50 26.70 L41.01 25.88 L42.58 25.17 L44.21 24.58 L45.89 24.10 L47.61 23.74 L49.36 23.51 L51.13 23.40 L52.91 23.42 L54.69 23.57 L56.47 23.85 L58.23 24.26 L59.97 24.80 L61.67 25.47 L63.32 26.26 L64.93 27.17 L66.47 28.20 L67.93 29.35 L69.32 30.60 L70.62 31.96 L71.83 33.42 L72.93 34.96 L73.92 36.59 L74.79 38.30 L75.55 40.07 L76.17 41.90 L76.67 43.78 L77.03 45.69 L77.25 47.64 L77.33 49.61 L77.26 51.59 L77.06 53.57 L76.71 55.53 L76.21 57.48 L75.58 59.39 L74.80 61.26 L73.89 63.07 L72.85 64.83 L71.67 66.51 L70.37 68.11 L68.96 69.62 L67.43 71.02 L65.79 72.32 L64.06 73.50 L62.25 74.56 L60.35 75.49 L58.38 76.29 L56.35 76.94 L54.27 77.44 L52.15 77.80 L50.00 78.00" fill="none" stroke="url(#spiralGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 
   <svg id="plantViz" viewBox="0 0 120 140" width="200" height="233" aria-hidden="true" style="display:none">
@@ -2126,6 +2141,30 @@ function releaseMicIfIdle(){
 var tunerRunning = false, tunerRAF = null;
 var tunerFreqHistory = [];     // recent detected freqs for smoothing
 var tunerHoldCount = 0;        // frames the current note has been stable
+function getTunerPrecision(){
+  var p = (state.settings && state.settings.tunerPrec) ? state.settings.tunerPrec : 5;
+  return Math.max(2, Math.min(10, p));
+}
+function precisionWord(cents){
+  if(cents <= 2) return 'Advanced';
+  if(cents <= 3) return 'Precise';
+  if(cents <= 5) return 'Improving';
+  if(cents <= 7) return 'Developing';
+  return 'Beginner';
+}
+function renderTunerPrecision(){
+  var p = getTunerPrecision();
+  var slider = document.getElementById('tunerPrec');
+  var val = document.getElementById('tunerPrecVal');
+  if(slider) slider.value = p;
+  if(val) val.textContent = '±'+p+' cents · '+precisionWord(p);
+}
+function setTunerPrecision(p){
+  if(!state.settings) state.settings = {};
+  state.settings.tunerPrec = Math.max(2, Math.min(10, p));
+  save();
+  renderTunerPrecision();
+}
 var NOTE_NAMES = ['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
 function freqToNote(freq){
   var noteNum = 12 * (Math.log(freq/getA4())/Math.log(2)) + 69; // A4 = chosen reference
@@ -2196,8 +2235,9 @@ function tunerTick(){
   var clamped = Math.max(-50, Math.min(50, n.cents));
   needle.style.left = (50 + clamped*0.9) + '%';
 
-  // Friendly wording + in-tune feedback
-  var inTune = Math.abs(n.cents) <= 5;
+  // Friendly wording + in-tune feedback (tolerance set by the precision slider)
+  var tol = getTunerPrecision();
+  var inTune = Math.abs(n.cents) <= tol;
   if(inTune){
     tunerHoldCount++;
     needle.style.background = 'var(--forest)';
@@ -2242,6 +2282,13 @@ document.getElementById('tunerBtn').addEventListener('click', function(){
   var ctx = getAudioCtx(); if(ctx && ctx.state==='suspended') ctx.resume();
   if(tunerRunning) stopTuner(); else startTuner();
 });
+// Precision slider
+(function(){
+  var slider = document.getElementById('tunerPrec');
+  if(!slider) return;
+  renderTunerPrecision();
+  slider.addEventListener('input', function(){ setTunerPrecision(parseInt(this.value,10)); });
+})();
 
 // ── Dynamics meter (RMS loudness) ──
 var dbRunning = false, dbRAF = null;
@@ -2519,12 +2566,19 @@ function updateSpiral(frac){
   frac = Math.max(0, Math.min(1, frac));
   var fill = document.getElementById('spiralFill');
   if(fill){
-    if(!spiralLen && fill.getTotalLength) spiralLen = fill.getTotalLength();
-    var L = spiralLen || 300;
+    // Measure once; getTotalLength can return 0/NaN on some mobile browsers,
+    // so fall back to the known geometric length (~263 units).
+    if(!spiralLen){
+      var measured = fill.getTotalLength ? fill.getTotalLength() : 0;
+      spiralLen = (measured && measured > 10) ? measured : 263;
+    }
+    var L = spiralLen;
+    var off = (-L * (1 - frac)).toFixed(1);
     fill.style.strokeDasharray = L;
-    // Path is defined centre → outward. A negative offset reveals from the OUTER end,
-    // so the spiral draws in from the outside and finishes at the middle.
-    fill.style.strokeDashoffset = (-L * (1 - frac)).toFixed(1);
+    fill.style.strokeDashoffset = off;
+    // also set as attributes — some mobile browsers honour these more reliably
+    fill.setAttribute('stroke-dasharray', L);
+    fill.setAttribute('stroke-dashoffset', off);
   }
 }
 // Growing plant: stem grows, leaves unfurl, flower blooms near the end
@@ -3403,6 +3457,7 @@ function renderAll(){
   renderCalendar();
   renderCategories();
   renderRatingKey();
+  if(typeof renderTunerPrecision==='function') renderTunerPrecision();
   renderQuote();
   renderCountdowns();
 }
