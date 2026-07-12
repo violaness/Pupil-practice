@@ -895,7 +895,7 @@ header {
       <span class="catch-icon">🎙️</span>
       <span class="catch-label" id="catchLabel">Tap to catch a take</span>
     </button>
-    <div class="catch-hint" id="catchHint">Records up to 15s · plays back once · then it's gone forever</div>
+    <div class="catch-hint" id="catchHint">Records up to 20s · plays back once · then it's gone forever</div>
     <div class="catch-timer" id="catchTimer" style="display:none">0.0s</div>
   </div>
 
@@ -2352,7 +2352,7 @@ document.getElementById('intervalReplayBtn').addEventListener('click', function(
 
 // ── Quick-fire recorder (ephemeral: RAM only, auto-purge) ──
 (function(){
-  var CATCH_MAX_MS = 15000;           // 15-second cap
+  var CATCH_MAX_MS = 20000;           // 20-second cap
   var btn = document.getElementById('catchBtn');
   if(!btn) return;
   var label = document.getElementById('catchLabel');
@@ -2366,7 +2366,7 @@ document.getElementById('intervalReplayBtn').addEventListener('click', function(
 
   function resetLabel(){
     label.textContent = 'Tap to catch a take';
-    hint.textContent = "Records up to 15s · plays back once · then it's gone forever";
+    hint.textContent = "Records up to 20s · plays back once · then it's gone forever";
     timerEl.style.display = 'none';
     btn.classList.remove('recording','playing');
   }
