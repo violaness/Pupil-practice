@@ -853,6 +853,38 @@ header {
   font-size: 0.75rem; color: var(--muted);
   line-height: 1.5; margin-bottom: 12px;
 }
+
+/* Monthly backup reminder banner */
+.backup-banner {
+  position: relative;
+  display: flex; align-items: center; gap: 12px;
+  background: linear-gradient(150deg, #E9C46A, #E0A94E);
+  border: 1px solid rgba(160,110,30,0.35);
+  border-radius: var(--radius);
+  padding: 13px 14px; margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  animation: bannerIn 0.4s ease;
+}
+@keyframes bannerIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.backup-banner-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+.backup-banner-body { flex: 1; min-width: 0; }
+.backup-banner-title {
+  font-family: 'DM Serif Display', serif;
+  color: #3A2A08; font-size: 1rem; line-height: 1.2;
+}
+.backup-banner-sub { font-size: 0.72rem; color: #5A4413; line-height: 1.4; margin-top: 2px; }
+.backup-banner-cta {
+  flex-shrink: 0; border: none; cursor: pointer;
+  background: var(--navy); color: #fff;
+  font-family: 'Special Elite', 'Courier New', Courier, monospace;
+  font-size: 0.78rem; padding: 10px 13px; border-radius: 10px;
+}
+.backup-banner-x {
+  position: absolute; top: 5px; right: 8px;
+  border: none; background: none; cursor: pointer;
+  color: rgba(58,42,8,0.55); font-size: 1.15rem; line-height: 1;
+  padding: 2px 4px;
+}
 </style>
 </head>
 <body>
@@ -875,6 +907,17 @@ header {
 
 <!-- TODAY VIEW -->
 <div class="view active" id="view-today">
+
+  <!-- Monthly backup reminder banner -->
+  <div id="backupBanner" class="backup-banner" style="display:none">
+    <button class="backup-banner-x" id="backupBannerDismiss" aria-label="Dismiss">&times;</button>
+    <div class="backup-banner-icon">💾</div>
+    <div class="backup-banner-body">
+      <div class="backup-banner-title" id="backupBannerTitle">Time for your monthly backup</div>
+      <div class="backup-banner-sub">Tap to save your journal so nothing gets lost.</div>
+    </div>
+    <button class="backup-banner-cta" id="backupBannerCta">Back up now</button>
+  </div>
 
   <div class="date-heading" id="todayHeading"></div>
   <div class="date-sub" id="todayStreak"></div>
@@ -2979,6 +3022,53 @@ document.getElementById('reportBackBtn').addEventListener('click', function(){
 });
 
 
+// ── Monthly backup reminder banner ──
+function renderBackupBanner(){
+  var banner = document.getElementById('backupBanner');
+  if(!banner) return;
+  var now = new Date();
+  var thisMonth = now.getFullYear()+'-'+pad(now.getMonth()+1);
+  // Respect a dismissal, but only for the current calendar month
+  if(state.backupBannerDismissedMonth === thisMonth){
+    banner.style.display = 'none';
+    return;
+  }
+  var show = false, never = false;
+  if(!state.lastBackup){
+    // Never backed up — only start nudging once there's a little data worth saving
+    var practicedDays = state.practiced ? Object.keys(state.practiced).length : 0;
+    if(practicedDays >= 3){ show = true; never = true; }
+  } else {
+    var days = (Date.now() - state.lastBackup) / 86400000;
+    if(days >= 30) show = true;
+  }
+  if(show){
+    var titleEl = document.getElementById('backupBannerTitle');
+    if(titleEl){
+      if(never){
+        titleEl.textContent = 'Back up your practice journal';
+      } else {
+        var daysAgo = Math.floor((Date.now() - state.lastBackup) / 86400000);
+        titleEl.textContent = 'It\u2019s been a month since your last backup';
+      }
+    }
+    banner.style.display = 'flex';
+  } else {
+    banner.style.display = 'none';
+  }
+}
+var _bbCta = document.getElementById('backupBannerCta');
+if(_bbCta) _bbCta.addEventListener('click', function(){
+  document.getElementById('backupSheet').classList.add('show');
+});
+var _bbDismiss = document.getElementById('backupBannerDismiss');
+if(_bbDismiss) _bbDismiss.addEventListener('click', function(){
+  var now = new Date();
+  state.backupBannerDismissedMonth = now.getFullYear()+'-'+pad(now.getMonth()+1);
+  save();
+  renderBackupBanner();
+});
+
 // ── Backup & Restore ──
 document.getElementById('backupBtn').addEventListener('click', function(){
   document.getElementById('backupSheet').classList.add('show');
@@ -3001,6 +3091,10 @@ document.getElementById('doBackupBtn').addEventListener('click', function(){
   document.body.appendChild(a); a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  state.lastBackup = Date.now();
+  state.backupBannerDismissedMonth = null;
+  save();
+  renderBackupBanner();
   showToast('Backup saved');
   closeBackup();
 });
@@ -3021,6 +3115,8 @@ document.getElementById('restoreFileInput').addEventListener('change', function(
       if(!state.ticked) state.ticked={};
       if(!state.tickHistory) state.tickHistory={};
       if(!state.dailyFocus) state.dailyFocus={};
+      state.lastBackup = Date.now();
+      state.backupBannerDismissedMonth = null;
       save();
       renderAll();
       showToast('Restored from backup');
@@ -3491,6 +3587,7 @@ function renderAll(){
   if(typeof renderTunerPrecision==='function') renderTunerPrecision();
   renderQuote();
   renderCountdowns();
+  renderBackupBanner();
 }
 
 load();
