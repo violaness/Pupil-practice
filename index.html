@@ -234,6 +234,16 @@ header {
 .view.active { display: block; }
 
 /* ── DATE STRIP ── */
+.today-welcome {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem; color: var(--navy); line-height: 1.25;
+  margin: 6px 0 10px;
+}
+.today-focus-heading {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem; color: var(--navy);
+  margin: 22px 0 10px;
+}
 .date-heading {
   font-family: 'DM Serif Display', serif;
   font-size: 1.3rem; color: var(--navy);
@@ -356,8 +366,8 @@ header {
 .rk-item { font-size: 0.78rem; color: var(--ink); display: flex; align-items: center; gap: 6px; }
 .rk-emoji { font-size: 1rem; width: 20px; text-align: center; }
 .category-label {
-  font-size: 0.7rem; font-weight: 700;
-  color: var(--muted); letter-spacing: 0.06em;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 .add-item-btn {
@@ -738,10 +748,11 @@ header {
   flex: 1; padding: 12px 10px; border: none; border-radius: 10px; cursor: pointer;
   font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.82rem;
 }
-.sw-btn.primary { background: #1B741A; color: #0E3401; }
+.sw-btn.primary { background: #D4ECD8; color: #0E3401; border: 1.5px solid #AFCBAF; }
 .sw-btn.ghost { background: transparent; border: 1.5px solid #CDDAEA; color: var(--ink); }
 .sw-empty { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
 .sw-card.sw-done { background: linear-gradient(150deg, #1B741A, #0E3401); border-color: rgba(123,224,160,0.4); }
+.sw-card.sw-blank .sw-scale { opacity: 0.5; font-size: 2.4rem; }
 .sw-done-emoji { font-size: 2rem; line-height: 1; margin-bottom: 4px; }
 /* Focus picker */
 .fp-intro { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
@@ -754,13 +765,14 @@ header {
 .fp-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(214,238,227,0.9); }
 .fp-aspect { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: #fff; line-height: 1.15; margin: 6px 0 4px; }
 .fp-aspect.spinning { opacity: 0.85; }
+.fp-card.fp-blank .fp-aspect { opacity: 0.5; font-size: 2.4rem; }
 .fp-note { font-size: 0.74rem; color: rgba(255,255,255,0.72); line-height: 1.45; }
 .fp-row { display: flex; gap: 8px; margin-top: 12px; }
 .fp-btn {
   flex: 1; padding: 12px 10px; border: none; border-radius: 10px; cursor: pointer;
   font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.82rem;
 }
-.fp-btn.primary { background: #74B3FF; color: #05297F; }
+.fp-btn.primary { background: #DCF0FC; color: #05297F; border: 1.5px solid #B9DFF6; }
 /* Practice planner */
 .pp-intro { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
 .pp-time-label { font-size: 0.72rem; color: var(--muted); margin-right: 2px; }
@@ -771,8 +783,8 @@ header {
   font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.72rem;
   padding: 5px 12px; border-radius: 999px; cursor: pointer;
 }
-.pp-quick-btn.sel { background: var(--navy); color: #fff; border-color: var(--navy); }
-.pp-time-label-row { text-align: center; font-size: 0.72rem; color: var(--muted); margin-bottom: 10px; }
+.pp-quick-btn.sel { background: #DCF0FC; color: var(--navy); border-color: #B9DFF6; }
+.pp-time-label-row { text-align: center; font-size: 1rem; color: var(--navy); font-weight: 700; margin-bottom: 10px; }
 .pp-custom { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; }
 .pp-custom #ppMins {
   width: 72px; text-align: center; padding: 7px 4px; border: 1.5px solid #CDDAEA;
@@ -784,7 +796,12 @@ header {
   text-align: left; border: 1.5px solid #CDDAEA; background: #fff; cursor: pointer;
   border-radius: 11px; padding: 11px 14px; transition: all 0.12s;
 }
-.pp-plan-btn.sel { border-color: var(--forest); background: #D4ECD8; }
+/* Pastel palette tints per plan */
+.pp-plan-btn.plan-balanced  { background: #DCF0FC; border-color: #B9DFF6; }
+.pp-plan-btn.plan-technical { background: #D5E5D5; border-color: #AFCBAF; }
+.pp-plan-btn.plan-pieces    { background: #D9DEEB; border-color: #B4BED6; }
+.pp-plan-btn.plan-quick     { background: #C7E0FF; border-color: #9EC6F5; }
+.pp-plan-btn.sel { border-color: var(--forest); box-shadow: 0 0 0 2px var(--forest) inset; }
 .pp-plan-name { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--navy); }
 .pp-plan-desc { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
 /* Result: pie clock + legend */
@@ -803,8 +820,8 @@ header {
 .pp-timer-next { font-size: 0.66rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
 .pp-timer-row { display: flex; gap: 8px; margin-top: 12px; }
 .pp-timer-btn { flex: 1; padding: 11px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Special Elite','Courier New',monospace; font-size: 0.82rem; }
-.pp-timer-btn.primary { background: #1B741A; color: #0E3401; }
-.pp-timer-btn.ghost { background: rgba(255,255,255,0.12); color: #fff; }
+.pp-timer-btn.primary { background: #D4ECD8; color: #0E3401; }
+.pp-timer-btn.ghost { background: rgba(255,255,255,0.18); color: #fff; }
 .pp-progress-track { height: 7px; border-radius: 999px; background: rgba(255,255,255,0.15); overflow: hidden; margin-top: 12px; }
 .pp-progress-fill { height: 100%; border-radius: 999px; background: #1B741A; transition: width 0.3s linear; }
 .metronome-display { text-align: center; padding: 4px 0 10px; }
@@ -817,7 +834,7 @@ header {
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 12px;
 }
-.bpm-slider-row input[type="range"] { flex: 1; accent-color: var(--forest); }
+.bpm-slider-row input[type="range"] { flex: 1; accent-color: #74B3FF; }
 .bpm-step-btn {
   width: 34px; height: 34px; border-radius: 8px;
   border: 1.5px solid #CDDAEA; background: var(--paper);
@@ -836,23 +853,14 @@ header {
   font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.85rem;
   color: var(--ink); cursor: pointer;
 }
-.tool-toggle-btn.primary { background: var(--forest); color: #fff; border-color: var(--forest); }
-.tool-toggle-btn.active { background: #1B741A; color: #fff; border-color: #1B741A; }
+.tool-toggle-btn.primary { background: #D4ECD8; color: #0E3401; border-color: #AFCBAF; }
+.tool-toggle-btn.active { background: #D4ECD8; color: #0E3401; border-color: #AFCBAF; }
 .a4-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 16px; margin-bottom: 14px; }
 .a4-label { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
 .a4-row select { padding: 8px 10px; border-radius: 8px; border: 1.5px solid #CDDAEA; background: #fff; font-size: 0.9rem; color: var(--ink); }
-/* Practice timer set controls */
-.timer-set-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 6px 0 10px; }
-.timer-set-display { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--ink); min-width: 90px; text-align: center; }
-.timer-mins-label { font-size: 0.9rem; color: var(--muted); margin-left: 4px; }
-.timer-quick-row { display: flex; gap: 6px; justify-content: center; margin-bottom: 10px; }
-.timer-quick-btn { flex: 1; padding: 8px 0; border: 1.5px solid #CDDAEA; background: transparent; border-radius: 8px; color: var(--ink); font-size: 0.9rem; cursor: pointer; }
-.timer-quick-btn.sel { background: var(--navy); color: #fff; border-color: var(--navy); }
-.timer-style-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 4px 0 8px; text-align: center; }
-.timer-style-row { display: flex; gap: 6px; justify-content: center; margin-bottom: 12px; }
-.timer-style-btn { flex: 1; padding: 9px 0; border: 1.5px solid #CDDAEA; background: transparent; border-radius: 8px; color: var(--ink); font-size: 0.82rem; cursor: pointer; }
-.timer-style-btn.sel { background: var(--navy); color: #fff; border-color: var(--navy); }
-/* Full-screen hourglass overlay */
+/* Practice timer (count-up) */
+.timer-updot { font-size: 3rem; line-height: 1; margin-bottom: 4px; }
+/* Full-screen count-up overlay */
 .timer-overlay {
   display: none; position: fixed; inset: 0; z-index: 9999;
   background: linear-gradient(165deg, #05297F 0%, #05297F 100%);
@@ -860,7 +868,7 @@ header {
   color: #fff; padding: 24px; text-align: center;
 }
 .timer-overlay.show { display: flex; }
-.timer-big { font-family: 'DM Serif Display', serif; font-size: 3.4rem; line-height: 1; letter-spacing: 0.02em; }
+.timer-big { font-family: 'DM Serif Display', serif; font-size: 4.4rem; line-height: 1; letter-spacing: 0.02em; }
 .timer-msg { font-size: 0.95rem; opacity: 0.85; max-width: 280px; }
 .timer-controls { display: flex; gap: 12px; margin-top: 8px; }
 .timer-ctrl-btn { padding: 12px 26px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.08); color: #fff; font-size: 1rem; cursor: pointer; }
@@ -920,7 +928,7 @@ header {
   font-size: 0.78rem; color: var(--muted);
   cursor: pointer;
 }
-.speed-burst-row input { accent-color: var(--forest); }
+.speed-burst-row input { accent-color: #74B3FF; }
 .metronome-flash {
   position: fixed; inset: 0; background: var(--forest);
   opacity: 0; pointer-events: none; z-index: 250;
@@ -938,7 +946,7 @@ header {
   font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.72rem;
   padding: 5px 14px; border-radius: 999px; cursor: pointer; min-width: 54px;
 }
-.metro-mode-toggle.on { background: var(--forest); color: #fff; border-color: var(--forest); }
+.metro-mode-toggle.on { background: #D4ECD8; color: #0E3401; border-color: #AFCBAF; }
 .metro-mode-body { margin-top: 12px; }
 .metro-mode-hint { font-size: 0.74rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
 /* Speed-up trainer stats */
@@ -956,7 +964,7 @@ header {
   font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.8rem;
   padding: 6px 12px; border-radius: 8px; cursor: pointer;
 }
-.su-step-btn.sel { background: var(--mid-blue); color: #fff; border-color: var(--mid-blue); }
+.su-step-btn.sel { background: #DCF0FC; color: var(--navy); border-color: #B9DFF6; }
 .su-reset {
   display: block; width: 100%; margin-top: 10px; border: none; background: transparent;
   color: var(--muted); font-family: 'Special Elite', 'Courier New', Courier, monospace;
@@ -969,7 +977,7 @@ header {
   font-family: 'DM Serif Display', serif; font-size: 1.2rem;
   padding: 10px 0; border-radius: 10px; cursor: pointer;
 }
-.bd-choice-btn.sel { background: var(--forest); color: #fff; border-color: var(--forest); }
+.bd-choice-btn.sel { background: #D4ECD8; color: #0E3401; border-color: #AFCBAF; }
 .bd-stepper-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; }
 .bd-stepper-label { font-size: 0.72rem; color: var(--muted); margin-right: 2px; }
 .bd-step-btn {
@@ -1114,12 +1122,6 @@ header {
   <div class="date-heading" id="todayHeading"></div>
   <div class="date-sub" id="todayStreak"></div>
 
-  <!-- Quote of the day -->
-  <div class="quote-card" id="quoteCard">
-    <div class="quote-text" id="quoteText"></div>
-    <div class="quote-attr" id="quoteAttr"></div>
-  </div>
-
   <!-- Countdowns -->
   <div id="countdownsWrap"></div>
 
@@ -1131,6 +1133,8 @@ header {
     <div class="cal-strip" id="calGrid"></div>
   </div>
 
+  <div class="today-welcome">What can we improve?</div>
+
   <!-- Quick-fire recorder (ephemeral, RAM-only) -->
   <div id="catchCard" class="catch-card">
     <button id="catchBtn" class="catch-btn" aria-label="Record a quick take">
@@ -1141,8 +1145,7 @@ header {
     <div class="catch-timer" id="catchTimer" style="display:none">0.0s</div>
   </div>
 
-  <!-- Rating key -->
-  <div id="ratingKey" class="rating-key"></div>
+  <div class="today-focus-heading">Today's Focus</div>
 
   <!-- Categories -->
   <div id="categoriesWrap"></div>
@@ -1157,6 +1160,15 @@ header {
       <div class="daily-note-label">💡 Today's realisations</div>
       <textarea class="daily-note-textarea" id="todayRealisations" placeholder="What did you notice or figure out?"></textarea>
     </div>
+  </div>
+
+  <!-- Rating key -->
+  <div id="ratingKey" class="rating-key"></div>
+
+  <!-- Quote of the day -->
+  <div class="quote-card" id="quoteCard">
+    <div class="quote-text" id="quoteText"></div>
+    <div class="quote-attr" id="quoteAttr"></div>
   </div>
 
 </div>
@@ -1188,8 +1200,8 @@ header {
   <!-- Practice planner -->
   <div class="tool-block">
     <div class="tool-block-title">🥧 Practice planner</div>
-    <p class="pp-intro">How long have you got today? Pick a plan and I'll divide up your time and show you a practice clock.</p>
-    <div class="pp-time-label-row">Minutes today</div>
+    <p class="pp-intro">Pick a plan and I'll divide up your time and show you a practice clock.</p>
+    <div class="pp-time-label-row">How much time do you have today?</div>
     <div class="pp-quick" id="ppQuick"></div>
     <div class="pp-custom" id="ppCustom" style="display:none">
       <span class="pp-time-label">How many minutes?</span>
@@ -1212,26 +1224,10 @@ header {
     <div id="focusPickBody"></div>
   </div>
 
-  <!-- Practice timer (hourglass) -->
+  <!-- Practice timer (count-up stopwatch) -->
   <div class="tool-block">
-    <div class="tool-block-title">⏳ Practice timer</div>
-    <div class="timer-set-row">
-      <button class="bpm-step-btn" id="timerMinusBtn">−</button>
-      <div class="timer-set-display"><span id="timerMinsSet">10</span><span class="timer-mins-label">min</span></div>
-      <button class="bpm-step-btn" id="timerPlusBtn">+</button>
-    </div>
-    <div class="timer-quick-row">
-      <button class="timer-quick-btn" data-min="5">5</button>
-      <button class="timer-quick-btn" data-min="10">10</button>
-      <button class="timer-quick-btn" data-min="15">15</button>
-      <button class="timer-quick-btn" data-min="20">20</button>
-      <button class="timer-quick-btn" data-min="30">30</button>
-    </div>
-    <div class="timer-style-label">Timer style</div>
-    <div class="timer-style-row">
-      <button class="timer-style-btn" data-style="spiral">🌀 Spiral</button>
-      <button class="timer-style-btn" data-style="plant">🌱 Plant</button>
-    </div>
+    <div class="tool-block-title">⏱️ Practice timer</div>
+    <p class="pp-intro">A simple stopwatch — see how long you practise for. It counts up until you stop.</p>
     <div class="tool-row">
       <button class="tool-toggle-btn primary" id="timerStartBtn">Start timer</button>
     </div>
@@ -1480,33 +1476,8 @@ header {
 
 <!-- Full-screen practice timer overlay -->
 <div id="timerOverlay" class="timer-overlay">
-  <div id="timerVisual">
-  <canvas id="spiralCanvas" width="220" height="220" aria-hidden="true" style="width:220px;height:220px"></canvas>
-
-  <svg id="plantViz" viewBox="0 0 120 140" width="200" height="233" aria-hidden="true" style="display:none">
-    <path d="M40 116 L80 116 L74 136 L46 136 Z" fill="#05297F"/>
-    <rect x="37" y="110" width="46" height="9" rx="3" fill="#05297F"/>
-    <ellipse cx="60" cy="112" rx="20" ry="3.5" fill="#05297F"/>
-    <path id="plantStem" d="M60 112 C60 98 58 86 60 74 C61 64 59 56 60 48"
-          fill="none" stroke="#1B741A" stroke-width="4" stroke-linecap="round"/>
-    <g id="plantLeafL" style="transform-box:fill-box;transform-origin:right center;">
-      <path d="M58 92 C44 88 38 94 36 100 C46 102 54 100 58 92 Z" fill="#1B741A"/>
-    </g>
-    <g id="plantLeafR" style="transform-box:fill-box;transform-origin:left center;">
-      <path d="M60 80 C74 74 82 80 84 86 C74 90 64 88 60 80 Z" fill="#1B741A"/>
-    </g>
-    <g id="plantFlower" style="transform-box:fill-box;transform-origin:center;">
-      <circle cx="60" cy="40" r="7" fill="#74B3FF"/>
-      <circle cx="52" cy="46" r="7" fill="#74B3FF"/>
-      <circle cx="68" cy="46" r="7" fill="#74B3FF"/>
-      <circle cx="55" cy="54" r="7" fill="#74B3FF"/>
-      <circle cx="65" cy="54" r="7" fill="#74B3FF"/>
-      <circle cx="60" cy="48" r="6" fill="#74B3FF"/>
-    </g>
-  </svg>
-  </div>
-
-  <div id="timerBig" class="timer-big">10:00</div>
+  <div class="timer-updot">⏱️</div>
+  <div id="timerBig" class="timer-big">0:00</div>
   <div id="timerMsg" class="timer-msg">Keep going — you've got this 🎻</div>
   <div class="timer-controls">
     <button class="timer-ctrl-btn" id="timerPauseBtn">Pause</button>
@@ -1823,7 +1794,15 @@ var QUOTES = [
   { text: "I never studied music formally. I listened, I imitated, I discovered — and I never stopped.", attr: "Stéphane Grappelli" },
   { text: "Practice with your fingers and you need all day. Practice with your mind and you will do as much in an hour and a half.", attr: "Leopold Auer" },
   { text: "The secret of great playing is simple: practise slowly.", attr: "Leopold Auer" },
-  { text: "Practice like it means everything in the world to you. Perform like you don't give a damn.", attr: "Jascha Heifetz" }
+  { text: "Practice like it means everything in the world to you. Perform like you don't give a damn.", attr: "Jascha Heifetz" },
+  { text: "Neither a lofty degree of intelligence nor imagination nor both together go to the making of genius. Love, love, love, that is the soul of genius.", attr: "Wolfgang Amadeus Mozart" },
+  { text: "The music is not in the notes, but in the silence between.", attr: "Wolfgang Amadeus Mozart" },
+  { text: "It is a mistake to think that the practice of my art has become easy to me. I assure you, no one has given so much care to the study of composition as I.", attr: "Wolfgang Amadeus Mozart" },
+  { text: "I pay no attention whatever to anybody's praise or blame. I simply follow my own feelings.", attr: "Wolfgang Amadeus Mozart" },
+  { text: "When I am travelling in a carriage, or walking after a good meal, it is on such occasions that my ideas flow best and most abundantly.", attr: "Wolfgang Amadeus Mozart" },
+  { text: "Melody is the essence of music.", attr: "Wolfgang Amadeus Mozart" },
+  { text: "To talk well and eloquently is a very great art, but an equally great one is to know the right moment to stop.", attr: "Wolfgang Amadeus Mozart" },
+  { text: "I know myself, and I have such a sense of music within me that I know I could make something of it.", attr: "Wolfgang Amadeus Mozart" }
 ];
 
 function renderQuote(){
@@ -3106,243 +3085,69 @@ document.getElementById('intervalReplayBtn').addEventListener('click', function(
   });
 })();
 
-// ── Practice timer (hourglass) ──
-var timerMins = 10;
-var timerStyle = 'spiral'; // spiral | plant
-function getTimerStyle(){
-  var st = (state.settings && state.settings.timerStyle) ? state.settings.timerStyle : 'spiral';
-  if(st==='hourglass' || st==='ring') st = 'spiral'; // migrate old choices
-  return st;
-}
-function setTimerStyle(st){
-  if(!state.settings) state.settings = {};
-  state.settings.timerStyle = st;
-  timerStyle = st;
-  save();
-  renderTimerStyle();
-}
-function renderTimerStyle(){
-  var st = getTimerStyle();
-  Array.prototype.forEach.call(document.querySelectorAll('.timer-style-btn'), function(b){
-    if(b.getAttribute('data-style')===st) b.classList.add('sel'); else b.classList.remove('sel');
-  });
-}
-var timerTotal = 0, timerRemaining = 0, timerRAF = null, timerPaused = false;
-var timerRunning = false, timerEndAt = 0, timerPausedAt = 0;
-
-function renderTimerSet(){
-  var el = document.getElementById('timerMinsSet');
-  if(el) el.textContent = timerMins;
-  Array.prototype.forEach.call(document.querySelectorAll('.timer-quick-btn'), function(b){
-    if(parseInt(b.getAttribute('data-min'),10)===timerMins) b.classList.add('sel'); else b.classList.remove('sel');
-  });
-}
-function setTimerMins(m){
-  timerMins = Math.max(1, Math.min(180, m));
-  renderTimerSet();
-}
-document.getElementById('timerMinusBtn').addEventListener('click', function(){ setTimerMins(timerMins-1); });
-document.getElementById('timerPlusBtn').addEventListener('click', function(){ setTimerMins(timerMins+1); });
-Array.prototype.forEach.call(document.querySelectorAll('.timer-quick-btn'), function(b){
-  b.addEventListener('click', function(){ setTimerMins(parseInt(this.getAttribute('data-min'),10)); });
-});
+// ── Practice timer (count-up stopwatch) ──
+var timerElapsed = 0, timerRAF = null, timerPaused = false;
+var timerRunning = false, timerStartAt = 0, timerAccum = 0;
 
 function fmtTime(sec){
   var m = Math.floor(sec/60), s = sec%60;
   return m+':'+(s<10?'0'+s:s);
 }
-// Dispatch to the chosen visual
-function updateTimerVisual(frac){
-  if(timerStyle==='plant') updatePlant(frac);
-  else updateSpiral(frac);
-}
-// Spiral: draws itself in as time passes (complete at the end)
-var spiralLen = 0;
-var spiralPts = null, spiralCum = null, spiralCtx = null, spiralReady = false;
-function buildSpiral(){
-  var canvas = document.getElementById('spiralCanvas');
-  if(!canvas) return false;
-  var size = 220;
-  var dpr = Math.min(window.devicePixelRatio || 1, 3);
-  canvas.width = size * dpr;
-  canvas.height = size * dpr;
-  spiralCtx = canvas.getContext('2d');
-  spiralCtx.setTransform(dpr,0,0,dpr,0,0);
-  // Archimedean spiral matching the app icon: ~2.75 turns, outer tail at the
-  // bottom winding inward to the centre. Points run bottom → centre.
-  var cx = size/2, cy = size/2;
-  var maxR = size/2 - 24;   // outer radius (leave padding)
-  var coreR = 4;
-  var loops = 2.75;
-  var totalAngle = loops * 2 * Math.PI;
-  var startAngle = Math.PI/2;  // bottom
-  var STEPS = 500;
-  spiralPts = [];
-  for(var i=0;i<=STEPS;i++){
-    var t = i/STEPS;                       // 0 outer(bottom) → 1 centre
-    var r = maxR*(1-t) + coreR*t;
-    var a = startAngle + totalAngle*t;
-    spiralPts.push({ x: cx + r*Math.cos(a), y: cy + r*Math.sin(a) });
-  }
-  spiralCum = [0];
-  for(var j=1;j<spiralPts.length;j++){
-    var dx=spiralPts[j].x-spiralPts[j-1].x, dy=spiralPts[j].y-spiralPts[j-1].y;
-    spiralCum[j] = spiralCum[j-1] + Math.sqrt(dx*dx+dy*dy);
-  }
-  spiralLen = spiralCum[spiralCum.length-1];
-  spiralReady = true;
-  return true;
-}
-function updateSpiral(frac){
-  frac = Math.max(0, Math.min(1, frac));
-  if(!spiralReady){ if(!buildSpiral()) return; }
-  var size = 220;
-  var ctx = spiralCtx;
-  ctx.clearRect(0,0,size,size);
-  // faint background track (whole spiral)
-  ctx.beginPath();
-  ctx.moveTo(spiralPts[0].x, spiralPts[0].y);
-  for(var i=1;i<spiralPts.length;i++) ctx.lineTo(spiralPts[i].x, spiralPts[i].y);
-  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-  ctx.lineWidth = 6; ctx.lineCap='round'; ctx.lineJoin='round';
-  ctx.stroke();
-  if(frac<=0) return;
-  // gold, revealed from the bottom tail up to `frac` of the length
-  var target = spiralLen * frac;
-  var grad = ctx.createLinearGradient(0,0,0,size);
-  grad.addColorStop(0,'#74B3FF'); grad.addColorStop(0.55,'#74B3FF'); grad.addColorStop(1,'#05297F');
-  ctx.beginPath();
-  ctx.moveTo(spiralPts[0].x, spiralPts[0].y);
-  for(var k=1;k<spiralPts.length;k++){
-    if(spiralCum[k] <= target){ ctx.lineTo(spiralPts[k].x, spiralPts[k].y); }
-    else {
-      var prev=spiralCum[k-1];
-      var sf=(target-prev)/(spiralCum[k]-prev);
-      ctx.lineTo(spiralPts[k-1].x+(spiralPts[k].x-spiralPts[k-1].x)*sf,
-                 spiralPts[k-1].y+(spiralPts[k].y-spiralPts[k-1].y)*sf);
-      break;
-    }
-  }
-  ctx.strokeStyle = grad;
-  ctx.lineWidth = 6; ctx.lineCap='round'; ctx.lineJoin='round';
-  ctx.stroke();
-}
-// Growing plant: stem grows, leaves unfurl, flower blooms near the end
-function updatePlant(frac){
-  frac = Math.max(0, Math.min(1, frac));
-  var stem = document.getElementById('plantStem');
-  if(stem){
-    var len = stem.getTotalLength ? stem.getTotalLength() : 70;
-    stem.style.strokeDasharray = len;
-    stem.style.strokeDashoffset = (len * (1 - Math.min(1, frac/0.7))).toFixed(1);
-  }
-  var leafScale = Math.max(0, Math.min(1, (frac-0.3)/0.4));
-  var lL = document.getElementById('plantLeafL'), lR = document.getElementById('plantLeafR');
-  if(lL) lL.style.transform = 'scale('+leafScale.toFixed(2)+')';
-  if(lR) lR.style.transform = 'scale('+leafScale.toFixed(2)+')';
-  var bloom = Math.max(0, Math.min(1, (frac-0.7)/0.3));
-  var fl = document.getElementById('plantFlower');
-  if(fl){ fl.style.transform = 'scale('+bloom.toFixed(2)+')'; fl.style.opacity = bloom.toFixed(2); }
-}
-function tickTimer(){
-  // (legacy interval tick — no longer used; rAF loop drives the timer)
-}
-function timerFrame(ts){
+
+function timerFrame(){
   if(!timerRunning) return;
   if(!timerPaused){
-    var now = Date.now();
-    timerRemaining = Math.max(0, Math.round((timerEndAt - now)/1000));
-    var elapsed = timerTotal - ((timerEndAt - now)/1000);
-    var frac = Math.max(0, Math.min(1, elapsed/timerTotal));
-    document.getElementById('timerBig').textContent = fmtTime(timerRemaining);
-    updateTimerVisual(frac);
-    if(now >= timerEndAt){ finishTimer(); return; }
+    timerElapsed = Math.floor((timerAccum + (Date.now() - timerStartAt))/1000);
+    var big = document.getElementById('timerBig');
+    if(big) big.textContent = fmtTime(timerElapsed);
   }
   timerRAF = requestAnimationFrame(timerFrame);
 }
+
 function startPracticeTimer(){
-  timerStyle = getTimerStyle();
-  // show only the chosen visual
-  var vis = { spiral:'spiralCanvas', plant:'plantViz' };
-  ['spiralCanvas','plantViz'].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el) el.style.display = (id===vis[timerStyle]) ? '' : 'none';
-  });
-  spiralReady = false; // rebuild canvas fresh (handles size/dpr on show)
-  spiralLen = 0; // recompute on next draw
-  timerTotal = timerMins*60;
-  timerRemaining = timerTotal;
+  timerElapsed = 0;
+  timerAccum = 0;
   timerPaused = false;
   timerRunning = true;
-  timerEndAt = Date.now() + timerTotal*1000;
-  document.getElementById('timerBig').textContent = fmtTime(timerRemaining);
-  document.getElementById('timerMsg').textContent = "Keep going — you've got this 🎻";
+  timerStartAt = Date.now();
+  document.getElementById('timerBig').textContent = '0:00';
+  document.getElementById('timerMsg').textContent = "Keep going \u2014 you've got this \ud83c\udfbb";
   document.getElementById('timerPauseBtn').textContent = 'Pause';
-  updateTimerVisual(0);
   document.getElementById('timerOverlay').classList.add('show');
   if(timerRAF) cancelAnimationFrame(timerRAF);
   timerRAF = requestAnimationFrame(timerFrame);
 }
+
+// Finish = pupil taps Done/Stop. Records the session and celebrates if they practised a good while.
 function stopPracticeTimer(){
+  var wasRunning = timerRunning;
   timerRunning = false;
   if(timerRAF){ cancelAnimationFrame(timerRAF); timerRAF = null; }
   document.getElementById('timerOverlay').classList.remove('show');
+  // Any practice at all marks the day and updates the app
+  if(wasRunning && timerElapsed >= 30){
+    state.practiced[todayKey()] = true;
+    save();
+    renderStreak(); renderCalendar(); renderDashboard();
+  }
 }
-function finishTimer(){
-  timerRunning = false;
-  if(timerRAF){ cancelAnimationFrame(timerRAF); timerRAF = null; }
-  updateTimerVisual(1);
-  document.getElementById('timerBig').textContent = '0:00';
-  document.getElementById('timerMsg').textContent = '🎉 Well done! Great practice.';
-  // celebratory chime
-  try {
-    var ctx = getAudioCtx();
-    if(ctx){
-      [523.25, 659.25, 783.99, 1046.5].forEach(function(f,i){
-        var o = ctx.createOscillator(), g = ctx.createGain();
-        o.type='sine'; o.frequency.value=f;
-        var t = ctx.currentTime + i*0.12;
-        g.gain.setValueAtTime(0, t);
-        g.gain.linearRampToValueAtTime(0.3, t+0.03);
-        g.gain.exponentialRampToValueAtTime(0.001, t+0.5);
-        o.connect(g); g.connect(ctx.destination);
-        o.start(t); o.stop(t+0.55);
-      });
-    }
-  } catch(e){}
-  // mark today practised
-  state.practiced[todayKey()] = true;
-  save();
-  renderStreak(); renderCalendar(); renderDashboard();
-  // auto-close after a moment
-  document.getElementById('timerPauseBtn').style.display = 'none';
-  document.getElementById('timerStopBtn').textContent = 'Done';
-}
+
 document.getElementById('timerStartBtn').addEventListener('click', function(){
   var ctx = getAudioCtx(); if(ctx && ctx.state==='suspended') ctx.resume();
-  document.getElementById('timerPauseBtn').style.display = '';
-  document.getElementById('timerStopBtn').textContent = 'Stop';
   startPracticeTimer();
 });
 document.getElementById('timerPauseBtn').addEventListener('click', function(){
   timerPaused = !timerPaused;
   if(timerPaused){
-    timerPausedAt = Date.now();            // remember when we paused
+    // bank the elapsed time so far
+    timerAccum += (Date.now() - timerStartAt);
   } else {
-    // push end-time forward by the paused duration so no time is lost
-    timerEndAt += (Date.now() - timerPausedAt);
+    timerStartAt = Date.now();
   }
   this.textContent = timerPaused ? 'Resume' : 'Pause';
-  document.getElementById('timerMsg').textContent = timerPaused ? 'Paused ⏸' : "Keep going — you've got this 🎻";
+  document.getElementById('timerMsg').textContent = timerPaused ? 'Paused \u23f8' : "Keep going \u2014 you've got this \ud83c\udfbb";
 });
 document.getElementById('timerStopBtn').addEventListener('click', stopPracticeTimer);
-// Timer style picker
-Array.prototype.forEach.call(document.querySelectorAll('.timer-style-btn'), function(b){
-  b.addEventListener('click', function(){ setTimerStyle(this.getAttribute('data-style')); });
-});
-timerStyle = getTimerStyle();
-renderTimerStyle();
-renderTimerSet();
 
 // ── Countdowns ──
 function renderCountdowns(){
@@ -3941,13 +3746,27 @@ function renderScaleWeek(){
     return;
   }
 
-  // Keep the current suggestion if it's still valid (assigned + not yet ticked),
-  // otherwise pick a fresh one.
+  // If the current suggestion is no longer valid (ticked elsewhere), clear it.
   var stillValid = swCurrent && remaining.some(function(s){
     return s.key===swCurrent.key && s.type===swCurrent.type;
   });
-  if(!stillValid){
-    swCurrent = pickFrom(remaining, null);
+  if(!stillValid) swCurrent = null;
+
+  // Blank starting state — wait for the pupil to pick.
+  if(!swCurrent){
+    var leftNoteBlank = remaining.length===1 ? 'last one to go' : (remaining.length+' to try today');
+    body.innerHTML =
+      '<div class="sw-card sw-blank">'
+      + '<div class="sw-label">Scale picker</div>'
+      + '<div class="sw-scale" id="swScaleName">?</div>'
+      + '<div class="sw-week">'+leftNoteBlank+'</div>'
+      + '</div>'
+      + '<div class="sw-row">'
+      + '<button class="sw-btn primary" id="swPickBtn">🎲 Pick a scale</button>'
+      + '</div>';
+    var pick = document.getElementById('swPickBtn');
+    if(pick) pick.addEventListener('click', pickScaleNow);
+    return;
   }
 
   var oct = (scaleGridState()[swCurrent.key+'|'+swCurrent.type]) || '';
@@ -3972,6 +3791,30 @@ function renderScaleWeek(){
   if(again) again.addEventListener('click', scaleTryAgain);
 }
 
+// Pick a scale from the blank state, with a little spin, then reveal the controls.
+function pickScaleNow(){
+  if(swBusy) return;
+  var remaining = remainingScaleList();
+  if(!remaining.length){ renderScaleWeek(); return; }
+  var nameEl = document.getElementById('swScaleName');
+  if(!nameEl){ swCurrent = pickFrom(remaining, null); renderScaleWeek(); return; }
+  swBusy = true;
+  nameEl.classList.add('spinning');
+  var all = assignedScaleList();
+  var flashes = 6, i = 0;
+  var timer = setInterval(function(){
+    var r = all[Math.floor(Math.random()*all.length)];
+    nameEl.textContent = r.key + ' ' + scaleWeekTypeLabel(r.type);
+    i++;
+    if(i >= flashes){
+      clearInterval(timer);
+      swCurrent = pickFrom(remaining, null);
+      swBusy = false;
+      renderScaleWeek();   // re-render into the "give this a go" state
+    }
+  }, 80);
+}
+
 // "Went well" — tick the suggested scale off today's grid, then suggest the next
 function scaleWentWell(){
   if(!swCurrent) return;
@@ -3982,11 +3825,7 @@ function scaleWentWell(){
     state.practiced[todayKey()] = true;
     save();
   }
-  var justDone = swCurrent;
-  swCurrent = null; // force a fresh pick, avoiding the one just completed
-  // pick next from what's left, avoiding the just-finished scale
-  var remaining = remainingScaleList();
-  if(remaining.length) swCurrent = pickFrom(remaining, justDone);
+  swCurrent = null; // back to a blank tile — pupil taps to pick the next
   renderScaleWeek();
   // keep the rest of the app in sync (grid ticks, streak, dashboard, calendar)
   renderCategories();
@@ -4079,7 +3918,21 @@ function pickFocus(){
 function renderFocusPicker(){
   var body = document.getElementById('focusPickBody');
   if(!body) return;
-  if(!focusCurrent) focusCurrent = pickFocus();
+  // Blank starting state — wait for the pupil to pick.
+  if(!focusCurrent){
+    body.innerHTML =
+      '<div class="fp-card fp-blank">'
+      + '<div class="fp-label">Focus picker</div>'
+      + '<div class="fp-aspect" id="fpAspect">?</div>'
+      + '<div class="fp-note">Tap below for one thing to work on.</div>'
+      + '</div>'
+      + '<div class="fp-row">'
+      + '<button class="fp-btn primary" id="fpPickBtn">🎯 Pick a focus</button>'
+      + '</div>';
+    var pick = document.getElementById('fpPickBtn');
+    if(pick) pick.addEventListener('click', spinFocus);
+    return;
+  }
   body.innerHTML =
     '<div class="fp-card">'
     + '<div class="fp-label">Focus on</div>'
@@ -4096,6 +3949,7 @@ function renderFocusPicker(){
 var focusBusy = false;
 function spinFocus(){
   if(focusBusy) return;
+  // From the blank state there's no note element yet, so render the card first.
   var aspectEl = document.getElementById('fpAspect');
   var noteEl = document.getElementById('fpNote');
   if(!aspectEl) return;
@@ -4110,10 +3964,8 @@ function spinFocus(){
     if(i >= flashes){
       clearInterval(timer);
       focusCurrent = pickFocus();
-      aspectEl.textContent = focusCurrent.name;
-      if(noteEl){ noteEl.textContent = focusCurrent.note; noteEl.style.opacity = '1'; }
-      aspectEl.classList.remove('spinning');
       focusBusy = false;
+      renderFocusPicker();   // re-render into the revealed state (adds note + "another")
     }
   }, 60);
 }
@@ -4219,7 +4071,7 @@ function renderPlannerPlans(){
   var wrap = document.getElementById('ppPlans');
   if(!wrap) return;
   wrap.innerHTML = PP_PLANS.map(function(p){
-    return '<button class="pp-plan-btn'+(ppSelectedPlan===p.id?' sel':'')+'" data-pp-plan="'+p.id+'">'
+    return '<button class="pp-plan-btn plan-'+p.id+(ppSelectedPlan===p.id?' sel':'')+'" data-pp-plan="'+p.id+'">'
       + '<div class="pp-plan-name">'+escHtml(p.name)+'</div>'
       + '<div class="pp-plan-desc">'+escHtml(p.desc)+'</div>'
       + '</button>';
