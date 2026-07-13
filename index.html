@@ -148,6 +148,14 @@ header {
 .dash-ring-sections { display: flex; flex-wrap: wrap; gap: 4px 10px; justify-content: space-around; }
 .dash-gauge { text-align: center; flex: 0 0 auto; }
 .dash-gauge-label { font-size: 0.62rem; color: var(--muted); margin-top: -4px; }
+/* Ear-training tile */
+.dash-ear-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.dash-ear-ring { flex-shrink: 0; }
+.dash-ear-stats { display: flex; gap: 22px; flex: 1; min-width: 140px; }
+.dash-ear-stat { text-align: left; }
+.dash-ear-num { font-family: 'DM Serif Display', serif; font-size: 1.7rem; color: var(--ink); line-height: 1; }
+.dash-ear-slabel { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-top: 4px; }
+.dash-ear-empty { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
 /* Console-style countdown readout */
 .dash-console { display: flex; flex-direction: column; gap: 8px; }
 .dash-console-row {
@@ -706,6 +714,92 @@ header {
   font-size: 0.85rem; font-weight: 700;
   color: var(--navy); margin-bottom: 12px;
 }
+/* Scale picker */
+.sw-card {
+  background: linear-gradient(150deg, #22467F, #15315C);
+  border-radius: 12px; padding: 18px 16px; text-align: center;
+  box-shadow: 0 0 14px rgba(246,215,154,0.10);
+  border: 1px solid rgba(246,215,154,0.30);
+}
+.sw-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(246,215,154,0.85); }
+.sw-scale { font-family: 'DM Serif Display', serif; font-size: 1.7rem; color: #fff; line-height: 1.15; margin: 6px 0 3px; }
+.sw-scale.spinning { opacity: 0.85; }
+.sw-oct { font-size: 0.72rem; color: rgba(255,255,255,0.6); }
+.sw-week { font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 8px; letter-spacing: 0.04em; }
+.sw-row { display: flex; gap: 8px; margin-top: 12px; }
+.sw-btn {
+  flex: 1; padding: 12px 10px; border: none; border-radius: 10px; cursor: pointer;
+  font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.82rem;
+}
+.sw-btn.primary { background: #7BE0A0; color: #10391F; }
+.sw-btn.ghost { background: transparent; border: 1.5px solid #cddaea; color: var(--ink); }
+.sw-empty { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
+.sw-card.sw-done { background: linear-gradient(150deg, #1B6B3A, #12472A); border-color: rgba(123,224,160,0.4); }
+.sw-done-emoji { font-size: 2rem; line-height: 1; margin-bottom: 4px; }
+/* Focus picker */
+.fp-intro { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+.fp-card {
+  background: linear-gradient(150deg, #2E7D64, #1B4D3E);
+  border-radius: 12px; padding: 20px 16px; text-align: center;
+  box-shadow: 0 0 14px rgba(123,224,160,0.10);
+  border: 1px solid rgba(123,224,160,0.30);
+}
+.fp-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(214,238,227,0.9); }
+.fp-aspect { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: #fff; line-height: 1.15; margin: 6px 0 4px; }
+.fp-aspect.spinning { opacity: 0.85; }
+.fp-note { font-size: 0.74rem; color: rgba(255,255,255,0.72); line-height: 1.45; }
+.fp-row { display: flex; gap: 8px; margin-top: 12px; }
+.fp-btn {
+  flex: 1; padding: 12px 10px; border: none; border-radius: 10px; cursor: pointer;
+  font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.82rem;
+}
+.fp-btn.primary { background: #E9C46A; color: #3A2A08; }
+/* Practice planner */
+.pp-intro { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+.pp-time-label { font-size: 0.72rem; color: var(--muted); margin-right: 2px; }
+#ppMins::-webkit-outer-spin-button, #ppMins::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.pp-quick { display: flex; gap: 6px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
+.pp-quick-btn {
+  border: 1.5px solid #cddaea; background: transparent; color: var(--muted);
+  font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.72rem;
+  padding: 5px 12px; border-radius: 999px; cursor: pointer;
+}
+.pp-quick-btn.sel { background: var(--navy); color: #fff; border-color: var(--navy); }
+.pp-time-label-row { text-align: center; font-size: 0.72rem; color: var(--muted); margin-bottom: 10px; }
+.pp-custom { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; }
+.pp-custom #ppMins {
+  width: 72px; text-align: center; padding: 7px 4px; border: 1.5px solid #cddaea;
+  border-radius: 9px; font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--ink);
+  background: #fff; -moz-appearance: textfield;
+}
+.pp-plans { display: flex; flex-direction: column; gap: 8px; }
+.pp-plan-btn {
+  text-align: left; border: 1.5px solid #cddaea; background: #fff; cursor: pointer;
+  border-radius: 11px; padding: 11px 14px; transition: all 0.12s;
+}
+.pp-plan-btn.sel { border-color: var(--forest); background: #F0F8F2; }
+.pp-plan-name { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--navy); }
+.pp-plan-desc { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+/* Result: pie clock + legend */
+.pp-result { margin-top: 16px; }
+.pp-clock-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.pp-legend { width: 100%; display: flex; flex-direction: column; gap: 7px; }
+.pp-legend-row { display: flex; align-items: center; gap: 10px; }
+.pp-legend-dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+.pp-legend-name { flex: 1; font-size: 0.85rem; color: var(--ink); }
+.pp-legend-mins { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--navy); }
+.pp-legend-frac { font-size: 0.64rem; color: var(--muted); margin-left: 4px; }
+/* Section timer */
+.pp-timer { margin-top: 16px; background: linear-gradient(160deg, #22467F, #15315C); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid rgba(246,215,154,0.22); }
+.pp-timer-section { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(246,215,154,0.85); }
+.pp-timer-big { font-family: 'DM Serif Display', serif; font-size: 3rem; color: #fff; line-height: 1; margin: 6px 0; }
+.pp-timer-next { font-size: 0.66rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+.pp-timer-row { display: flex; gap: 8px; margin-top: 12px; }
+.pp-timer-btn { flex: 1; padding: 11px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Special Elite','Courier New',monospace; font-size: 0.82rem; }
+.pp-timer-btn.primary { background: #7BE0A0; color: #10391F; }
+.pp-timer-btn.ghost { background: rgba(255,255,255,0.12); color: #fff; }
+.pp-progress-track { height: 7px; border-radius: 999px; background: rgba(255,255,255,0.15); overflow: hidden; margin-top: 12px; }
+.pp-progress-fill { height: 100%; border-radius: 999px; background: #7BE0A0; transition: width 0.3s linear; }
 .metronome-display { text-align: center; padding: 4px 0 10px; }
 .bpm-number {
   font-family: 'DM Serif Display', serif;
@@ -826,6 +920,97 @@ header {
   transition: opacity 0.08s;
 }
 .metronome-flash.flash { opacity: 0.15; }
+.metronome-flash.flash-strong { opacity: 0.24; }
+
+/* ── METRONOME MODES (speed-up trainer + bow division) ── */
+.metro-mode { margin-top: 12px; border-top: 1px solid var(--warm); padding-top: 12px; }
+.metro-mode-head { display: flex; align-items: center; justify-content: space-between; }
+.metro-mode-title { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
+.metro-mode-toggle {
+  border: 1.5px solid #cddaea; background: transparent; color: var(--muted);
+  font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.72rem;
+  padding: 5px 14px; border-radius: 999px; cursor: pointer; min-width: 54px;
+}
+.metro-mode-toggle.on { background: var(--forest); color: #fff; border-color: var(--forest); }
+.metro-mode-body { margin-top: 12px; }
+.metro-mode-hint { font-size: 0.74rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+/* Speed-up trainer stats */
+.su-stat-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.su-stat {
+  flex: 1; text-align: center; background: linear-gradient(160deg, #22467F, #15315C);
+  border-radius: 10px; padding: 10px 6px; border: 1px solid rgba(246,215,154,0.22);
+}
+.su-stat-num { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: #fff; line-height: 1; }
+.su-stat-label { font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(246,215,154,0.8); margin-top: 5px; }
+.su-step-row { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+.su-step-label { font-size: 0.72rem; color: var(--muted); margin-right: 4px; }
+.su-step-btn {
+  border: 1.5px solid #cddaea; background: transparent; color: var(--ink);
+  font-family: 'Special Elite', 'Courier New', Courier, monospace; font-size: 0.8rem;
+  padding: 6px 12px; border-radius: 8px; cursor: pointer;
+}
+.su-step-btn.sel { background: var(--mid-blue); color: #fff; border-color: var(--mid-blue); }
+.su-reset {
+  display: block; width: 100%; margin-top: 10px; border: none; background: transparent;
+  color: var(--muted); font-family: 'Special Elite', 'Courier New', Courier, monospace;
+  font-size: 0.7rem; cursor: pointer; text-decoration: underline;
+}
+/* Bow division */
+.bd-choice-row { display: flex; gap: 6px; margin-bottom: 12px; }
+.bd-choice-btn {
+  flex: 1; border: 1.5px solid #cddaea; background: transparent; color: var(--ink);
+  font-family: 'DM Serif Display', serif; font-size: 1.2rem;
+  padding: 10px 0; border-radius: 10px; cursor: pointer;
+}
+.bd-choice-btn.sel { background: var(--forest); color: #fff; border-color: var(--forest); }
+.bd-stepper-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; }
+.bd-stepper-label { font-size: 0.72rem; color: var(--muted); margin-right: 2px; }
+.bd-step-btn {
+  width: 36px; height: 36px; border-radius: 9px; border: 1.5px solid #cddaea;
+  background: transparent; color: var(--ink); font-size: 1.2rem; cursor: pointer;
+  line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+.bd-step-btn:active { background: var(--warm); }
+#bdInput {
+  width: 56px; text-align: center; padding: 7px 4px; border: 1.5px solid #cddaea;
+  border-radius: 9px; font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--ink);
+  background: #fff; -moz-appearance: textfield;
+}
+#bdInput::-webkit-outer-spin-button, #bdInput::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.bd-climb { margin-top: 14px; border-top: 1px dashed var(--warm); padding-top: 12px; }
+.bd-climb .tool-toggle-btn { width: 100%; }
+#bdClimbBtn.active { background: var(--forest); color: #fff; }
+.bd-climb-status {
+  margin-top: 10px; text-align: center;
+  background: linear-gradient(160deg, #22467F, #15315C); color: #fff;
+  border-radius: 10px; padding: 12px; border: 1px solid rgba(246,215,154,0.25);
+}
+.bd-climb-level { font-family: 'DM Serif Display', serif; font-size: 1.8rem; line-height: 1; }
+.bd-climb-sub { font-size: 0.66rem; letter-spacing: 0.06em; color: rgba(246,215,154,0.85); text-transform: uppercase; margin-top: 6px; }
+.bd-climb-count { font-size: 0.62rem; color: rgba(255,255,255,0.6); }
+.bd-climb-legend { display: flex; justify-content: center; gap: 18px; margin-top: 10px; }
+.bd-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: var(--muted); }
+.bd-legend-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+/* Fireworks */
+.fireworks-layer { position: fixed; inset: 0; pointer-events: none; z-index: 260; overflow: hidden; }
+.fw-spark { position: absolute; width: 7px; height: 7px; border-radius: 50%; opacity: 1; will-change: transform, opacity; }
+@keyframes fwFly { to { transform: translate(var(--fx), var(--fy)) scale(0.3); opacity: 0; } }
+.fw-banner {
+  position: fixed; left: 50%; top: 38%; transform: translate(-50%,-50%) scale(0.6);
+  z-index: 261; pointer-events: none; text-align: center;
+  font-family: 'DM Serif Display', serif; color: var(--navy);
+  background: #fff; border-radius: 16px; padding: 18px 26px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25); opacity: 0;
+}
+.fw-banner.show { animation: fwPop 2.4s ease forwards; }
+@keyframes fwPop {
+  15% { opacity: 1; transform: translate(-50%,-50%) scale(1.05); }
+  80% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(1); }
+}
+.fw-banner-big { font-size: 1.6rem; }
+.fw-banner-small { font-size: 0.8rem; font-family: 'Special Elite', monospace; color: var(--muted); margin-top: 4px; }
+.bd-readout { text-align: center; font-size: 0.78rem; color: var(--muted); }
 
 /* ── TOAST ── */
 .toast {
@@ -993,6 +1178,33 @@ header {
     </select>
   </div>
 
+  <!-- Practice planner -->
+  <div class="tool-block">
+    <div class="tool-block-title">🥧 Practice planner</div>
+    <p class="pp-intro">How long have you got today? Pick a plan and I'll divide up your time and show you a practice clock.</p>
+    <div class="pp-time-label-row">Minutes today</div>
+    <div class="pp-quick" id="ppQuick"></div>
+    <div class="pp-custom" id="ppCustom" style="display:none">
+      <span class="pp-time-label">How many minutes?</span>
+      <input type="number" id="ppMins" min="5" max="180" value="30" inputmode="numeric">
+    </div>
+    <div class="pp-plans" id="ppPlans"></div>
+    <div id="ppResult"></div>
+  </div>
+
+  <!-- Scale picker -->
+  <div class="tool-block">
+    <div class="tool-block-title">🎲 Scale picker</div>
+    <div id="scaleWeekBody"></div>
+  </div>
+
+  <!-- Focus picker -->
+  <div class="tool-block">
+    <div class="tool-block-title">🎯 Focus picker</div>
+    <div class="fp-intro">Piece feeling okay but not quite there? Pick one thing to give your full attention to.</div>
+    <div id="focusPickBody"></div>
+  </div>
+
   <!-- Practice timer (hourglass) -->
   <div class="tool-block">
     <div class="tool-block-title">⏳ Practice timer</div>
@@ -1058,6 +1270,62 @@ header {
       <input type="checkbox" id="speedBurstCheck">
       <span>Speed Burst — +2 BPM every 4 beats (caps at 184)</span>
     </label>
+
+    <!-- Speed-up trainer (Metro-Gnome method) -->
+    <div class="metro-mode">
+      <div class="metro-mode-head">
+        <span class="metro-mode-title">🐭 Speed-up trainer</span>
+        <button class="metro-mode-toggle" id="speedUpToggle">Off</button>
+      </div>
+      <div class="metro-mode-body" id="speedUpBody" style="display:none">
+        <p class="metro-mode-hint">Play your passage until it feels comfortable, then nudge the speed up a little. Repeat — aim to get it faster than you need it.</p>
+        <div class="su-stat-row">
+          <div class="su-stat"><div class="su-stat-num" id="suStart">—</div><div class="su-stat-label">Started at</div></div>
+          <div class="su-stat"><div class="su-stat-num" id="suGain">—</div><div class="su-stat-label">Gained</div></div>
+          <div class="su-stat"><div class="su-stat-num" id="suNow">—</div><div class="su-stat-label">Now</div></div>
+        </div>
+        <div class="su-step-row">
+          <span class="su-step-label">Step size</span>
+          <button class="su-step-btn" data-su-step="3">+3</button>
+          <button class="su-step-btn sel" data-su-step="4">+4</button>
+          <button class="su-step-btn" data-su-step="5">+5</button>
+        </div>
+        <div class="tool-row">
+          <button class="tool-toggle-btn primary" id="suNudgeBtn">✓ Comfortable — nudge up</button>
+          <button class="tool-toggle-btn" id="suEaseBtn">Ease off</button>
+        </div>
+        <button class="su-reset" id="suResetBtn">Reset starting point to current speed</button>
+      </div>
+    </div>
+
+    <!-- Bow division counter -->
+    <div class="metro-mode">
+      <div class="metro-mode-head">
+        <span class="metro-mode-title">🎻 Bow division</span>
+        <button class="metro-mode-toggle" id="bowDivToggle">Off</button>
+      </div>
+      <div class="metro-mode-body" id="bowDivBody" style="display:none">
+        <p class="metro-mode-hint">Fit an equal number of beats into one bow. The first beat of each bow is accented — change bow on the high click.</p>
+        <div class="bd-choice-row" id="bdChoices"></div>
+        <div class="bd-stepper-row">
+          <span class="bd-stepper-label">Or set your own:</span>
+          <button class="bd-step-btn" id="bdMinus">−</button>
+          <input type="number" id="bdInput" min="1" max="30" value="4" inputmode="numeric">
+          <button class="bd-step-btn" id="bdPlus">+</button>
+        </div>
+        <div class="bd-readout" id="bdReadout">4 beats per bow</div>
+
+        <div class="bd-climb">
+          <p class="metro-mode-hint">Or take the challenge: after a 4-beat count-in, climb the ladder — two bows of 2, then two of 3, all the way up to 20. Each bow lights the screen a different colour so you can see the change. 🎆</p>
+          <button class="tool-toggle-btn" id="bdClimbBtn">🚀 Climb 2 → 20</button>
+          <div class="bd-climb-legend">
+            <span class="bd-legend-item"><span class="bd-legend-dot" style="background:#7BB8E8"></span>1st bow</span>
+            <span class="bd-legend-item"><span class="bd-legend-dot" style="background:#E9C46A"></span>2nd bow</span>
+          </div>
+          <div class="bd-climb-status" id="bdClimbStatus" style="display:none"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Drone -->
@@ -1335,6 +1603,7 @@ function load(){
   if(!state.dailyNotes) state.dailyNotes = {};
   if(!state.dailyFocus) state.dailyFocus = {};
   if(!state.countdowns) state.countdowns = [];
+  if(!state.earTraining) state.earTraining = { attempts:0, correct:0, curStreak:0, bestStreak:0, byToday:{} };
   } catch(e){ state = {items:[],practiced:{},ticked:{},tickHistory:{},dailyNotes:{}}; }
 }
 function save(){
@@ -1793,6 +2062,9 @@ function renderCategories(){
       renderCategories();
     });
   });
+
+  // Keep the Scale of the Week picker valid if assignments changed
+  if(typeof renderScaleWeek==='function') renderScaleWeek();
 }
 
 // ── Item Sheet ──
@@ -1956,6 +2228,18 @@ var metroBeatCount = 0;
 var metroPlaying = false;
 var MIN_BPM = 30, MAX_BPM = 240, SPEED_BURST_CAP = 184;
 
+// Bow division state
+var bowDivOn = false, bowDivBeats = 4;
+// Climb ladder state
+var climbOn = false;        // is the climb challenge running?
+var climbCountIn = 0;       // remaining count-in beats (4 -> 0)
+var climbLevel = 2;         // current beats-per-bow
+var climbBeatInBow = 0;     // beat position within the current bow
+var climbBowsDone = 0;      // bows completed at this level (need 2 to advance)
+var CLIMB_TOP = 20, CLIMB_BOWS_PER_LEVEL = 2;
+// Speed-up trainer state
+var speedUpOn = false, suStartBpm = null, suStep = 4;
+
 var bpmSlider = document.getElementById('bpmSlider');
 var bpmDisplay = document.getElementById('bpmDisplay');
 
@@ -1965,41 +2249,154 @@ function setBpm(v){
   bpmSlider.value = v;
   bpmDisplay.textContent = v;
   if(metroPlaying) restartMetronomeTiming();
+  if(speedUpOn) updateSpeedUpStats();
 }
 
 bpmSlider.addEventListener('input', function(){ setBpm(parseInt(this.value,10)); });
 document.getElementById('bpmDown').addEventListener('click', function(){ setBpm(bpm-2); });
 document.getElementById('bpmUp').addEventListener('click', function(){ setBpm(bpm+2); });
 
-function clickSound(){
+function clickSound(accent){
   var ctx = getAudioCtx();
   if(!ctx) return;
   var osc = ctx.createOscillator();
   var gain = ctx.createGain();
   osc.type = 'square';
-  osc.frequency.value = 1000;
-  gain.gain.setValueAtTime(0.4, ctx.currentTime);
+  osc.frequency.value = accent ? 1600 : 1000;
+  gain.gain.setValueAtTime(accent ? 0.55 : 0.4, ctx.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.05);
   osc.connect(gain); gain.connect(ctx.destination);
   osc.start(ctx.currentTime);
   osc.stop(ctx.currentTime+0.05);
 }
 
-function flashBeat(){
+// A softer, lower count-in tone (distinct woodblock-ish beep for the climb count-in)
+function countInSound(){
+  var ctx = getAudioCtx();
+  if(!ctx) return;
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.value = 660;
+  gain.gain.setValueAtTime(0.5, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.12);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime+0.13);
+}
+
+function flashBeat(color, strong){
   var f = document.getElementById('metronomeFlash');
   if(!f) return;
-  f.classList.add('flash');
-  setTimeout(function(){ f.classList.remove('flash'); }, 80);
+  // default colour is the usual forest green
+  f.style.background = color || '';
+  f.classList.add(strong ? 'flash-strong' : 'flash');
+  setTimeout(function(){ f.classList.remove('flash', 'flash-strong'); }, 80);
 }
 
 function metronomeTick(){
-  clickSound();
+  // Climb challenge takes over the click pattern when running
+  if(climbOn){
+    climbTick();
+    metroBeatCount++;
+    return;
+  }
+  // Bow division: accent the first beat of each bow
+  var accent = false;
+  if(bowDivOn){
+    accent = (metroBeatCount % bowDivBeats === 0);
+  }
+  clickSound(accent);
   flashBeat();
   metroBeatCount++;
   var speedBurst = document.getElementById('speedBurstCheck').checked;
   if(speedBurst && metroBeatCount % 4 === 0 && bpm < SPEED_BURST_CAP){
     setBpm(bpm+2);
   }
+}
+
+// One tick of the climb: count-in first, then two bows per level up to the top.
+var CLIMB_BOW_COLORS = ['#7BB8E8', '#E9C46A']; // bow 1 = blue, bow 2 = gold
+function climbTick(){
+  // Count-in phase: four distinct beeps
+  if(climbCountIn > 0){
+    countInSound();
+    flashBeat('#9AA7B5');  // neutral grey tint for the count-in
+    updateClimbStatus('Get ready…', 'count-in: '+climbCountIn);
+    climbCountIn--;
+    if(climbCountIn === 0){
+      // count-in finished; next tick begins level 2, bow 1, beat 1
+      climbBeatInBow = 0;
+      climbBowsDone = 0;
+    }
+    return;
+  }
+  // Playing phase: accent the first beat of each bow
+  var accent = (climbBeatInBow === 0);
+  clickSound(accent);
+  // Colour the whole flash by which bow we're on; brighter on the bow's downbeat
+  var bowColor = CLIMB_BOW_COLORS[climbBowsDone % CLIMB_BOW_COLORS.length];
+  flashBeat(bowColor, accent);
+  updateClimbStatus(climbLevel + ' per bow', 'bow ' + (climbBowsDone+1) + ' of ' + CLIMB_BOWS_PER_LEVEL, bowColor);
+  climbBeatInBow++;
+  if(climbBeatInBow >= climbLevel){
+    // finished a bow
+    climbBeatInBow = 0;
+    climbBowsDone++;
+    if(climbBowsDone >= CLIMB_BOWS_PER_LEVEL){
+      // finished two bows at this level — advance or finish
+      climbBowsDone = 0;
+      if(climbLevel >= CLIMB_TOP){
+        finishClimb();
+      } else {
+        climbLevel++;
+      }
+    }
+  }
+}
+
+function updateClimbStatus(level, sub, color){
+  var el = document.getElementById('bdClimbStatus');
+  if(!el) return;
+  el.style.borderLeft = '';
+  // The main text itself carries the bow colour, so the eyes never leave the number
+  var levelStyle = color ? (' style="color:'+color+'"') : '';
+  var subStyle = color ? (' style="color:'+color+';opacity:0.85"') : '';
+  el.innerHTML = '<div class="bd-climb-level"'+levelStyle+'>'+escHtml(String(level))+'</div>'
+    + '<div class="bd-climb-count"'+subStyle+'>'+escHtml(sub)+'</div>';
+}
+
+function startClimb(){
+  climbOn = true;
+  climbCountIn = 4;
+  climbLevel = 2;
+  climbBeatInBow = 0;
+  climbBowsDone = 0;
+  metroBeatCount = 0;
+  var btn = document.getElementById('bdClimbBtn');
+  if(btn){ btn.classList.add('active'); btn.textContent = '■ Stop climb'; }
+  var status = document.getElementById('bdClimbStatus');
+  if(status) status.style.display = 'block';
+  updateClimbStatus('Get ready…', 'count-in: 4');
+  if(!metroPlaying) startMetronome();
+}
+
+function stopClimb(silent){
+  climbOn = false;
+  var btn = document.getElementById('bdClimbBtn');
+  if(btn){ btn.classList.remove('active'); btn.textContent = '🚀 Climb 2 → 20'; }
+  var status = document.getElementById('bdClimbStatus');
+  if(status && silent) status.style.display = 'none';
+  // Stopping the climb also stops the metronome. climbOn is already false above,
+  // so stopMetronome's own climb-cancel guard won't loop back here.
+  if(metroPlaying) stopMetronome();
+}
+
+function finishClimb(){
+  stopClimb(false);   // stops the climb and the metronome
+  updateClimbStatus('🎆 20!', 'you made it to the top');
+  fireFireworks();
+  showToast('Fantastic — all the way to 20! 🎆');
 }
 
 function restartMetronomeTiming(){
@@ -2024,6 +2421,7 @@ function stopMetronome(){
   if(metroTimer){ clearInterval(metroTimer); metroTimer=null; }
   var btn = document.getElementById('metroPlayBtn');
   if(btn){ btn.textContent = '▶ Start'; btn.classList.remove('active'); }
+  if(climbOn){ stopClimb(true); }  // stopping the metronome cancels a running climb
 }
 document.getElementById('metroPlayBtn').addEventListener('click', function(){
   var ctx = getAudioCtx();
@@ -2051,6 +2449,150 @@ document.getElementById('tapTempoBtn').addEventListener('click', function(){
     if(tapTimes.length && Date.now()-tapTimes[tapTimes.length-1] > 2000) tapTimes=[];
   }, 2100);
 });
+
+// ── Speed-up trainer (Metro-Gnome method) ──
+function updateSpeedUpStats(){
+  var startEl = document.getElementById('suStart');
+  var gainEl = document.getElementById('suGain');
+  var nowEl = document.getElementById('suNow');
+  if(!startEl) return;
+  if(suStartBpm===null) suStartBpm = bpm;
+  startEl.textContent = suStartBpm;
+  nowEl.textContent = bpm;
+  var g = bpm - suStartBpm;
+  gainEl.textContent = (g>0?'+':'') + g;
+}
+document.getElementById('speedUpToggle').addEventListener('click', function(){
+  speedUpOn = !speedUpOn;
+  this.classList.toggle('on', speedUpOn);
+  this.textContent = speedUpOn ? 'On' : 'Off';
+  document.getElementById('speedUpBody').style.display = speedUpOn ? 'block' : 'none';
+  if(speedUpOn){
+    suStartBpm = bpm;   // lock in the comfortable starting speed
+    updateSpeedUpStats();
+  }
+});
+document.getElementById('suNudgeBtn').addEventListener('click', function(){
+  setBpm(bpm + suStep);
+  showToast('Up to '+bpm+' BPM — settle in before the next nudge');
+});
+document.getElementById('suEaseBtn').addEventListener('click', function(){
+  setBpm(bpm - Math.max(1, Math.round(suStep/2)));
+});
+document.getElementById('suResetBtn').addEventListener('click', function(){
+  suStartBpm = bpm;
+  updateSpeedUpStats();
+  showToast('Starting point set to '+bpm+' BPM');
+});
+Array.prototype.forEach.call(document.querySelectorAll('[data-su-step]'), function(btn){
+  btn.addEventListener('click', function(){
+    suStep = parseInt(this.getAttribute('data-su-step'),10);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-su-step]'), function(b){
+      b.classList.toggle('sel', b===btn);
+    });
+  });
+});
+
+// ── Bow division counter ──
+var BD_MIN = 1, BD_MAX = 30;
+function setBowDiv(n){
+  n = parseInt(n, 10);
+  if(isNaN(n)) n = bowDivBeats;
+  n = Math.max(BD_MIN, Math.min(BD_MAX, n));
+  bowDivBeats = n;
+  metroBeatCount = 0;  // restart the accent cycle so beat 1 is the accented downbeat
+  var input = document.getElementById('bdInput');
+  if(input && input.value !== String(n)) input.value = n;
+  var readout = document.getElementById('bdReadout');
+  if(readout) readout.textContent = n + (n===1 ? ' beat per bow' : ' beats per bow');
+  renderBowDivChoices();
+}
+function renderBowDivChoices(){
+  var wrap = document.getElementById('bdChoices');
+  if(!wrap) return;
+  var html = '';
+  for(var n=2;n<=6;n++){
+    html += '<button class="bd-choice-btn'+(n===bowDivBeats?' sel':'')+'" data-bd="'+n+'">'+n+'</button>';
+  }
+  wrap.innerHTML = html;
+  Array.prototype.forEach.call(wrap.querySelectorAll('[data-bd]'), function(btn){
+    btn.addEventListener('click', function(){
+      setBowDiv(this.getAttribute('data-bd'));
+    });
+  });
+}
+document.getElementById('bowDivToggle').addEventListener('click', function(){
+  bowDivOn = !bowDivOn;
+  this.classList.toggle('on', bowDivOn);
+  this.textContent = bowDivOn ? 'On' : 'Off';
+  document.getElementById('bowDivBody').style.display = bowDivOn ? 'block' : 'none';
+  metroBeatCount = 0;  // so the first beat of the next tick is an accented downbeat
+  if(bowDivOn){ renderBowDivChoices(); setBowDiv(bowDivBeats); }
+  else if(climbOn){ stopClimb(true); }  // leaving bow-div cancels a running climb
+});
+document.getElementById('bdMinus').addEventListener('click', function(){ setBowDiv(bowDivBeats - 1); });
+document.getElementById('bdPlus').addEventListener('click', function(){ setBowDiv(bowDivBeats + 1); });
+document.getElementById('bdInput').addEventListener('input', function(){
+  // let them type freely; only apply when there's a valid number
+  var v = parseInt(this.value, 10);
+  if(!isNaN(v)) setBowDiv(v);
+});
+document.getElementById('bdInput').addEventListener('blur', function(){
+  // tidy up an empty/invalid field back to the current value
+  this.value = bowDivBeats;
+});
+document.getElementById('bdClimbBtn').addEventListener('click', function(){
+  var ctx = getAudioCtx();
+  if(ctx && ctx.state === 'suspended'){ ctx.resume(); }
+  if(climbOn) stopClimb(true);
+  else startClimb();
+});
+
+// ── Fireworks celebration ──
+function fireFireworks(){
+  var layer = document.createElement('div');
+  layer.className = 'fireworks-layer';
+  document.body.appendChild(layer);
+
+  var colors = ['#F6D79A','#E3B063','#7BB8E8','#7BE0A0','#E9C46A','#D6EAF8','#C68A3C'];
+  function burst(cx, cy){
+    var n = 18;
+    for(var i=0;i<n;i++){
+      var s = document.createElement('div');
+      s.className = 'fw-spark';
+      s.style.left = cx+'px';
+      s.style.top = cy+'px';
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      var ang = (Math.PI*2*i/n) + Math.random()*0.3;
+      var dist = 60 + Math.random()*90;
+      s.style.setProperty('--fx', (Math.cos(ang)*dist).toFixed(1)+'px');
+      s.style.setProperty('--fy', (Math.sin(ang)*dist).toFixed(1)+'px');
+      s.style.animation = 'fwFly '+(0.8+Math.random()*0.6).toFixed(2)+'s ease-out forwards';
+      layer.appendChild(s);
+    }
+  }
+  var W = window.innerWidth, H = window.innerHeight;
+  var shots = [
+    [W*0.5, H*0.35, 0],
+    [W*0.25, H*0.45, 250],
+    [W*0.75, H*0.42, 450],
+    [W*0.4, H*0.28, 750],
+    [W*0.62, H*0.5, 1000]
+  ];
+  shots.forEach(function(sh){ setTimeout(function(){ burst(sh[0], sh[1]); }, sh[2]); });
+
+  // Banner
+  var banner = document.createElement('div');
+  banner.className = 'fw-banner show';
+  banner.innerHTML = '<div class="fw-banner-big">🎆 20 beats to a bow! 🎆</div>'
+    + '<div class="fw-banner-small">You climbed the whole ladder — brilliant work.</div>';
+  document.body.appendChild(banner);
+
+  setTimeout(function(){
+    if(layer.parentNode) layer.parentNode.removeChild(layer);
+    if(banner.parentNode) banner.parentNode.removeChild(banner);
+  }, 2600);
+}
 
 // ── Tuning Drone ──
 var droneOsc = null;
@@ -2352,6 +2894,28 @@ document.getElementById('dbBtn').addEventListener('click', function(){
 });
 
 // ── Interval trainer ──
+// Records each guess to state.earTraining so the dashboard can show progress.
+function recordIntervalAttempt(correct){
+  if(!state.earTraining){
+    state.earTraining = { attempts:0, correct:0, curStreak:0, bestStreak:0, byToday:{} };
+  }
+  var et = state.earTraining;
+  et.attempts++;
+  if(correct){
+    et.correct++;
+    et.curStreak++;
+    if(et.curStreak > et.bestStreak) et.bestStreak = et.curStreak;
+  } else {
+    et.curStreak = 0;
+  }
+  // Per-day tally for a possible mini-trend
+  var tk = todayKey();
+  if(!et.byToday[tk]) et.byToday[tk] = { attempts:0, correct:0 };
+  et.byToday[tk].attempts++;
+  if(correct) et.byToday[tk].correct++;
+  save();
+  if(typeof renderDashboard==='function') renderDashboard();
+}
 var INTERVALS = [
   {name:'Minor 2nd', semis:1},{name:'Major 2nd', semis:2},{name:'Minor 3rd', semis:3},
   {name:'Major 3rd', semis:4},{name:'Perfect 4th', semis:5},{name:'Tritone', semis:6},
@@ -2402,12 +2966,14 @@ function newInterval(){
       if(chosen===currentInterval.name){
         this.classList.add('correct');
         res.textContent='✓ Correct!'; res.style.color='var(--forest)';
+        recordIntervalAttempt(true);
       } else {
         this.classList.add('wrong');
         res.textContent='✗ It was '+currentInterval.name; res.style.color='#C0392B';
         Array.prototype.forEach.call(wrap.querySelectorAll('[data-iv]'), function(bb){
           if(bb.getAttribute('data-iv')===currentInterval.name) bb.classList.add('correct');
         });
+        recordIntervalAttempt(false);
       }
       Array.prototype.forEach.call(wrap.querySelectorAll('[data-iv]'), function(bb){ bb.disabled=true; });
     });
@@ -3306,6 +3872,641 @@ function sgToggleTick(key, typeK){
 }
 
 // ══════════════════════════════════════════════════════════════
+// SCALE PICKER — suggests a random assigned scale, then offers:
+//   "Went well"        → ticks it off in today's grid, picks the next
+//   "Could've gone..."  → keeps it up to play again (no tick)
+// Draws only from assigned scales that aren't already ticked today.
+// The current suggestion lives in RAM (swCurrent); nothing weekly.
+// ══════════════════════════════════════════════════════════════
+var swCurrent = null;   // {key,type} currently suggested
+
+// All assigned scale cells as [{key,type}]
+function assignedScaleList(){
+  var grid = scaleGridState();
+  return Object.keys(grid).map(function(kk){
+    var parts = kk.split('|');
+    return { key: parts[0], type: parts[1] };
+  });
+}
+// Assigned scales not yet ticked off today
+function remainingScaleList(){
+  var ticked = getTodayTicked();
+  return assignedScaleList().filter(function(s){
+    return !ticked[sgCellId(s.key, s.type)];
+  });
+}
+// Pick a random scale from a list, optionally avoiding one
+function pickFrom(list, avoid){
+  if(!list.length) return null;
+  var pool = list;
+  if(list.length > 1 && avoid){
+    pool = list.filter(function(s){ return !(s.key===avoid.key && s.type===avoid.type); });
+    if(!pool.length) pool = list;
+  }
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function scaleWeekTypeLabel(typeK){
+  var t = SG_TYPES.filter(function(x){ return x.k===typeK; })[0];
+  return t ? t.label : typeK;
+}
+
+function renderScaleWeek(){
+  var body = document.getElementById('scaleWeekBody');
+  if(!body) return;
+
+  var assigned = assignedScaleList();
+  if(!assigned.length){
+    swCurrent = null;
+    body.innerHTML = '<div class="sw-empty">No scales assigned yet, so there\u2019s nothing to pick from. '
+      + 'Once scales are set in the grid on the <b>Scales</b> tab, this will suggest one for you to play.</div>';
+    return;
+  }
+
+  var remaining = remainingScaleList();
+  if(!remaining.length){
+    // Everything assigned has been ticked off today
+    swCurrent = null;
+    body.innerHTML = '<div class="sw-card sw-done">'
+      + '<div class="sw-done-emoji">🎉</div>'
+      + '<div class="sw-scale">All scales done for today</div>'
+      + '<div class="sw-week">Lovely work — nothing left to pick.</div>'
+      + '</div>';
+    return;
+  }
+
+  // Keep the current suggestion if it's still valid (assigned + not yet ticked),
+  // otherwise pick a fresh one.
+  var stillValid = swCurrent && remaining.some(function(s){
+    return s.key===swCurrent.key && s.type===swCurrent.type;
+  });
+  if(!stillValid){
+    swCurrent = pickFrom(remaining, null);
+  }
+
+  var oct = (scaleGridState()[swCurrent.key+'|'+swCurrent.type]) || '';
+  var octLine = (oct && !SG_NO_OCT[swCurrent.type]) ? '<div class="sw-oct">'+oct+' octave'+(oct==='1'?'':'s')+'</div>' : '';
+  var leftNote = remaining.length===1 ? 'last one to go' : (remaining.length+' still to try today');
+
+  body.innerHTML =
+    '<div class="sw-card">'
+    + '<div class="sw-label">Give this one a go</div>'
+    + '<div class="sw-scale" id="swScaleName">'+escHtml(swCurrent.key+' '+scaleWeekTypeLabel(swCurrent.type))+'</div>'
+    + octLine
+    + '<div class="sw-week">'+leftNote+'</div>'
+    + '</div>'
+    + '<div class="sw-row">'
+    + '<button class="sw-btn primary" id="swGoodBtn">✓ Went well</button>'
+    + '<button class="sw-btn ghost" id="swAgainBtn">↻ Play it again</button>'
+    + '</div>';
+
+  var good = document.getElementById('swGoodBtn');
+  if(good) good.addEventListener('click', scaleWentWell);
+  var again = document.getElementById('swAgainBtn');
+  if(again) again.addEventListener('click', scaleTryAgain);
+}
+
+// "Went well" — tick the suggested scale off today's grid, then suggest the next
+function scaleWentWell(){
+  if(!swCurrent) return;
+  var id = sgCellId(swCurrent.key, swCurrent.type);
+  var ticked = getTodayTicked();
+  if(!ticked[id]){
+    setTicked(id, true);
+    state.practiced[todayKey()] = true;
+    save();
+  }
+  var justDone = swCurrent;
+  swCurrent = null; // force a fresh pick, avoiding the one just completed
+  // pick next from what's left, avoiding the just-finished scale
+  var remaining = remainingScaleList();
+  if(remaining.length) swCurrent = pickFrom(remaining, justDone);
+  renderScaleWeek();
+  // keep the rest of the app in sync (grid ticks, streak, dashboard, calendar)
+  renderCategories();
+  renderStreak();
+  renderCalendar();
+  renderDashboard();
+  showToast('Ticked off ✓');
+}
+
+// "Play it again" — animate a little, then re-show the SAME scale (no tick)
+var swBusy = false;
+function scaleTryAgain(){
+  if(swBusy || !swCurrent) return;
+  var nameEl = document.getElementById('swScaleName');
+  if(!nameEl) return;
+  swBusy = true;
+  nameEl.classList.add('spinning');
+  var flashes = 4, i = 0;
+  var others = assignedScaleList();
+  var timer = setInterval(function(){
+    var r = others[Math.floor(Math.random()*others.length)];
+    nameEl.textContent = r.key + ' ' + scaleWeekTypeLabel(r.type);
+    i++;
+    if(i >= flashes){
+      clearInterval(timer);
+      // settle back on the same scale to play again
+      nameEl.textContent = swCurrent.key + ' ' + scaleWeekTypeLabel(swCurrent.type);
+      nameEl.classList.remove('spinning');
+      swBusy = false;
+    }
+  }, 80);
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// FOCUS PICKER — when a piece feels okay-but-stuck, suggests one
+// aspect to concentrate on. From Violaness's practice-tips sheet.
+// Purely a suggestion — nothing tracked or saved.
+// ══════════════════════════════════════════════════════════════
+var FOCUS_ASPECTS = [
+  { name:'Tempo',            note:'Is it steady? Try it slower, then work the speed back up.' },
+  { name:'Notes',            note:'Any notes still uncertain? Isolate them and drill them slowly.' },
+  { name:'Rhythm',           note:'Clap or tap it away from the instrument, then play it back.' },
+  { name:'Bowing',           note:'Check your bow distribution and that the bowings are consistent.' },
+  { name:'Articulation',     note:'Are your slurs, staccato and accents clear and deliberate?' },
+  { name:'Shifting',         note:'Practise the shifts on their own — smooth, in tune, no bumps.' },
+  { name:'Vibrato',          note:'Where does it belong? Add it thoughtfully, not everywhere.' },
+  { name:'Dynamics',         note:'Exaggerate the louds and softs — make the contrast obvious.' },
+  { name:'Intonation',       note:'Play slowly and really listen. Use open strings to check.' },
+  { name:'Bow control',      note:'Even sound from heel to tip? Watch your contact point.' },
+  { name:'Sound quality',    note:'Aim for a warm, resonant tone. Weight, speed, contact point.' },
+  { name:'Tension & relaxation', note:'Scan for tightness — shoulders, thumb, jaw. Let it go.' },
+  { name:'Balance',          note:'Bring out the melody; keep accompaniment in its place.' },
+  { name:'Posture',          note:'Feet, back, instrument height — set yourself up well.' },
+  { name:'Phrasing',         note:'Where do the phrases breathe? Shape them like sentences.' },
+  { name:'Structure',        note:'Zoom out — how do the sections fit together as a whole?' },
+  { name:'Memory',           note:'Try a passage from memory. Where does it get shaky?' },
+  { name:'Focus & concentration', note:'Give one passage your complete, undivided attention.' },
+  { name:'Musical meaning & direction', note:'What are you trying to say here? Play with intention.' },
+  { name:'Stylistic concerns', note:'Does it suit the style and period? Listen to a recording.' },
+  { name:'Fluency',          note:'Can you play it through without stumbling? Smooth the joins.' }
+];
+var focusCurrent = null;
+var focusDeck = [];   // shuffled queue of indices into FOCUS_ASPECTS
+
+function shuffleFocusDeck(){
+  var idx = FOCUS_ASPECTS.map(function(_, i){ return i; });
+  // Fisher–Yates shuffle
+  for(var i = idx.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
+  }
+  // Avoid the just-shown aspect landing first in the fresh deck
+  if(focusCurrent && idx.length > 1){
+    var curIdx = FOCUS_ASPECTS.indexOf(focusCurrent);
+    if(idx[0] === curIdx){
+      idx.push(idx.shift());   // move it to the back
+    }
+  }
+  focusDeck = idx;
+}
+
+// Deal the next aspect from the deck, reshuffling once the deck is empty
+function pickFocus(){
+  if(!focusDeck.length) shuffleFocusDeck();
+  var next = focusDeck.shift();
+  return FOCUS_ASPECTS[next];
+}
+
+function renderFocusPicker(){
+  var body = document.getElementById('focusPickBody');
+  if(!body) return;
+  if(!focusCurrent) focusCurrent = pickFocus();
+  body.innerHTML =
+    '<div class="fp-card">'
+    + '<div class="fp-label">Focus on</div>'
+    + '<div class="fp-aspect" id="fpAspect">'+escHtml(focusCurrent.name)+'</div>'
+    + '<div class="fp-note" id="fpNote">'+escHtml(focusCurrent.note)+'</div>'
+    + '</div>'
+    + '<div class="fp-row">'
+    + '<button class="fp-btn primary" id="fpAnotherBtn">🎯 Give me another</button>'
+    + '</div>';
+  var btn = document.getElementById('fpAnotherBtn');
+  if(btn) btn.addEventListener('click', spinFocus);
+}
+
+var focusBusy = false;
+function spinFocus(){
+  if(focusBusy) return;
+  var aspectEl = document.getElementById('fpAspect');
+  var noteEl = document.getElementById('fpNote');
+  if(!aspectEl) return;
+  focusBusy = true;
+  aspectEl.classList.add('spinning');
+  if(noteEl) noteEl.style.opacity = '0.4';
+  var flashes = 8, i = 0;
+  var timer = setInterval(function(){
+    var r = FOCUS_ASPECTS[Math.floor(Math.random()*FOCUS_ASPECTS.length)];
+    aspectEl.textContent = r.name;
+    i++;
+    if(i >= flashes){
+      clearInterval(timer);
+      focusCurrent = pickFocus();
+      aspectEl.textContent = focusCurrent.name;
+      if(noteEl){ noteEl.textContent = focusCurrent.note; noteEl.style.opacity = '1'; }
+      aspectEl.classList.remove('spinning');
+      focusBusy = false;
+    }
+  }, 60);
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// PRACTICE PLANNER — divide today's minutes across four sections,
+// show a pie-clock, then run a per-section countdown.
+// Sections: Warm-up, Scales, Studies, Pieces. Pieces takes the
+// remainder so the minutes always add up exactly.
+// ══════════════════════════════════════════════════════════════
+var PP_SECTIONS = [
+  { key:'warmup',  label:'Warm-up',  color:'#7BB8E8' },
+  { key:'scales',  label:'Scales',   color:'#7BE0A0' },
+  { key:'studies', label:'Studies',  color:'#E9C46A' },
+  { key:'pieces',  label:'Pieces',   color:'#C68A8A' }
+];
+// Weights are relative; they're normalised, then Pieces absorbs any rounding remainder.
+var PP_PLANS = [
+  { id:'balanced', name:'Balanced', desc:'A little of everything — a short warm-up, then Scales, Studies and most on Pieces.',
+    w:{ warmup:0.5, scales:1, studies:1, pieces:3 } },
+  { id:'technical', name:'Technical focus', desc:'Heavier on scales and studies — great for building solid foundations.',
+    w:{ warmup:0.5, scales:2, studies:1, pieces:2 } },
+  { id:'pieces', name:'Piece focus', desc:'Concert or exam coming up? Most of your time on the pieces.',
+    w:{ warmup:0.5, scales:0.5, studies:0.5, pieces:4 } },
+  { id:'quick', name:'Quick practice', desc:'Short on time — a quick warm-up and scales, then straight to pieces.',
+    w:{ warmup:0.5, scales:1, studies:0, pieces:2 } }
+];
+
+var ppMinsVal = 30;
+var ppSelectedPlan = null;   // plan id
+var ppBreakdown = null;      // [{key,label,color,mins}]
+
+function ppComputeBreakdown(totalMins, plan){
+  var weights = plan.w;
+  var totalW = PP_SECTIONS.reduce(function(s,sec){ return s + (weights[sec.key]||0); }, 0);
+  var out = [];
+  var allocated = 0;
+  // Everyone except Pieces gets a rounded share; Pieces takes what's left.
+  PP_SECTIONS.forEach(function(sec){
+    if(sec.key==='pieces') return;
+    var m = Math.round(totalMins * (weights[sec.key]||0) / totalW);
+    out.push({ key:sec.key, label:sec.label, color:sec.color, mins:m });
+    allocated += m;
+  });
+  var piecesMins = Math.max(0, totalMins - allocated);
+  out.push({ key:'pieces', label:'Pieces', color:'#C68A8A', mins:piecesMins });
+  // keep display order = section order
+  out.sort(function(a,b){
+    return PP_SECTIONS.findIndex(function(s){return s.key===a.key;})
+         - PP_SECTIONS.findIndex(function(s){return s.key===b.key;});
+  });
+  return out;
+}
+
+// Build an SVG pie "clock" from the breakdown
+function ppPieSVG(breakdown, totalMins){
+  var size = 190, r = 85, cx = size/2, cy = size/2;
+  var angle = -Math.PI/2; // start at 12 o'clock
+  var paths = '';
+  breakdown.forEach(function(seg){
+    if(seg.mins<=0) return;
+    var frac = seg.mins/totalMins;
+    var a2 = angle + frac*Math.PI*2;
+    var x1 = cx + r*Math.cos(angle), y1 = cy + r*Math.sin(angle);
+    var x2 = cx + r*Math.cos(a2),    y2 = cy + r*Math.sin(a2);
+    var large = frac > 0.5 ? 1 : 0;
+    // full circle guard (a single non-zero segment)
+    if(frac >= 0.999){
+      paths += '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+seg.color+'"/>';
+    } else {
+      paths += '<path d="M'+cx+' '+cy+' L'+x1.toFixed(2)+' '+y1.toFixed(2)
+        + ' A'+r+' '+r+' 0 '+large+' 1 '+x2.toFixed(2)+' '+y2.toFixed(2)+' Z" fill="'+seg.color+'"/>';
+    }
+    angle = a2;
+  });
+  // clock ticks (12 marks) + centre
+  var ticks = '';
+  for(var t=0;t<12;t++){
+    var ta = -Math.PI/2 + t*Math.PI/6;
+    var ir = r-6, orr = r-1;
+    ticks += '<line x1="'+(cx+ir*Math.cos(ta)).toFixed(1)+'" y1="'+(cy+ir*Math.sin(ta)).toFixed(1)
+      + '" x2="'+(cx+orr*Math.cos(ta)).toFixed(1)+'" y2="'+(cy+orr*Math.sin(ta)).toFixed(1)
+      + '" stroke="rgba(255,255,255,0.55)" stroke-width="'+(t%3===0?2:1)+'"/>';
+  }
+  return '<svg viewBox="0 0 '+size+' '+size+'" width="200" height="200">'
+    + paths
+    + '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="rgba(26,58,107,0.15)" stroke-width="1"/>'
+    + ticks
+    + '<circle cx="'+cx+'" cy="'+cy+'" r="16" fill="#fff"/>'
+    + '<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" font-family="DM Serif Display, serif" font-size="15" fill="#1A3A6B">'+totalMins+'</text>'
+    + '</svg>';
+}
+
+function ppFracLabel(mins, total){
+  // simple readable fraction-ish note
+  if(mins===0) return '';
+  var pct = Math.round(mins/total*100);
+  return pct + '%';
+}
+
+function renderPlannerPlans(){
+  var wrap = document.getElementById('ppPlans');
+  if(!wrap) return;
+  wrap.innerHTML = PP_PLANS.map(function(p){
+    return '<button class="pp-plan-btn'+(ppSelectedPlan===p.id?' sel':'')+'" data-pp-plan="'+p.id+'">'
+      + '<div class="pp-plan-name">'+escHtml(p.name)+'</div>'
+      + '<div class="pp-plan-desc">'+escHtml(p.desc)+'</div>'
+      + '</button>';
+  }).join('');
+  Array.prototype.forEach.call(wrap.querySelectorAll('[data-pp-plan]'), function(btn){
+    btn.addEventListener('click', function(){
+      ppSelectedPlan = this.getAttribute('data-pp-plan');
+      ppStopSectionTimer(true);
+      renderPlannerPlans();
+      renderPlannerResult();
+    });
+  });
+}
+
+var PP_PRESETS = [15,20,30,45,60];
+var ppCustomMode = false;   // is the "Other" custom input showing?
+
+function renderPlannerQuick(){
+  var wrap = document.getElementById('ppQuick');
+  if(!wrap) return;
+  var html = PP_PRESETS.map(function(m){
+    var sel = (!ppCustomMode && m===ppMinsVal) ? ' sel' : '';
+    return '<button class="pp-quick-btn'+sel+'" data-pp-quick="'+m+'">'+m+' min</button>';
+  }).join('');
+  html += '<button class="pp-quick-btn'+(ppCustomMode?' sel':'')+'" data-pp-other="1">Other…</button>';
+  wrap.innerHTML = html;
+  Array.prototype.forEach.call(wrap.querySelectorAll('[data-pp-quick]'), function(btn){
+    btn.addEventListener('click', function(){
+      ppCustomMode = false;
+      document.getElementById('ppCustom').style.display = 'none';
+      ppSetMins(parseInt(this.getAttribute('data-pp-quick'),10));
+    });
+  });
+  var other = wrap.querySelector('[data-pp-other]');
+  if(other) other.addEventListener('click', function(){
+    ppCustomMode = true;
+    var cust = document.getElementById('ppCustom');
+    cust.style.display = 'flex';
+    renderPlannerQuick();          // refresh highlight
+    var input = document.getElementById('ppMins');
+    if(input){ input.value = ppMinsVal; input.focus(); input.select(); }
+  });
+}
+
+function ppSetMins(m){
+  m = parseInt(m,10);
+  if(isNaN(m)) m = ppMinsVal;
+  m = Math.max(5, Math.min(180, m));
+  ppMinsVal = m;
+  var input = document.getElementById('ppMins');
+  if(input && input.value !== String(m)) input.value = m;
+  renderPlannerQuick();   // keep the pill highlight in sync
+  ppStopSectionTimer(true);
+  renderPlannerResult();
+}
+
+function renderPlannerResult(){
+  var res = document.getElementById('ppResult');
+  if(!res) return;
+  if(!ppSelectedPlan){
+    res.innerHTML = '';
+    return;
+  }
+  var plan = PP_PLANS.filter(function(p){ return p.id===ppSelectedPlan; })[0];
+  ppBreakdown = ppComputeBreakdown(ppMinsVal, plan);
+
+  var legend = ppBreakdown.map(function(seg){
+    return '<div class="pp-legend-row">'
+      + '<span class="pp-legend-dot" style="background:'+seg.color+'"></span>'
+      + '<span class="pp-legend-name">'+escHtml(seg.label)+'</span>'
+      + '<span class="pp-legend-mins">'+seg.mins+' min<span class="pp-legend-frac">'+ppFracLabel(seg.mins, ppMinsVal)+'</span></span>'
+      + '</div>';
+  }).join('');
+
+  res.innerHTML = '<div class="pp-result"><div class="pp-clock-wrap">'
+    + ppPieSVG(ppBreakdown, ppMinsVal)
+    + '<div class="pp-legend">'+legend+'</div>'
+    + '</div>'
+    + '<div id="ppTimerHost"></div></div>';
+  renderSectionTimerIdle();
+}
+
+// ── Per-section countdown timer ──
+var ppTimerIdx = 0;      // which section we're on
+var ppTimerRemaining = 0; // seconds left in current section
+var ppTimerRAF = null;
+var ppTimerEndAt = 0;
+var ppTimerRunning = false;
+var ppTimerPaused = false;
+
+function ppActiveSections(){
+  return (ppBreakdown||[]).filter(function(s){ return s.mins>0; });
+}
+
+function renderSectionTimerIdle(){
+  var host = document.getElementById('ppTimerHost');
+  if(!host) return;
+  var secs = ppActiveSections();
+  if(!secs.length){ host.innerHTML=''; return; }
+  host.innerHTML = '<div class="pp-timer">'
+    + '<div class="pp-timer-section">Ready when you are</div>'
+    + '<div class="pp-timer-big">'+secs[0].mins+':00</div>'
+    + '<div class="pp-timer-next">First up: '+escHtml(secs[0].label)+'</div>'
+    + '<div class="pp-timer-row"><button class="pp-timer-btn primary" id="ppTimerStart">▶ Start '+escHtml(secs[0].label)+'</button></div>'
+    + '</div>';
+  var b = document.getElementById('ppTimerStart');
+  if(b) b.addEventListener('click', function(){
+    var ctx = getAudioCtx(); if(ctx && ctx.state==='suspended') ctx.resume();
+    ppTimerIdx = 0;
+    ppStartSection();
+  });
+}
+
+function ppStartSection(){
+  var secs = ppActiveSections();
+  if(ppTimerIdx >= secs.length){ ppFinishAll(); return; }
+  ppTimerRemaining = secs[ppTimerIdx].mins*60;
+  ppTimerRunning = true;
+  ppTimerPaused = false;
+  ppTimerEndAt = Date.now() + ppTimerRemaining*1000;
+  renderSectionTimerActive();
+  if(ppTimerRAF) cancelAnimationFrame(ppTimerRAF);
+  ppTimerRAF = requestAnimationFrame(ppTimerFrame);
+}
+
+function ppTimerFrame(){
+  if(!ppTimerRunning) return;
+  if(!ppTimerPaused){
+    ppTimerRemaining = Math.max(0, Math.round((ppTimerEndAt - Date.now())/1000));
+    ppUpdateTimerDisplay();
+    if(ppTimerRemaining <= 0){
+      ppSectionChime();
+      ppTimerIdx++;
+      var secs = ppActiveSections();
+      if(ppTimerIdx >= secs.length){ ppFinishAll(); return; }
+      renderSectionTimerBetween();
+      return;
+    }
+  }
+  ppTimerRAF = requestAnimationFrame(ppTimerFrame);
+}
+
+function ppUpdateTimerDisplay(){
+  var big = document.getElementById('ppTimerBig');
+  if(big) big.textContent = fmtTime(ppTimerRemaining);
+  var secs = ppActiveSections();
+  var cur = secs[ppTimerIdx];
+  if(cur){
+    var total = cur.mins*60;
+    var frac = total>0 ? (1 - ppTimerRemaining/total) : 0;
+    var fill = document.getElementById('ppProgressFill');
+    if(fill) fill.style.width = Math.round(frac*100)+'%';
+  }
+}
+
+function renderSectionTimerActive(){
+  var host = document.getElementById('ppTimerHost');
+  if(!host) return;
+  var secs = ppActiveSections();
+  var cur = secs[ppTimerIdx];
+  var next = secs[ppTimerIdx+1];
+  host.innerHTML = '<div class="pp-timer" style="border-color:'+cur.color+'">'
+    + '<div class="pp-timer-section" style="color:'+cur.color+'">Now: '+escHtml(cur.label)+' ('+(ppTimerIdx+1)+' of '+secs.length+')</div>'
+    + '<div class="pp-timer-big" id="ppTimerBig">'+fmtTime(cur.mins*60)+'</div>'
+    + '<div class="pp-timer-next">'+(next?('Next: '+escHtml(next.label)):'Last section!')+'</div>'
+    + '<div class="pp-progress-track"><div class="pp-progress-fill" id="ppProgressFill" style="background:'+cur.color+';width:0%"></div></div>'
+    + '<div class="pp-timer-row">'
+    + '<button class="pp-timer-btn ghost" id="ppPauseBtn">⏸ Pause</button>'
+    + '<button class="pp-timer-btn primary" id="ppSkipBtn">Skip ▶</button>'
+    + '</div></div>';
+  document.getElementById('ppPauseBtn').addEventListener('click', ppTogglePause);
+  document.getElementById('ppSkipBtn').addEventListener('click', function(){
+    ppTimerIdx++;
+    var s = ppActiveSections();
+    if(ppTimerIdx >= s.length){ ppFinishAll(); }
+    else renderSectionTimerBetween();
+  });
+}
+
+function renderSectionTimerBetween(){
+  // pause between sections, wait for a tap to start the next
+  ppTimerRunning = false;
+  if(ppTimerRAF){ cancelAnimationFrame(ppTimerRAF); ppTimerRAF=null; }
+  var host = document.getElementById('ppTimerHost');
+  if(!host) return;
+  var secs = ppActiveSections();
+  var nextSec = secs[ppTimerIdx];
+  host.innerHTML = '<div class="pp-timer">'
+    + '<div class="pp-timer-section">✓ Section done</div>'
+    + '<div class="pp-timer-big">'+nextSec.mins+':00</div>'
+    + '<div class="pp-timer-next">Up next: '+escHtml(nextSec.label)+'</div>'
+    + '<div class="pp-timer-row"><button class="pp-timer-btn primary" id="ppNextBtn">▶ Start '+escHtml(nextSec.label)+'</button></div>'
+    + '</div>';
+  document.getElementById('ppNextBtn').addEventListener('click', function(){
+    var ctx = getAudioCtx(); if(ctx && ctx.state==='suspended') ctx.resume();
+    ppStartSection();
+  });
+}
+
+function ppTogglePause(){
+  ppTimerPaused = !ppTimerPaused;
+  var btn = document.getElementById('ppPauseBtn');
+  if(ppTimerPaused){
+    if(btn) btn.textContent = '▶ Resume';
+  } else {
+    if(btn) btn.textContent = '⏸ Pause';
+    // recompute end time from remaining
+    ppTimerEndAt = Date.now() + ppTimerRemaining*1000;
+    if(ppTimerRAF) cancelAnimationFrame(ppTimerRAF);
+    ppTimerRAF = requestAnimationFrame(ppTimerFrame);
+  }
+}
+
+function ppStopSectionTimer(silent){
+  ppTimerRunning = false;
+  ppTimerPaused = false;
+  ppTimerIdx = 0;
+  if(ppTimerRAF){ cancelAnimationFrame(ppTimerRAF); ppTimerRAF=null; }
+  if(!silent) renderSectionTimerIdle();
+}
+
+function ppFinishAll(){
+  ppTimerRunning = false;
+  if(ppTimerRAF){ cancelAnimationFrame(ppTimerRAF); ppTimerRAF=null; }
+  var host = document.getElementById('ppTimerHost');
+  if(host){
+    host.innerHTML = '<div class="pp-timer">'
+      + '<div class="pp-timer-big">🎉</div>'
+      + '<div class="pp-timer-section" style="color:#7BE0A0">Practice complete</div>'
+      + '<div class="pp-timer-next">Wonderful — you worked through your whole plan.</div>'
+      + '<div class="pp-timer-row"><button class="pp-timer-btn primary" id="ppAgainBtn">Plan again</button></div>'
+      + '</div>';
+    var b = document.getElementById('ppAgainBtn');
+    if(b) b.addEventListener('click', function(){ ppStopSectionTimer(false); });
+  }
+  ppFinishChime();
+  state.practiced[todayKey()] = true;
+  save();
+  renderStreak(); renderCalendar(); renderDashboard();
+}
+
+function ppSectionChime(){
+  try {
+    var ctx = getAudioCtx(); if(!ctx) return;
+    [659.25, 880].forEach(function(f,i){
+      var o=ctx.createOscillator(), g=ctx.createGain();
+      o.type='sine'; o.frequency.value=f;
+      var t=ctx.currentTime+i*0.14;
+      g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.3,t+0.03);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+      o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+0.45);
+    });
+  } catch(e){}
+}
+function ppFinishChime(){
+  try {
+    var ctx = getAudioCtx(); if(!ctx) return;
+    [523.25,659.25,783.99,1046.5].forEach(function(f,i){
+      var o=ctx.createOscillator(), g=ctx.createGain();
+      o.type='sine'; o.frequency.value=f;
+      var t=ctx.currentTime+i*0.12;
+      g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.3,t+0.03);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.5);
+      o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+0.55);
+    });
+  } catch(e){}
+}
+
+function renderPlanner(){
+  var input = document.getElementById('ppMins');
+  if(!input) return;
+  input.value = ppMinsVal;
+  renderPlannerQuick();
+  renderPlannerPlans();
+  renderPlannerResult();
+}
+// wire the custom minutes input (once)
+(function(){
+  var input = document.getElementById('ppMins');
+  if(input){
+    input.addEventListener('input', function(){
+      var v = parseInt(this.value,10);
+      if(!isNaN(v)){
+        // typing in the custom box keeps us in custom mode
+        ppMinsVal = Math.max(5, Math.min(180, v));
+        ppStopSectionTimer(true);
+        renderPlannerResult();
+      }
+    });
+    input.addEventListener('blur', function(){ this.value = ppMinsVal; });
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════
 // DASHBOARD — at-a-glance practice info centre
 // ══════════════════════════════════════════════════════════════
 var dashBooted = false;
@@ -3509,6 +4710,31 @@ function renderDashboard(){
   html += '<div class="dash-tile wide"><div class="dash-tile-title">Last 8 weeks (days practised)</div>'
     + '<div style="display:flex;align-items:flex-end;gap:5px;height:80px">'+bars+'</div></div>';
 
+  // Ear training (interval trainer)
+  var et = state.earTraining || { attempts:0, correct:0, bestStreak:0 };
+  html += '<div class="dash-tile wide"><div class="dash-tile-title">Ear training 👂</div>';
+  if(!et.attempts){
+    html += '<div class="dash-ear-empty">No intervals guessed yet. Head to <b>Tools → Interval trainer</b> to start, and your accuracy and best streak will show up here.</div>';
+  } else {
+    var acc = Math.round((et.correct/et.attempts)*100);
+    var arc2 = Math.PI*2*26; // r=26 full ring
+    var fill2 = (arc2 * acc/100).toFixed(1);
+    html += '<div class="dash-ear-row">'
+      + '<div class="dash-ear-ring">'
+      + '<svg viewBox="0 0 64 64" width="72" height="72">'
+      + '<defs><linearGradient id="earGauge" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F6D79A"/><stop offset="100%" stop-color="#C68A3C"/></linearGradient></defs>'
+      + '<circle cx="32" cy="32" r="26" fill="none" stroke="var(--warm)" stroke-width="6"/>'
+      + '<circle cx="32" cy="32" r="26" fill="none" stroke="url(#earGauge)" stroke-width="6" stroke-linecap="round"'
+      + ' stroke-dasharray="'+arc2.toFixed(1)+'" stroke-dashoffset="'+(arc2-fill2).toFixed(1)+'" transform="rotate(-90 32 32)"/>'
+      + '<text x="32" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)">'+acc+'%</text>'
+      + '</svg></div>'
+      + '<div class="dash-ear-stats">'
+      + '<div class="dash-ear-stat"><div class="dash-ear-num">'+et.correct+'/'+et.attempts+'</div><div class="dash-ear-slabel">Correct</div></div>'
+      + '<div class="dash-ear-stat"><div class="dash-ear-num">'+(et.bestStreak||0)+'</div><div class="dash-ear-slabel">Best streak</div></div>'
+      + '</div></div>';
+  }
+  html += '</div>';
+
   if(upcoming.length){
     html += '<div class="dash-tile wide"><div class="dash-tile-title">Coming up</div>';
     html += '<div class="dash-console">';
@@ -3588,6 +4814,9 @@ function renderAll(){
   renderQuote();
   renderCountdowns();
   renderBackupBanner();
+  renderScaleWeek();
+  renderFocusPicker();
+  renderPlanner();
 }
 
 load();
