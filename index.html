@@ -756,6 +756,74 @@ header {
 .tool-collapse-chevron { color: var(--muted); font-size: 0.9rem; transition: transform 0.2s; }
 .tool-collapse-head.open .tool-collapse-chevron { transform: rotate(180deg); }
 .tool-body { padding-bottom: 16px; }
+/* Six Coins */
+.sc-phrase-input {
+  width: 100%; padding: 9px 11px; border: 1.5px solid #CDDAEA; border-radius: 9px;
+  font-family: inherit; font-size: 0.85rem; color: var(--ink); background: #fff;
+  margin-bottom: 12px; box-sizing: border-box;
+}
+.sc-phrase-input::placeholder { color: var(--muted); }
+.sc-count-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.sc-count-label { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
+.sc-count-btns { display: flex; gap: 5px; margin-left: auto; }
+.sc-count-btn {
+  width: 30px; height: 30px; border-radius: 8px; border: 1.5px solid #CDDAEA;
+  background: #fff; color: var(--ink); font-family: inherit; font-size: 0.8rem;
+  font-weight: 700; cursor: pointer;
+}
+.sc-count-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.sc-track {
+  position: relative;
+  background: none;
+  border: 1.5px dotted #CDDAEA; border-radius: 12px;
+  height: 58px; overflow: hidden;
+}
+/* Goal line on the right */
+.sc-track::after {
+  content: ''; position: absolute; right: 10px; top: 8px; bottom: 8px;
+  width: 2px; background: linear-gradient(180deg, #F4C95D, #C99A2E); border-radius: 2px; opacity: 0.8;
+}
+.sc-coin {
+  position: absolute; top: 50%; left: 0;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #FBE49A, #E0AE3F 62%, #A8791E);
+  box-shadow: 0 2px 5px rgba(5,41,127,0.28), inset 0 -1px 2px rgba(0,0,0,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; color: #6B4E12; font-weight: 700;
+  transition: transform 0.42s cubic-bezier(.34,1.25,.5,1), opacity 0.3s, filter 0.3s;
+  will-change: transform;
+}
+.sc-coin.banked { opacity: 0.62; filter: grayscale(0.45); }
+.sc-track.tumble { animation: scShake 0.36s; }
+@keyframes scShake {
+  0%,100% { transform: translateX(0); }
+  22% { transform: translateX(-5px); }
+  46% { transform: translateX(4px); }
+  72% { transform: translateX(-2px); }
+}
+.sc-track.celebrate { animation: scGlow 0.9s; }
+@keyframes scGlow {
+  0%,100% { border-color: #CDDAEA; box-shadow: none; }
+  50% { border-color: #E0AE3F; box-shadow: 0 0 16px rgba(244,201,93,0.5); }
+}
+.sc-counter {
+  text-align: center; font-size: 0.9rem; font-weight: 700; color: var(--navy);
+  margin: 12px 0 4px;
+}
+.sc-sub { text-align: center; font-size: 0.7rem; color: var(--muted); margin-bottom: 12px; min-height: 15px; }
+.sc-btn-row { display: flex; gap: 9px; }
+.sc-btn {
+  flex: 1; padding: 13px 8px; border-radius: 11px; border: none; cursor: pointer;
+  font-family: inherit; font-size: 0.88rem; font-weight: 700; color: #fff;
+}
+.sc-btn.got { background: var(--postit-2); color: var(--deep-green); }
+.sc-btn.missed { background: #E8D5D5; color: #7A3A3A; }
+.sc-btn:active { transform: translateY(1px); }
+.sc-reset {
+  width: 100%; margin-top: 9px; padding: 8px; border-radius: 9px;
+  border: 1.5px solid #CDDAEA; background: #fff; color: var(--muted);
+  font-family: inherit; font-size: 0.72rem; cursor: pointer;
+}
 /* Scale picker */
 .sw-card {
   background: #DCF0FC;
@@ -1441,6 +1509,30 @@ header {
     </div>
   </div>
 
+  <!-- Six Coins -->
+  <div class="tool-block collapsible">
+    <button class="tool-collapse-head" data-collapse="sixcoins">
+      <span class="tool-block-title">🪙 Six Coins</span>
+      <span class="tool-collapse-chevron">▾</span>
+    </button>
+    <div class="tool-body" id="body-sixcoins" style="display:none">
+      <p class="pp-intro">Play your phrase correctly in a row and slide a coin across each time. One slip and every coin goes back.</p>
+      <input class="sc-phrase-input" id="scPhrase" type="text" placeholder="What are you drilling? e.g. Bar 12–16" maxlength="60">
+      <div class="sc-count-row">
+        <span class="sc-count-label">Coins to win</span>
+        <div class="sc-count-btns" id="scCountBtns"></div>
+      </div>
+      <div class="sc-track" id="scTrack"></div>
+      <div class="sc-counter" id="scCounter">0 of 6</div>
+      <div class="sc-sub" id="scSub"></div>
+      <div class="sc-btn-row">
+        <button class="sc-btn got" id="scGotBtn">Got it ✓</button>
+        <button class="sc-btn missed" id="scMissBtn">Missed ✗</button>
+      </div>
+      <button class="sc-reset" id="scResetBtn">Start over</button>
+    </div>
+  </div>
+
   <!-- Dynamics / decibel meter -->
   <div class="tool-block collapsible">
     <button class="tool-collapse-head" data-collapse="dbmeter">
@@ -1704,6 +1796,7 @@ function load(){
   if(!state.countdowns) state.countdowns = [];
   if(!state.earTraining) state.earTraining = { attempts:0, correct:0, curStreak:0, bestStreak:0, byToday:{} };
   if(!state.noteReading) state.noteReading = { attempts:0, correct:0, curStreak:0, bestStreak:0, byToday:{} };
+  if(!state.sixCoins) state.sixCoins = { runs:0, totalAttempts:0, totalRequired:0, bestRun:null, recent:[] };
   } catch(e){ state = {items:[],practiced:{},ticked:{},tickHistory:{},dailyNotes:{}}; }
 }
 function save(){
@@ -2555,6 +2648,8 @@ Array.prototype.forEach.call(document.querySelectorAll('.tool-collapse-head'), f
     } else {
       body.style.display = 'block';
       this.classList.add('open');
+      // Track has no width while hidden — lay the coins out now it's visible.
+      if(key==='sixcoins' && typeof renderScTrack==='function') renderScTrack(false);
     }
   });
 });
@@ -3035,6 +3130,185 @@ document.getElementById('dbBtn').addEventListener('click', function(){
   var ctx = getAudioCtx(); if(ctx && ctx.state==='suspended') ctx.resume();
   if(dbRunning) stopDbMeter(); else startDbMeter();
 });
+
+// ── Six Coins ──
+// Play a phrase correctly N times in a row; a slip resets every coin.
+var scRequired = 6, scWon = 0, scAttempts = 0, scBusy = false;
+
+function scLoadSettings(){
+  if(state.settings && state.settings.sixCoinsCount){
+    scRequired = Math.max(3, Math.min(6, state.settings.sixCoinsCount));
+  }
+  if(state.settings && state.settings.sixCoinsPhrase){
+    var pi = document.getElementById('scPhrase');
+    if(pi) pi.value = state.settings.sixCoinsPhrase;
+  }
+}
+function scSaveCount(n){
+  if(!state.settings) state.settings = {};
+  state.settings.sixCoinsCount = n;
+  save();
+}
+function scSavePhrase(v){
+  if(!state.settings) state.settings = {};
+  state.settings.sixCoinsPhrase = v;
+  save();
+}
+function renderScCounts(){
+  var wrap = document.getElementById('scCountBtns');
+  if(!wrap) return;
+  var html = '';
+  for(var n=3; n<=6; n++){
+    html += '<button class="sc-count-btn'+(n===scRequired?' active':'')+'" data-n="'+n+'">'+n+'</button>';
+  }
+  wrap.innerHTML = html;
+  Array.prototype.forEach.call(wrap.querySelectorAll('.sc-count-btn'), function(b){
+    b.addEventListener('click', function(){
+      var n = parseInt(this.getAttribute('data-n'),10);
+      if(n===scRequired) return;
+      scRequired = n; scSaveCount(n);
+      scWon = 0; scAttempts = 0;
+      renderScCounts(); renderScTrack();
+    });
+  });
+}
+function renderScTrack(animate){
+  var track = document.getElementById('scTrack');
+  if(!track) return;
+  // Build coins once, then only move them — rebuilding kills the CSS transition.
+  var coins = track.querySelectorAll('.sc-coin');
+  if(coins.length !== scRequired){
+    var html = '';
+    for(var i=0; i<scRequired; i++) html += '<div class="sc-coin">♪</div>';
+    track.innerHTML = html;
+    coins = track.querySelectorAll('.sc-coin');
+    animate = false; // fresh build: place instantly, no slide from 0
+  }
+  scPositionCoins(coins, animate);
+  var c = document.getElementById('scCounter');
+  if(c) c.textContent = scWon + ' of ' + scRequired;
+  var sub = document.getElementById('scSub');
+  if(sub){
+    if(scWon === 0 && scAttempts === 0) sub.textContent = '';
+    else if(scWon === scRequired) sub.textContent = 'Nailed it in ' + scAttempts + ' attempt' + (scAttempts===1?'':'s');
+    else sub.textContent = scAttempts + ' attempt' + (scAttempts===1?'':'s') + ' so far';
+  }
+}
+// Lay coins out: banked ones queue at the left, won ones travel to the right.
+function scPositionCoins(coins, animate){
+  var track = document.getElementById('scTrack');
+  if(!track || !coins.length) return;
+  var W = track.clientWidth || 300;
+  var COIN = 30, PAD = 12, GOAL = 16; // goal line sits ~10px from right
+  var bankX = PAD;
+  var bankGap = 7;
+  // Won coins stack leftwards from just before the goal line
+  var wonRight = W - GOAL - COIN - 2;
+  var wonGap = 7;
+  Array.prototype.forEach.call(coins, function(coin, i){
+    var isWon = i < scWon;
+    var x;
+    if(isWon){
+      // first coin won parks at the goal; each new one lands to its left
+      x = wonRight - i * (COIN + wonGap);
+    } else {
+      var bankIndex = i - scWon;
+      x = bankX + bankIndex * (COIN + bankGap);
+    }
+    if(!animate) coin.style.transition = 'none';
+    coin.style.transform = 'translate(' + x + 'px, -50%)';
+    coin.classList.toggle('banked', !isWon);
+    if(!animate){
+      // force reflow so the transition-none takes effect before restoring
+      void coin.offsetWidth;
+      coin.style.transition = '';
+    }
+  });
+}
+function scTone(freq, dur, type){
+  try {
+    var ctx = getAudioCtx(); if(!ctx) return;
+    if(ctx.state==='suspended') ctx.resume();
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type || 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.16, ctx.currentTime+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(); o.stop(ctx.currentTime+dur+0.02);
+  } catch(e){}
+}
+function recordSixCoinsRun(){
+  if(!state.sixCoins) state.sixCoins = { runs:0, totalAttempts:0, totalRequired:0, bestRun:null, recent:[] };
+  var sc = state.sixCoins;
+  var phraseEl = document.getElementById('scPhrase');
+  var phrase = phraseEl && phraseEl.value.trim() ? phraseEl.value.trim() : 'Untitled phrase';
+  sc.runs++;
+  sc.totalAttempts += scAttempts;
+  sc.totalRequired += scRequired;
+  // Efficiency: required/attempts — 100% means a clean run with no slips
+  var eff = Math.round((scRequired/scAttempts)*100);
+  if(sc.bestRun === null || eff > sc.bestRun.eff){
+    sc.bestRun = { phrase: phrase, required: scRequired, attempts: scAttempts, eff: eff, date: todayKey() };
+  }
+  if(!sc.recent) sc.recent = [];
+  sc.recent.unshift({ phrase: phrase, required: scRequired, attempts: scAttempts, eff: eff, date: todayKey() });
+  if(sc.recent.length > 5) sc.recent = sc.recent.slice(0,5);
+  save();
+  if(typeof renderDashboard==='function') renderDashboard();
+}
+function scGotIt(){
+  if(scBusy || scWon >= scRequired) return;
+  scAttempts++; scWon++;
+  renderScTrack(true);
+  if(scWon >= scRequired){
+    scBusy = true;
+    var track = document.getElementById('scTrack');
+    if(track){ track.classList.add('celebrate'); setTimeout(function(){ track.classList.remove('celebrate'); }, 950); }
+    [523.25, 659.25, 783.99, 1046.5].forEach(function(f, i){
+      setTimeout(function(){ scTone(f, 0.28, 'triangle'); }, i*110);
+    });
+    recordSixCoinsRun();
+    showToast('All ' + scRequired + ' coins — well played! 🪙');
+    setTimeout(function(){ scBusy = false; }, 950);
+  } else {
+    scTone(880, 0.12, 'sine');
+  }
+}
+function scMissed(){
+  if(scBusy) return;
+  scAttempts++;
+  var hadCoins = scWon > 0;
+  scWon = 0;
+  var track = document.getElementById('scTrack');
+  if(track && hadCoins){
+    track.classList.add('tumble');
+    setTimeout(function(){ track.classList.remove('tumble'); }, 380);
+  }
+  scTone(174.61, 0.22, 'sawtooth');
+  renderScTrack(true);
+}
+function scReset(){
+  scWon = 0; scAttempts = 0;
+  renderScTrack(true);
+}
+(function(){
+  var got = document.getElementById('scGotBtn');
+  if(!got) return; // tool not present
+  scLoadSettings();
+  renderScCounts();
+  renderScTrack();
+  got.addEventListener('click', scGotIt);
+  document.getElementById('scMissBtn').addEventListener('click', scMissed);
+  document.getElementById('scResetBtn').addEventListener('click', scReset);
+  var pi = document.getElementById('scPhrase');
+  if(pi) pi.addEventListener('change', function(){ scSavePhrase(this.value.trim()); });
+  // Track width changes with the viewport — keep the coins where they belong.
+  window.addEventListener('resize', function(){
+    var body = document.getElementById('body-sixcoins');
+    if(body && body.style.display !== 'none') renderScTrack(false);
+  });
+})();
 
 // ── Interval trainer ──
 // Records each guess to state.earTraining so the dashboard can show progress.
@@ -4993,6 +5267,39 @@ function renderDashboard(){
       + '<div class="dash-ear-stat"><div class="dash-ear-num">'+nr.correct+'/'+nr.attempts+'</div><div class="dash-ear-slabel">Correct</div></div>'
       + '<div class="dash-ear-stat"><div class="dash-ear-num">'+(nr.bestStreak||0)+'</div><div class="dash-ear-slabel">Best streak</div></div>'
       + '</div></div>';
+  }
+  html += '</div>';
+
+  // Six Coins (phrase drilling)
+  var scS = state.sixCoins || { runs:0, totalAttempts:0, totalRequired:0, bestRun:null, recent:[] };
+  html += '<div class="dash-tile wide"><div class="dash-tile-title">Phrases nailed 🪙</div>';
+  if(!scS.runs){
+    html += '<div class="dash-ear-empty">No phrases nailed yet. Head to <b>Tools → Six Coins</b> and play a phrase correctly in a row — your wins will show up here.</div>';
+  } else {
+    var scEff = scS.totalAttempts ? Math.round((scS.totalRequired/scS.totalAttempts)*100) : 0;
+    var scArc = Math.PI*2*26;
+    var scFill = (scArc * scEff/100).toFixed(1);
+    html += '<div class="dash-ear-row">'
+      + '<div class="dash-ear-ring">'
+      + '<svg viewBox="0 0 64 64" width="72" height="72">'
+      + '<defs><linearGradient id="coinGauge" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FBE49A"/><stop offset="100%" stop-color="#C99A2E"/></linearGradient></defs>'
+      + '<circle cx="32" cy="32" r="26" fill="none" stroke="var(--warm)" stroke-width="6"/>'
+      + '<circle cx="32" cy="32" r="26" fill="none" stroke="url(#coinGauge)" stroke-width="6" stroke-linecap="round"'
+      + ' stroke-dasharray="'+scArc.toFixed(1)+'" stroke-dashoffset="'+(scArc-scFill).toFixed(1)+'" transform="rotate(-90 32 32)"/>'
+      + '<text x="32" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)">'+scEff+'%</text>'
+      + '</svg></div>'
+      + '<div class="dash-ear-stats">'
+      + '<div class="dash-ear-stat"><div class="dash-ear-num">'+scS.runs+'</div><div class="dash-ear-slabel">Phrases nailed</div></div>'
+      + '<div class="dash-ear-stat"><div class="dash-ear-num">'+(scS.bestRun?scS.bestRun.eff+'%':'—')+'</div><div class="dash-ear-slabel">Best run</div></div>'
+      + '</div></div>';
+    if(scS.recent && scS.recent.length){
+      html += '<div class="dash-console" style="margin-top:10px">';
+      scS.recent.slice(0,3).forEach(function(r){
+        html += '<div class="dash-console-row"><span>'+escHtml(r.phrase)+'</span>'
+          + '<span style="color:var(--muted)">'+r.required+' in '+r.attempts+'</span></div>';
+      });
+      html += '</div>';
+    }
   }
   html += '</div>';
 
