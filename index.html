@@ -772,16 +772,19 @@ header {
   font-weight: 700; cursor: pointer;
 }
 .sc-count-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+/* Fireworks stage — canvas overflows above the track so bursts aren't clipped */
+.sc-stage { position: relative; }
+.sc-fx {
+  position: absolute; left: 0; bottom: 0; width: 100%;
+  height: 210px; /* track (58) + headroom above */
+  pointer-events: none; z-index: 5; display: none;
+}
+.sc-fx.firing { display: block; }
 .sc-track {
   position: relative;
   background: none;
   border: 1.5px dotted #CDDAEA; border-radius: 12px;
   height: 58px; overflow: hidden;
-}
-/* Goal line on the right */
-.sc-track::after {
-  content: ''; position: absolute; right: 10px; top: 8px; bottom: 8px;
-  width: 2px; background: linear-gradient(180deg, #F4C95D, #C99A2E); border-radius: 2px; opacity: 0.8;
 }
 .sc-coin {
   position: absolute; top: 50%; left: 0;
@@ -1522,7 +1525,10 @@ header {
         <span class="sc-count-label">Coins to win</span>
         <div class="sc-count-btns" id="scCountBtns"></div>
       </div>
-      <div class="sc-track" id="scTrack"></div>
+      <div class="sc-stage">
+        <canvas class="sc-fx" id="scFx"></canvas>
+        <div class="sc-track" id="scTrack"></div>
+      </div>
       <div class="sc-counter" id="scCounter">0 of 6</div>
       <div class="sc-sub" id="scSub"></div>
       <div class="sc-btn-row">
@@ -2645,6 +2651,7 @@ Array.prototype.forEach.call(document.querySelectorAll('.tool-collapse-head'), f
       if(key==='metronome' && metroPlaying) stopMetronome();
       if(key==='drone' && dronePlaying) stopDrone();
       if(key==='dbmeter' && dbRunning) stopDbMeter();
+      if(key==='sixcoins' && typeof scStopFireworks==='function') scStopFireworks();
     } else {
       body.style.display = 'block';
       this.classList.add('open');
@@ -3166,6 +3173,7 @@ function renderScCounts(){
     b.addEventListener('click', function(){
       var n = parseInt(this.getAttribute('data-n'),10);
       if(n===scRequired) return;
+      scStopFireworks();
       scRequired = n; scSaveCount(n);
       scWon = 0; scAttempts = 0;
       renderScCounts(); renderScTrack();
@@ -3199,11 +3207,11 @@ function scPositionCoins(coins, animate){
   var track = document.getElementById('scTrack');
   if(!track || !coins.length) return;
   var W = track.clientWidth || 300;
-  var COIN = 30, PAD = 12, GOAL = 16; // goal line sits ~10px from right
+  var COIN = 30, PAD = 12;
   var bankX = PAD;
   var bankGap = 7;
-  // Won coins stack leftwards from just before the goal line
-  var wonRight = W - GOAL - COIN - 2;
+  // Won coins stack leftwards from the right edge
+  var wonRight = W - PAD - COIN;
   var wonGap = 7;
   Array.prototype.forEach.call(coins, function(coin, i){
     var isWon = i < scWon;
@@ -3238,6 +3246,108 @@ function scTone(freq, dur, type){
     o.start(); o.stop(ctx.currentTime+dur+0.02);
   } catch(e){}
 }
+// ── Six Coins fireworks ──
+var scFxRAF = null;
+function scFireworks(){
+  var cv = document.getElementById('scFx');
+  var stage = cv && cv.parentNode;
+  if(!cv || !stage) return;
+  var w = stage.clientWidth || 300;
+  var h = 210;
+  if(!w) return;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = Math.round(w * dpr);
+  cv.height = Math.round(h * dpr);
+  cv.style.width = w + 'px';
+  cv.style.height = h + 'px';
+  var ctx = cv.getContext('2d');
+  if(!ctx) return;
+  ctx.scale(dpr, dpr);
+  cv.classList.add('firing');
+  if(scFxRAF) cancelAnimationFrame(scFxRAF);
+
+  var GOLD = ['#FBE49A','#F4C95D','#E0AE3F','#FFF3C4','#C99A2E'];
+  var BLUE = ['#CAE9FB','#74B3FF','#FFFFFF'];
+  var particles = [], rockets = [], t0 = performance.now();
+
+  function burst(x, y, count, palette, power){
+    for(var i=0;i<count;i++){
+      var a = Math.random()*Math.PI*2;
+      var sp = (Math.random()*0.55 + 0.45) * power;
+      particles.push({
+        x:x, y:y,
+        vx: Math.cos(a)*sp,
+        vy: Math.sin(a)*sp,
+        life: 1,
+        decay: 0.012 + Math.random()*0.014,
+        col: palette[(Math.random()*palette.length)|0],
+        r: Math.random()*1.8 + 1.2
+      });
+    }
+  }
+  // Launch a few rockets from along the track, bursting at staggered heights
+  function launch(delay, xFrac, palette){
+    rockets.push({
+      at: delay,
+      x: w*xFrac,
+      y: h - 6,
+      targetY: 52 + Math.random()*58,
+      fired: false,
+      palette: palette
+    });
+  }
+  launch(0,    0.5,  GOLD);
+  launch(220,  0.22, BLUE);
+  launch(400,  0.78, GOLD);
+  launch(640,  0.38, GOLD);
+  launch(820,  0.64, BLUE);
+
+  function frame(now){
+    var el = now - t0;
+    ctx.clearRect(0,0,w,h);
+    // rockets
+    rockets.forEach(function(r){
+      if(r.fired || el < r.at) return;
+      r.fired = true;
+      burst(r.x, r.targetY, 42, r.palette, 3.4);
+      // a tight inner core for a denser flash
+      burst(r.x, r.targetY, 16, ['#FFFFFF','#FFF3C4'], 1.6);
+    });
+    // particles
+    for(var i=particles.length-1;i>=0;i--){
+      var p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.045;      // gravity
+      p.vx *= 0.985;      // drag
+      p.vy *= 0.985;
+      p.life -= p.decay;
+      if(p.life <= 0){ particles.splice(i,1); continue; }
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.col;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    if(el < 2600 || particles.length){
+      scFxRAF = requestAnimationFrame(frame);
+    } else {
+      ctx.clearRect(0,0,w,h);
+      cv.classList.remove('firing');
+      scFxRAF = null;
+    }
+  }
+  scFxRAF = requestAnimationFrame(frame);
+}
+function scStopFireworks(){
+  if(scFxRAF){ cancelAnimationFrame(scFxRAF); scFxRAF = null; }
+  var cv = document.getElementById('scFx');
+  if(cv){
+    cv.classList.remove('firing');
+    var c = cv.getContext && cv.getContext('2d');
+    if(c) c.clearRect(0,0,cv.width,cv.height);
+  }
+}
 function recordSixCoinsRun(){
   if(!state.sixCoins) state.sixCoins = { runs:0, totalAttempts:0, totalRequired:0, bestRun:null, recent:[] };
   var sc = state.sixCoins;
@@ -3265,12 +3375,13 @@ function scGotIt(){
     scBusy = true;
     var track = document.getElementById('scTrack');
     if(track){ track.classList.add('celebrate'); setTimeout(function(){ track.classList.remove('celebrate'); }, 950); }
-    [523.25, 659.25, 783.99, 1046.5].forEach(function(f, i){
-      setTimeout(function(){ scTone(f, 0.28, 'triangle'); }, i*110);
+    scFireworks();
+    [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach(function(f, i){
+      setTimeout(function(){ scTone(f, 0.3, 'triangle'); }, i*110);
     });
     recordSixCoinsRun();
     showToast('All ' + scRequired + ' coins — well played! 🪙');
-    setTimeout(function(){ scBusy = false; }, 950);
+    setTimeout(function(){ scBusy = false; }, 1400);
   } else {
     scTone(880, 0.12, 'sine');
   }
@@ -3289,6 +3400,7 @@ function scMissed(){
   renderScTrack(true);
 }
 function scReset(){
+  scStopFireworks();
   scWon = 0; scAttempts = 0;
   renderScTrack(true);
 }
