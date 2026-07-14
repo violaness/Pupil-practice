@@ -2818,13 +2818,24 @@ document.getElementById('droneVolume').addEventListener('input', function(){
 // ══════════════════════════════════════════════════════════════
 var micStream = null, micSource = null, micAnalyser = null, micBuf = null;
 function getMic(){
-  // returns a promise resolving to true if mic is ready
-  if(micAnalyser) return Promise.resolve(true);
+  // returns a promise resolving to true if mic is ready.
+  // Reuse the existing analyser only if its stream is genuinely still live —
+  // a stale analyser left over from a stopped/suspended stream reads silence.
+  if(micAnalyser && micStream){
+    var live = micStream.getTracks().some(function(t){
+      return t.readyState === 'live' && t.enabled;
+    });
+    if(live) return Promise.resolve(true);
+    // stream is dead — tear down so we cleanly re-acquire below
+    try{ micStream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+    micStream = null; micSource = null; micAnalyser = null; micBuf = null;
+  }
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
     return Promise.reject(new Error('no-mic-api'));
   }
   return navigator.mediaDevices.getUserMedia({ audio:true }).then(function(stream){
     var ctx = getAudioCtx();
+    if(ctx && ctx.state==='suspended'){ try{ ctx.resume(); }catch(e){} }
     micStream = stream;
     micSource = ctx.createMediaStreamSource(stream);
     micAnalyser = ctx.createAnalyser();
@@ -2896,6 +2907,7 @@ function autoCorrelate(buf, sampleRate){
 function tunerTick(){
   if(!tunerRunning) return;
   var ctx = getAudioCtx();
+  if(!micAnalyser || !micBuf){ tunerRAF = requestAnimationFrame(tunerTick); return; }
   micAnalyser.getFloatTimeDomainData(micBuf);
   var res = autoCorrelate(micBuf, ctx.sampleRate);
   var noteEl = document.getElementById('tunerNote');
@@ -2989,6 +3001,7 @@ document.getElementById('tunerBtn').addEventListener('click', function(){
 var dbRunning = false, dbRAF = null;
 function dbTick(){
   if(!dbRunning) return;
+  if(!micAnalyser || !micBuf){ dbRAF = requestAnimationFrame(dbTick); return; }
   micAnalyser.getFloatTimeDomainData(micBuf);
   var rms=0; for(var i=0;i<micBuf.length;i++){ rms += micBuf[i]*micBuf[i]; }
   rms = Math.sqrt(rms/micBuf.length);
@@ -4155,14 +4168,48 @@ function scaleWentWell(){
     state.practiced[todayKey()] = true;
     save();
   }
-  swCurrent = null; // back to a blank tile — pupil taps to pick the next
-  renderScaleWeek();
+  swCurrent = null;
   // keep the rest of the app in sync (grid ticks, streak, dashboard, calendar)
   renderCategories();
   renderStreak();
   renderCalendar();
   renderDashboard();
   showToast('Ticked off ✓');
+  // Auto-advance: spin straight to the next scale (like the focus picker),
+  // rather than dropping back to the blank "?" tile between every pick.
+  var remaining = remainingScaleList();
+  if(remaining.length){
+    spinToNextScale();
+  } else {
+    renderScaleWeek(); // shows the "all done" card
+  }
+}
+
+// Reveal the current card first, then spin its name to the next scale.
+function spinToNextScale(){
+  if(swBusy) return;
+  var remaining = remainingScaleList();
+  if(!remaining.length){ renderScaleWeek(); return; }
+  // Render a card shell so there's a name element to animate into.
+  swCurrent = remaining[0];
+  renderScaleWeek();
+  var nameEl = document.getElementById('swScaleName');
+  if(!nameEl){ swCurrent = pickFrom(remaining, null); renderScaleWeek(); return; }
+  swBusy = true;
+  nameEl.classList.add('spinning');
+  var all = assignedScaleList();
+  var flashes = 6, i = 0;
+  var timer = setInterval(function(){
+    var r = all[Math.floor(Math.random()*all.length)];
+    nameEl.textContent = r.key + ' ' + scaleWeekTypeLabel(r.type);
+    i++;
+    if(i >= flashes){
+      clearInterval(timer);
+      swCurrent = pickFrom(remaining, null);
+      swBusy = false;
+      renderScaleWeek();
+    }
+  }, 80);
 }
 
 // "Play it again" — animate a little, then re-show the SAME scale (no tick)
