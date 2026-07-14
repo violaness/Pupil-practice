@@ -731,18 +731,43 @@ header {
   font-size: 0.85rem; font-weight: 700;
   color: var(--navy); margin-bottom: 12px;
 }
+/* Collapsible tool sections */
+.tool-block.collapsible { padding-top: 0; padding-bottom: 0; }
+.tool-pair-row { display: flex; gap: 10px; margin-bottom: 14px; }
+.tool-pair-btn {
+  position: relative; flex: 1; background: var(--card-bg); border: 1.5px solid #CDDAEA;
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 14px 28px; display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.tool-pair-btn .tool-block-title { flex: 1 1 auto; width: 100%; margin: 0; text-align: center; }
+.tool-pair-btn .tool-collapse-chevron { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
+.tool-pair-btn.open .tool-collapse-chevron { transform: translateY(-50%) rotate(180deg); }
+.tool-pair-btn.open { border-color: #B9DFF6; background: #DCF0FC; }
+.collapsible-body { background: none; box-shadow: none; padding: 0; margin: 0; }
+.collapsible-body .tool-body {
+  background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 16px 18px; margin-bottom: 14px;
+}
+.tool-collapse-head {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  background: none; border: none; cursor: pointer; padding: 16px 0; margin: 0;
+}
+.tool-collapse-head .tool-block-title { margin-bottom: 0; }
+.tool-collapse-chevron { color: var(--muted); font-size: 0.9rem; transition: transform 0.2s; }
+.tool-collapse-head.open .tool-collapse-chevron { transform: rotate(180deg); }
+.tool-body { padding-bottom: 16px; }
 /* Scale picker */
 .sw-card {
-  background: linear-gradient(150deg, #05297F, #05297F);
+  background: #DCF0FC;
   border-radius: 12px; padding: 18px 16px; text-align: center;
-  box-shadow: 0 0 14px rgba(246,215,154,0.10);
-  border: 1px solid rgba(246,215,154,0.30);
+  box-shadow: var(--shadow);
+  border: 1px solid #B9DFF6;
 }
-.sw-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(246,215,154,0.85); }
-.sw-scale { font-family: 'DM Serif Display', serif; font-size: 1.7rem; color: #fff; line-height: 1.15; margin: 6px 0 3px; }
+.sw-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+.sw-scale { font-family: 'DM Serif Display', serif; font-size: 1.7rem; color: var(--navy); line-height: 1.15; margin: 6px 0 3px; }
 .sw-scale.spinning { opacity: 0.85; }
-.sw-oct { font-size: 0.72rem; color: rgba(255,255,255,0.6); }
-.sw-week { font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 8px; letter-spacing: 0.04em; }
+.sw-oct { font-size: 0.72rem; color: var(--muted); }
+.sw-week { font-size: 0.62rem; color: var(--muted); margin-top: 8px; letter-spacing: 0.04em; }
 .sw-row { display: flex; gap: 8px; margin-top: 12px; }
 .sw-btn {
   flex: 1; padding: 12px 10px; border: none; border-radius: 10px; cursor: pointer;
@@ -751,22 +776,23 @@ header {
 .sw-btn.primary { background: #D4ECD8; color: #0E3401; border: 1.5px solid #AFCBAF; }
 .sw-btn.ghost { background: transparent; border: 1.5px solid #CDDAEA; color: var(--ink); }
 .sw-empty { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
-.sw-card.sw-done { background: linear-gradient(150deg, #1B741A, #0E3401); border-color: rgba(123,224,160,0.4); }
+.sw-card.sw-done { background: #D4ECD8; border-color: #AFCBAF; }
+.sw-card.sw-done .sw-scale { color: #0E3401; }
 .sw-card.sw-blank .sw-scale { opacity: 0.5; font-size: 2.4rem; }
 .sw-done-emoji { font-size: 2rem; line-height: 1; margin-bottom: 4px; }
 /* Focus picker */
 .fp-intro { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
 .fp-card {
-  background: linear-gradient(150deg, #1B741A, #0E3401);
+  background: #D4ECD8;
   border-radius: 12px; padding: 20px 16px; text-align: center;
-  box-shadow: 0 0 14px rgba(123,224,160,0.10);
-  border: 1px solid rgba(123,224,160,0.30);
+  box-shadow: var(--shadow);
+  border: 1px solid #AFCBAF;
 }
-.fp-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(214,238,227,0.9); }
-.fp-aspect { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: #fff; line-height: 1.15; margin: 6px 0 4px; }
+.fp-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+.fp-aspect { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: #0E3401; line-height: 1.15; margin: 6px 0 4px; }
 .fp-aspect.spinning { opacity: 0.85; }
 .fp-card.fp-blank .fp-aspect { opacity: 0.5; font-size: 2.4rem; }
-.fp-note { font-size: 0.74rem; color: rgba(255,255,255,0.72); line-height: 1.45; }
+.fp-note { font-size: 0.74rem; color: #3A5A3A; line-height: 1.45; }
 .fp-row { display: flex; gap: 8px; margin-top: 12px; }
 .fp-btn {
   flex: 1; padding: 12px 10px; border: none; border-radius: 10px; cursor: pointer;
@@ -814,16 +840,16 @@ header {
 .pp-legend-mins { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--navy); }
 .pp-legend-frac { font-size: 0.64rem; color: var(--muted); margin-left: 4px; }
 /* Section timer */
-.pp-timer { margin-top: 16px; background: linear-gradient(160deg, #05297F, #05297F); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid rgba(246,215,154,0.22); }
-.pp-timer-section { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(246,215,154,0.85); }
-.pp-timer-big { font-family: 'DM Serif Display', serif; font-size: 3rem; color: #fff; line-height: 1; margin: 6px 0; }
-.pp-timer-next { font-size: 0.66rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+.pp-timer { margin-top: 16px; background: #DCF0FC; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #B9DFF6; }
+.pp-timer-section { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.pp-timer-big { font-family: 'DM Serif Display', serif; font-size: 3rem; color: var(--navy); line-height: 1; margin: 6px 0; }
+.pp-timer-next { font-size: 0.66rem; color: var(--muted); margin-top: 2px; }
 .pp-timer-row { display: flex; gap: 8px; margin-top: 12px; }
 .pp-timer-btn { flex: 1; padding: 11px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Special Elite','Courier New',monospace; font-size: 0.82rem; }
-.pp-timer-btn.primary { background: #D4ECD8; color: #0E3401; }
-.pp-timer-btn.ghost { background: rgba(255,255,255,0.18); color: #fff; }
-.pp-progress-track { height: 7px; border-radius: 999px; background: rgba(255,255,255,0.15); overflow: hidden; margin-top: 12px; }
-.pp-progress-fill { height: 100%; border-radius: 999px; background: #1B741A; transition: width 0.3s linear; }
+.pp-timer-btn.primary { background: #D4ECD8; color: #0E3401; border: 1.5px solid #AFCBAF; }
+.pp-timer-btn.ghost { background: #fff; color: var(--navy); border: 1.5px solid #CDDAEA; }
+.pp-progress-track { height: 7px; border-radius: 999px; background: rgba(5,41,127,0.12); overflow: hidden; margin-top: 12px; }
+.pp-progress-fill { height: 100%; border-radius: 999px; background: #74B3FF; transition: width 0.3s linear; }
 .metronome-display { text-align: center; padding: 4px 0 10px; }
 .bpm-number {
   font-family: 'DM Serif Display', serif;
@@ -923,6 +949,43 @@ header {
 .interval-choice-btn { padding: 10px; border: 1.5px solid #CDDAEA; background: transparent; border-radius: 10px; font-size: 0.85rem; color: var(--ink); cursor: pointer; }
 .interval-choice-btn.correct { background: var(--forest); color: #fff; border-color: var(--forest); }
 .interval-choice-btn.wrong { background: #C0392B; color: #fff; border-color: #C0392B; }
+/* Note flashcards */
+.fc-intro { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+.fc-clef-row { display: flex; gap: 6px; margin-bottom: 12px; }
+.fc-clef-btn {
+  flex: 1; padding: 8px 0; border: 1.5px solid #CDDAEA; background: transparent;
+  border-radius: 999px; color: var(--muted); cursor: pointer;
+  font-family: 'Special Elite','Courier New',monospace; font-size: 0.78rem;
+}
+.fc-clef-btn.sel { background: #DCF0FC; color: var(--navy); border-color: #B9DFF6; }
+.fc-card {
+  background: #fff; border: 1.5px solid #CDDAEA; border-radius: 14px;
+  padding: 18px 16px; text-align: center; user-select: none;
+}
+.fc-stave-wrap { display: flex; justify-content: center; }
+.fc-answer {
+  font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--navy);
+  min-height: 1.8rem; margin-top: 8px; opacity: 0; transition: opacity 0.15s;
+}
+.fc-answer.show { opacity: 1; }
+/* Letter choice buttons (A–G) */
+.fc-letters { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.fc-letter-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1.5px solid #CDDAEA; background: #fff; color: var(--navy);
+  font-family: 'DM Serif Display', serif; font-size: 1.15rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; padding: 0;
+  transition: all 0.12s;
+}
+.fc-letter-btn:active { background: var(--paper); }
+.fc-letter-btn.correct { background: #D4ECD8; border-color: #AFCBAF; color: #0E3401; }
+.fc-letter-btn.wrong { background: #F5D9D6; border-color: #E0A9A2; color: #8B2820; }
+.fc-letter-btn.reveal { background: #D4ECD8; border-color: #AFCBAF; color: #0E3401; }
+.fc-letter-btn:disabled { cursor: default; opacity: 0.55; }
+.fc-letter-btn.correct:disabled, .fc-letter-btn.wrong:disabled, .fc-letter-btn.reveal:disabled { opacity: 1; }
+.fc-result { text-align: center; font-size: 0.85rem; min-height: 1.2rem; margin-top: 10px; font-family: 'Special Elite','Courier New',monospace; }
+.fc-result.right { color: #0E3401; }
+.fc-result.wrong { color: #8B2820; }
 .speed-burst-row {
   display: flex; align-items: center; gap: 8px;
   font-size: 0.78rem; color: var(--muted);
@@ -952,11 +1015,11 @@ header {
 /* Speed-up trainer stats */
 .su-stat-row { display: flex; gap: 8px; margin-bottom: 12px; }
 .su-stat {
-  flex: 1; text-align: center; background: linear-gradient(160deg, #05297F, #05297F);
-  border-radius: 10px; padding: 10px 6px; border: 1px solid rgba(246,215,154,0.22);
+  flex: 1; text-align: center; background: #DCF0FC;
+  border-radius: 10px; padding: 10px 6px; border: 1px solid #B9DFF6;
 }
-.su-stat-num { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: #fff; line-height: 1; }
-.su-stat-label { font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(246,215,154,0.8); margin-top: 5px; }
+.su-stat-num { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--navy); line-height: 1; }
+.su-stat-label { font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 5px; }
 .su-step-row { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
 .su-step-label { font-size: 0.72rem; color: var(--muted); margin-right: 4px; }
 .su-step-btn {
@@ -1186,56 +1249,21 @@ header {
   <div class="date-heading">Practice Tools</div>
   <div class="date-sub">Everything you need while you practise.</div>
 
-  <div class="a4-row">
-    <span class="a4-label">Tuning reference (A4)</span>
-    <select id="a4Select">
-      <option value="439">439 Hz</option>
-      <option value="440">440 Hz</option>
-      <option value="441">441 Hz</option>
-      <option value="442">442 Hz</option>
-      <option value="443">443 Hz</option>
-    </select>
+  <!-- Tuner + Metronome: side-by-side headers, full-width bodies -->
+  <div class="tool-pair-row">
+    <button class="tool-collapse-head tool-pair-btn" data-collapse="metronome">
+      <span class="tool-block-title">🎼 Metronome</span>
+      <span class="tool-collapse-chevron">▾</span>
+    </button>
+    <button class="tool-collapse-head tool-pair-btn" data-collapse="tuner">
+      <span class="tool-block-title">🎯 Tuner</span>
+      <span class="tool-collapse-chevron">▾</span>
+    </button>
   </div>
 
-  <!-- Practice planner -->
-  <div class="tool-block">
-    <div class="tool-block-title">🥧 Practice planner</div>
-    <p class="pp-intro">Pick a plan and I'll divide up your time and show you a practice clock.</p>
-    <div class="pp-time-label-row">How much time do you have today?</div>
-    <div class="pp-quick" id="ppQuick"></div>
-    <div class="pp-custom" id="ppCustom" style="display:none">
-      <span class="pp-time-label">How many minutes?</span>
-      <input type="number" id="ppMins" min="5" max="180" value="30" inputmode="numeric">
-    </div>
-    <div class="pp-plans" id="ppPlans"></div>
-    <div id="ppResult"></div>
-  </div>
-
-  <!-- Scale picker -->
-  <div class="tool-block">
-    <div class="tool-block-title">🎲 Scale picker</div>
-    <div id="scaleWeekBody"></div>
-  </div>
-
-  <!-- Focus picker -->
-  <div class="tool-block">
-    <div class="tool-block-title">🎯 Focus picker</div>
-    <div class="fp-intro">Piece feeling okay but not quite there? Pick one thing to give your full attention to.</div>
-    <div id="focusPickBody"></div>
-  </div>
-
-  <!-- Practice timer (count-up stopwatch) -->
-  <div class="tool-block">
-    <div class="tool-block-title">⏱️ Practice timer</div>
-    <p class="pp-intro">A simple stopwatch — see how long you practise for. It counts up until you stop.</p>
-    <div class="tool-row">
-      <button class="tool-toggle-btn primary" id="timerStartBtn">Start timer</button>
-    </div>
-  </div>
-
-  <!-- Tuner -->
-  <div class="tool-block">
-    <div class="tool-block-title">🎯 Tuner</div>
+  <!-- Tuner body -->
+  <div class="tool-block collapsible-body">
+    <div class="tool-body" id="body-tuner" style="display:none">
     <div id="tunerDisplay" class="tuner-display">
       <div class="tuner-note" id="tunerNote">—</div>
       <div class="tuner-cents-bar"><div class="tuner-needle" id="tunerNeedle"></div><div class="tuner-center-line"></div></div>
@@ -1251,11 +1279,12 @@ header {
     <div class="tool-row">
       <button class="tool-toggle-btn primary" id="tunerBtn">▶ Start tuner</button>
     </div>
+    </div>
   </div>
 
-  <!-- Metronome -->
-  <div class="tool-block">
-    <div class="tool-block-title">🎼 Metronome</div>
+  <!-- Metronome body -->
+  <div class="tool-block collapsible-body">
+    <div class="tool-body" id="body-metronome" style="display:none">
     <div class="metronome-display">
       <div class="bpm-number" id="bpmDisplay">92</div>
       <div class="bpm-label">BPM</div>
@@ -1329,6 +1358,43 @@ header {
         </div>
       </div>
     </div>
+    </div>
+  </div>
+
+  <!-- Practice planner -->
+  <div class="tool-block">
+    <div class="tool-block-title">🥧 Practice planner</div>
+    <p class="pp-intro">Pick a plan and I'll divide up your time and show you a practice clock.</p>
+    <div class="pp-time-label-row">How much time do you have today?</div>
+    <div class="pp-quick" id="ppQuick"></div>
+    <div class="pp-custom" id="ppCustom" style="display:none">
+      <span class="pp-time-label">How many minutes?</span>
+      <input type="number" id="ppMins" min="5" max="180" value="30" inputmode="numeric">
+    </div>
+    <div class="pp-plans" id="ppPlans"></div>
+    <div id="ppResult"></div>
+  </div>
+
+  <!-- Scale picker -->
+  <div class="tool-block">
+    <div class="tool-block-title">🎲 Scale picker</div>
+    <div id="scaleWeekBody"></div>
+  </div>
+
+  <!-- Focus picker -->
+  <div class="tool-block">
+    <div class="tool-block-title">🎯 Focus picker</div>
+    <div class="fp-intro">Piece feeling okay but not quite there? Pick one thing to give your full attention to.</div>
+    <div id="focusPickBody"></div>
+  </div>
+
+  <!-- Practice timer (count-up stopwatch) -->
+  <div class="tool-block">
+    <div class="tool-block-title">⏱️ Practice timer</div>
+    <p class="pp-intro">A simple stopwatch — see how long you practise for. It counts up until you stop.</p>
+    <div class="tool-row">
+      <button class="tool-toggle-btn primary" id="timerStartBtn">Start timer</button>
+    </div>
   </div>
 
   <!-- Drone -->
@@ -1388,6 +1454,36 @@ header {
     </div>
     <div id="intervalChoices" class="interval-choices"></div>
     <div id="intervalResult" style="text-align:center;font-size:0.9rem;margin-top:8px;min-height:20px"></div>
+  </div>
+
+  <!-- Note flashcards -->
+  <div class="tool-block">
+    <div class="tool-block-title">🎵 Note flashcards</div>
+    <p class="fc-intro">Read the note, then tap the letter you think it is.</p>
+    <div class="fc-clef-row" id="fcClefRow">
+      <button class="fc-clef-btn sel" data-fc-clef="treble">Treble</button>
+      <button class="fc-clef-btn" data-fc-clef="alto">Alto (viola)</button>
+    </div>
+    <div class="fc-card" id="fcCard">
+      <div class="fc-stave-wrap" id="fcStaveWrap"></div>
+      <div class="fc-answer" id="fcAnswer"></div>
+    </div>
+    <div class="fc-letters" id="fcLetters"></div>
+    <div class="fc-result" id="fcResult"></div>
+    <div class="tool-row">
+      <button class="tool-toggle-btn primary" id="fcNextBtn">Next note →</button>
+    </div>
+  </div>
+
+  <div class="a4-row">
+    <span class="a4-label">Tuning reference (A4)</span>
+    <select id="a4Select">
+      <option value="439">439 Hz</option>
+      <option value="440">440 Hz</option>
+      <option value="441">441 Hz</option>
+      <option value="442">442 Hz</option>
+      <option value="443">443 Hz</option>
+    </select>
   </div>
 </div>
 
@@ -1582,6 +1678,7 @@ function load(){
   if(!state.dailyFocus) state.dailyFocus = {};
   if(!state.countdowns) state.countdowns = [];
   if(!state.earTraining) state.earTraining = { attempts:0, correct:0, curStreak:0, bestStreak:0, byToday:{} };
+  if(!state.noteReading) state.noteReading = { attempts:0, correct:0, curStreak:0, bestStreak:0, byToday:{} };
   } catch(e){ state = {items:[],practiced:{},ticked:{},tickHistory:{},dailyNotes:{}}; }
 }
 function save(){
@@ -2415,7 +2512,27 @@ document.getElementById('metroPlayBtn').addEventListener('click', function(){
   if(metroPlaying) stopMetronome(); else startMetronome();
 });
 
-// Tap tempo
+// ── Collapsible tool sections (tuner + metronome) ──
+Array.prototype.forEach.call(document.querySelectorAll('.tool-collapse-head'), function(head){
+  head.addEventListener('click', function(){
+    var key = this.getAttribute('data-collapse');
+    var body = document.getElementById('body-'+key);
+    if(!body) return;
+    var isOpen = body.style.display !== 'none';
+    if(isOpen){
+      // collapsing — stop any running audio for that tool
+      body.style.display = 'none';
+      this.classList.remove('open');
+      if(key==='tuner' && tunerRunning) stopTuner();
+      if(key==='metronome' && metroPlaying) stopMetronome();
+    } else {
+      body.style.display = 'block';
+      this.classList.add('open');
+    }
+  });
+});
+
+
 var tapTimes = [];
 document.getElementById('tapTempoBtn').addEventListener('click', function(){
   var now = Date.now();
@@ -2971,6 +3088,192 @@ document.getElementById('intervalReplayBtn').addEventListener('click', function(
   if(currentInterval) playCurrentInterval();
   else newInterval();
 });
+
+// ══════════════════════════════════════════════════════════════
+// NOTE FLASHCARDS — read a note on the stave, flip to reveal.
+// Notes are drawn in SVG (accurate + consistent, no images).
+// staffStep = diatonic steps above the stave's BOTTOM line.
+//   Each step = half a line-gap. Even = on a line, odd = in a space.
+// Treble bottom line = E4;  Alto (viola) bottom line = F3.
+// ══════════════════════════════════════════════════════════════
+var LETTER_ORDER = ['C','D','E','F','G','A','B'];
+function diatonicIndex(letter, octave){ return octave*7 + LETTER_ORDER.indexOf(letter); }
+
+// Build a note pool for a clef: name + staffStep relative to bottom line.
+// Ranges are instrument-appropriate:
+//   Treble (violin): G3 (step -5) up to E6 (step 14)
+//   Alto (viola):    C3 (step -3) up to A5 (step 16, four ledger lines up)
+function buildNotePool(clef){
+  var bottom = (clef==='treble') ? {L:'E',O:4} : {L:'F',O:3}; // bottom stave line
+  var bottomIdx = diatonicIndex(bottom.L, bottom.O);
+  var lo = (clef==='treble') ? -5 : -3;
+  var hi = (clef==='treble') ? 14 : 16;
+  var pool = [];
+  for(var step = lo; step <= hi; step++){
+    var idx = bottomIdx + step;
+    var oct = Math.floor(idx/7);
+    var letter = LETTER_ORDER[((idx%7)+7)%7];
+    pool.push({ name: letter, octave: oct, step: step });
+  }
+  return pool;
+}
+
+var FC_CLEF = 'treble';
+var fcCurrent = null;
+
+// Draw the stave + notehead as SVG, sized to fit the clef's note range.
+function fcRenderStave(note){
+  var W = 200;
+  var lineGap = 12;                 // px between stave lines
+  var labelH = 26;                  // space at top for the clef label
+  // Work out how far notes can sit above/below the stave for THIS clef,
+  // so the drawing always has room (steps above 8 = above top line; below 0 = below bottom line).
+  var pool = buildNotePool(FC_CLEF);
+  var maxStep = pool[pool.length-1].step;  // highest note
+  var minStep = pool[0].step;              // lowest note
+  var aboveHalfGaps = Math.max(0, maxStep - 8); // half-gaps above the top line
+  var belowHalfGaps = Math.max(0, -minStep);    // half-gaps below the bottom line
+  var headroom = aboveHalfGaps*(lineGap/2) + 10;
+  var footroom = belowHalfGaps*(lineGap/2) + 10;
+  var top = labelH + headroom;      // y of top stave line
+  var bottomLineY = top + 4*lineGap;// y of bottom line
+  var H = bottomLineY + footroom;   // total height fits everything
+  var cx = 105;                     // notehead x (centred, no clef)
+  var svg = '<svg viewBox="0 0 '+W+' '+H+'" width="200" height="'+H+'" aria-label="note on the stave">';
+  // Clef name label above the stave
+  svg += '<text x="'+(W/2)+'" y="16" text-anchor="middle" font-family="Special Elite, monospace" font-size="11" fill="#5A6E8C">'
+       + (FC_CLEF==='treble' ? 'Treble clef' : 'Alto clef (viola)') + '</text>';
+  // 5 stave lines
+  for(var i=0;i<5;i++){
+    var y = top + i*lineGap;
+    svg += '<line x1="18" y1="'+y+'" x2="'+(W-12)+'" y2="'+y+'" stroke="#05297F" stroke-width="1.3"/>';
+  }
+  // No clef symbol is drawn — the label above the stave states the clef,
+  // and the pupil has already chosen Treble or Alto, so they know which it is.
+
+
+  // Note y from staffStep
+  var noteY = bottomLineY - note.step*(lineGap/2);
+
+  // Ledger lines for notes outside the stave
+  var ledger = '';
+  if(note.step < 0){
+    for(var s=-2; s>=note.step; s-=2){
+      var ly = bottomLineY - s*(lineGap/2);
+      ledger += '<line x1="'+(cx-11)+'" y1="'+ly+'" x2="'+(cx+11)+'" y2="'+ly+'" stroke="#05297F" stroke-width="1.3"/>';
+    }
+  } else if(note.step > 8){
+    for(var s2=10; s2<=note.step; s2+=2){
+      var ly2 = bottomLineY - s2*(lineGap/2);
+      ledger += '<line x1="'+(cx-11)+'" y1="'+ly2+'" x2="'+(cx+11)+'" y2="'+ly2+'" stroke="#05297F" stroke-width="1.3"/>';
+    }
+  }
+  svg += ledger;
+  // Notehead (filled ellipse, slightly slanted look via rotation)
+  svg += '<ellipse cx="'+cx+'" cy="'+noteY+'" rx="8" ry="6" fill="#05297F" transform="rotate(-20 '+cx+' '+noteY+')"/>';
+  svg += '</svg>';
+  return svg;
+}
+
+var fcAnswered = false;
+
+function fcRenderLetters(){
+  var wrap = document.getElementById('fcLetters');
+  if(!wrap) return;
+  wrap.innerHTML = LETTER_ORDER.map(function(L){
+    return '<button class="fc-letter-btn" data-fc-letter="'+L+'">'+L+'</button>';
+  }).join('');
+  Array.prototype.forEach.call(wrap.querySelectorAll('[data-fc-letter]'), function(b){
+    b.addEventListener('click', function(){ fcGuess(this.getAttribute('data-fc-letter')); });
+  });
+}
+
+function fcNewNote(){
+  var pool = buildNotePool(FC_CLEF);
+  var pick;
+  do { pick = pool[Math.floor(Math.random()*pool.length)]; }
+  while(fcCurrent && pool.length>1 && pick.name===fcCurrent.name && pick.step===fcCurrent.step);
+  fcCurrent = pick;
+  fcAnswered = false;
+  var wrap = document.getElementById('fcStaveWrap');
+  if(wrap) wrap.innerHTML = fcRenderStave(pick);
+  var ans = document.getElementById('fcAnswer');
+  if(ans){ ans.textContent = pick.name; ans.classList.remove('show'); }
+  var res = document.getElementById('fcResult');
+  if(res){ res.textContent = ''; res.className = 'fc-result'; }
+  // reset letter buttons
+  Array.prototype.forEach.call(document.querySelectorAll('[data-fc-letter]'), function(b){
+    b.classList.remove('correct','wrong','reveal');
+    b.disabled = false;
+  });
+}
+
+function fcGuess(letter){
+  if(fcAnswered || !fcCurrent) return;
+  fcAnswered = true;
+  var correct = (letter === fcCurrent.name);
+  var res = document.getElementById('fcResult');
+  var ans = document.getElementById('fcAnswer');
+  if(ans) ans.classList.add('show');
+  // mark buttons
+  Array.prototype.forEach.call(document.querySelectorAll('[data-fc-letter]'), function(b){
+    var L = b.getAttribute('data-fc-letter');
+    if(L === fcCurrent.name){ b.classList.add(correct ? 'correct' : 'reveal'); }
+    else if(L === letter){ b.classList.add('wrong'); }
+    b.disabled = true;
+  });
+  if(res){
+    if(correct){ res.textContent = '✓ Correct!'; res.className = 'fc-result right'; }
+    else { res.textContent = '✗ That was ' + fcCurrent.name; res.className = 'fc-result wrong'; }
+  }
+  recordNoteAttempt(correct);
+}
+
+// Records each flashcard guess to state.noteReading so the dashboard can show progress.
+function recordNoteAttempt(correct){
+  if(!state.noteReading){
+    state.noteReading = { attempts:0, correct:0, curStreak:0, bestStreak:0, byToday:{} };
+  }
+  var nr = state.noteReading;
+  nr.attempts++;
+  if(correct){
+    nr.correct++;
+    nr.curStreak++;
+    if(nr.curStreak > nr.bestStreak) nr.bestStreak = nr.curStreak;
+  } else {
+    nr.curStreak = 0;
+  }
+  var tk = todayKey();
+  if(!nr.byToday[tk]) nr.byToday[tk] = { attempts:0, correct:0 };
+  nr.byToday[tk].attempts++;
+  if(correct) nr.byToday[tk].correct++;
+  save();
+  if(typeof renderDashboard==='function') renderDashboard();
+}
+
+function renderFlashcards(){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-fc-clef]'), function(b){
+    b.classList.toggle('sel', b.getAttribute('data-fc-clef')===FC_CLEF);
+  });
+  if(!fcCurrent || document.getElementById('fcStaveWrap').innerHTML===''){ fcNewNote(); }
+}
+
+// Wiring
+(function(){
+  fcRenderLetters();
+  var next = document.getElementById('fcNextBtn');
+  if(next) next.addEventListener('click', fcNewNote);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-fc-clef]'), function(b){
+    b.addEventListener('click', function(){
+      FC_CLEF = this.getAttribute('data-fc-clef');
+      Array.prototype.forEach.call(document.querySelectorAll('[data-fc-clef]'), function(x){
+        x.classList.toggle('sel', x===b);
+      });
+      fcNewNote();
+    });
+  });
+  fcNewNote();
+})();
 
 // ── Quick-fire recorder (ephemeral: RAM only, auto-purge) ──
 (function(){
@@ -4590,6 +4893,31 @@ function renderDashboard(){
       + '<div class="dash-ear-stats">'
       + '<div class="dash-ear-stat"><div class="dash-ear-num">'+et.correct+'/'+et.attempts+'</div><div class="dash-ear-slabel">Correct</div></div>'
       + '<div class="dash-ear-stat"><div class="dash-ear-num">'+(et.bestStreak||0)+'</div><div class="dash-ear-slabel">Best streak</div></div>'
+      + '</div></div>';
+  }
+  html += '</div>';
+
+  // Note reading (flashcards)
+  var nr = state.noteReading || { attempts:0, correct:0, bestStreak:0 };
+  html += '<div class="dash-tile wide"><div class="dash-tile-title">Note reading 🎵</div>';
+  if(!nr.attempts){
+    html += '<div class="dash-ear-empty">No notes read yet. Head to <b>Tools → Note flashcards</b> to start, and your accuracy and best streak will show up here.</div>';
+  } else {
+    var nacc = Math.round((nr.correct/nr.attempts)*100);
+    var narc = Math.PI*2*26;
+    var nfill = (narc * nacc/100).toFixed(1);
+    html += '<div class="dash-ear-row">'
+      + '<div class="dash-ear-ring">'
+      + '<svg viewBox="0 0 64 64" width="72" height="72">'
+      + '<defs><linearGradient id="noteGauge" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#74B3FF"/><stop offset="100%" stop-color="#1B741A"/></linearGradient></defs>'
+      + '<circle cx="32" cy="32" r="26" fill="none" stroke="var(--warm)" stroke-width="6"/>'
+      + '<circle cx="32" cy="32" r="26" fill="none" stroke="url(#noteGauge)" stroke-width="6" stroke-linecap="round"'
+      + ' stroke-dasharray="'+narc.toFixed(1)+'" stroke-dashoffset="'+(narc-nfill).toFixed(1)+'" transform="rotate(-90 32 32)"/>'
+      + '<text x="32" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)">'+nacc+'%</text>'
+      + '</svg></div>'
+      + '<div class="dash-ear-stats">'
+      + '<div class="dash-ear-stat"><div class="dash-ear-num">'+nr.correct+'/'+nr.attempts+'</div><div class="dash-ear-slabel">Correct</div></div>'
+      + '<div class="dash-ear-stat"><div class="dash-ear-num">'+(nr.bestStreak||0)+'</div><div class="dash-ear-slabel">Best streak</div></div>'
       + '</div></div>';
   }
   html += '</div>';
