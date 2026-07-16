@@ -756,7 +756,38 @@ header {
 .tool-collapse-chevron { color: var(--muted); font-size: 0.9rem; transition: transform 0.2s; }
 .tool-collapse-head.open .tool-collapse-chevron { transform: rotate(180deg); }
 .tool-body { padding-bottom: 16px; }
+/* Emoji ratings toggle */
+.emoji-toggle-row { display: flex; align-items: center; gap: 12px; }
+.emoji-toggle-text { flex: 1; }
+.emoji-toggle-title { font-size: 0.82rem; color: var(--ink); font-weight: 600; }
+.emoji-toggle-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+.emoji-switch {
+  flex: 0 0 auto; width: 48px; height: 28px; border-radius: 14px; cursor: pointer;
+  border: none; background: #CDDAEA; position: relative; transition: background 0.2s;
+}
+.emoji-switch.on { background: var(--postit-4); }
+.emoji-switch-knob {
+  position: absolute; top: 3px; left: 3px; width: 22px; height: 22px;
+  border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  transition: transform 0.2s;
+}
+.emoji-switch.on .emoji-switch-knob { transform: translateX(20px); }
+
+/* Today's Focus — coloured section boxes matching the practice planner */
+.category-section {
+  border-radius: var(--radius);
+  padding: 12px 12px 14px;
+  margin-bottom: 14px;
+  border: 1.5px solid transparent;
+}
+.category-section.cat-warmup   { background: #DCF0FC; border-color: #B9DFF6; }
+.category-section.cat-scales   { background: #D5E5D5; border-color: #AFCBAF; }
+.category-section.cat-studies  { background: #D9DEEB; border-color: #B4BED6; }
+.category-section.cat-pieces   { background: #C7E0FF; border-color: #9EC6F5; }
+.category-section.cat-ensemble { background: #EDE3F3; border-color: #D3C1DE; }
+
 /* Six Coins */
+
 .sc-phrase-input {
   width: 100%; padding: 9px 11px; border: 1.5px solid #CDDAEA; border-radius: 9px;
   font-family: inherit; font-size: 0.85rem; color: var(--ink); background: #fff;
@@ -1718,6 +1749,16 @@ header {
       <label>Instrument</label>
       <input type="text" id="fProfileInstrument" placeholder="e.g. Violin, Cello, Flute…">
     </div>
+    <div class="field">
+      <label>How did it go? ratings</label>
+      <div class="emoji-toggle-row">
+        <div class="emoji-toggle-text">
+          <div class="emoji-toggle-title">Show emoji ratings</div>
+          <div class="emoji-toggle-sub">Off by default — turn on for emoji faces after each section.</div>
+        </div>
+        <button class="emoji-switch" id="emojiSwitch" role="switch" aria-checked="false"><span class="emoji-switch-knob"></span></button>
+      </div>
+    </div>
     <div class="sheet-actions">
       <button class="btn btn-ghost" id="profileCancelBtn">Cancel</button>
       <button class="btn btn-primary" id="profileSaveBtn">Save</button>
@@ -1793,6 +1834,12 @@ function load(){
     if(!state.settings) state.settings = { a4: 441 };
     if(!state.settings.a4) state.settings.a4 = 441;
     if(!state.ratings) state.ratings = {};
+  // Emoji ratings default OFF for new users. Anyone who already has rating
+  // history keeps them on, so an upgrade doesn't silently remove a feature.
+  if(!state.settings) state.settings = {};
+  if(typeof state.settings.emojiRatings !== 'boolean'){
+    state.settings.emojiRatings = Object.keys(state.ratings).length > 0;
+  }
     if(!state.items) state.items = [];
     if(!state.practiced) state.practiced = {};
     if(!state.ticked) state.ticked = {};
@@ -2079,13 +2126,19 @@ function setSectionRating(catKey, score){
 function renderRatingKey(){
   var el = document.getElementById('ratingKey');
   if(!el) return;
+  if(!emojiRatingsOn()){ el.innerHTML = ''; el.style.display = 'none'; return; }
+  el.style.display = '';
   var items = RATINGS.map(function(r){
     return '<span class="rk-item"><span class="rk-emoji">'+r.emoji+'</span> '+escHtml(r.score+' · '+r.label)+'</span>';
   }).join('');
   el.innerHTML = '<div class="rk-title">How did it go? — tap in each section</div><div class="rk-items">'+items+'</div>';
 }
 
+function emojiRatingsOn(){
+  return !!(state.settings && state.settings.emojiRatings);
+}
 function sectionRatingHTML(catKey){
+  if(!emojiRatingsOn()) return ''; // off by default — opt in via Me → Show emoji ratings
   var todayR = getTodayRatings();
   var chosen = todayR[catKey];
   var buttons = RATINGS.map(function(r){
@@ -2115,7 +2168,7 @@ function renderCategories(){
 
   CATEGORIES.forEach(function(cat){
     if(cat.key==='scales'){
-      html += '<div class="category-section">';
+      html += '<div class="category-section cat-scales">';
       html += '<div class="category-header">';
       html += '<span class="category-label">'+escHtml(cat.label)+'</span>';
       html += '<button class="add-item-btn" id="editGridBtn">'+(scaleGridEditMode?'✓ Done':'✎ Edit grid')+'</button>';
@@ -2126,7 +2179,7 @@ function renderCategories(){
       return;
     }
     var items = state.items.filter(function(it){ return it.category===cat.key; });
-    html += '<div class="category-section">';
+    html += '<div class="category-section cat-'+cat.key+'">';
     html += '<div class="category-header">';
     html += '<span class="category-label">'+escHtml(cat.label)+'</span>';
     html += '<button class="add-item-btn" data-cat="'+cat.key+'">+ Add</button>';
@@ -2138,7 +2191,7 @@ function renderCategories(){
     } else {
       items.forEach(function(item){
         var isTicked = !!ticked[item.id];
-        var bg = cat.color;
+        var bg = '#FFFFFF';
         var todayFocus = (state.dailyFocus[todayKey()] || {})[item.id] || '';
         html += '<div class="postit-card" style="background:'+bg+';" data-id="'+item.id+'">';
         html += '<div class="postit-tick'+(isTicked?' ticked':'')+ '" data-tick="'+item.id+'">'+(isTicked?'✓':'')+'</div>';
@@ -3814,6 +3867,26 @@ function renderFlashcards(){
   });
 })();
 
+// ── Day rollover ──
+// The app may sit open in the background across 1am (especially on a home-screen
+// icon, where it's rarely closed). Without this, yesterday's ticks stay on screen
+// until a manual relaunch. Re-render whenever we come back and the day has changed.
+var _lastRenderedDay = todayKey();
+function checkDayRollover(){
+  var now = todayKey();
+  if(now === _lastRenderedDay) return;
+  _lastRenderedDay = now;
+  renderAll();
+  showToast('New day — fresh start ✨');
+}
+document.addEventListener('visibilitychange', function(){
+  if(!document.hidden) checkDayRollover();
+});
+window.addEventListener('focus', checkDayRollover);
+window.addEventListener('pageshow', checkDayRollover);
+// Catch the rollover even if the app is left open and visible
+setInterval(checkDayRollover, 60000);
+
 // ── Practice timer (count-up stopwatch) ──
 var timerElapsed = 0, timerRAF = null, timerPaused = false;
 var timerRunning = false, timerStartAt = 0, timerAccum = 0;
@@ -5458,8 +5531,26 @@ function openProfileSheet(){
   var p = state.profile || { name:'', instrument:'' };
   document.getElementById('fProfileName').value = p.name || '';
   document.getElementById('fProfileInstrument').value = p.instrument || '';
+  syncEmojiSwitch();
   document.getElementById('profileSheet').classList.add('show');
 }
+function syncEmojiSwitch(){
+  var sw = document.getElementById('emojiSwitch');
+  if(!sw) return;
+  var on = emojiRatingsOn();
+  sw.classList.toggle('on', on);
+  sw.setAttribute('aria-checked', on ? 'true' : 'false');
+}
+var _esw = document.getElementById('emojiSwitch');
+if(_esw) _esw.addEventListener('click', function(){
+  if(!state.settings) state.settings = {};
+  state.settings.emojiRatings = !emojiRatingsOn();
+  save();
+  syncEmojiSwitch();
+  renderCategories(); // show/hide the rating rows straight away
+  renderRatingKey();  // and the legend above them
+  showToast(state.settings.emojiRatings ? 'Emoji ratings on' : 'Emoji ratings off');
+});
 function closeProfileSheet(){
   document.getElementById('profileSheet').classList.remove('show');
 }
