@@ -786,6 +786,31 @@ header {
 .category-section.cat-pieces   { background: #C7E0FF; border-color: #9EC6F5; }
 .category-section.cat-ensemble { background: #EDE3F3; border-color: #D3C1DE; }
 
+/* Warm-up library */
+.wl-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.wl-item {
+  display: flex; align-items: center; gap: 10px; text-align: left;
+  background: #DCF0FC; border: 1.5px solid #B9DFF6; border-radius: 11px;
+  padding: 11px 13px; cursor: pointer; font-family: inherit; width: 100%;
+}
+.wl-item:active { transform: translateY(1px); }
+.wl-item-text { flex: 1 1 auto; min-width: 0; }
+.wl-item-name { font-size: 0.85rem; font-weight: 700; color: var(--navy); }
+.wl-item-how { font-size: 0.72rem; color: #3A4E6E; margin-top: 2px; line-height: 1.35; }
+.wl-item-add { flex: 0 0 auto; font-size: 1.1rem; color: var(--sky-blue); font-weight: 700; }
+.wl-item-del {
+  flex: 0 0 auto; background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 0.95rem; padding: 2px 4px; line-height: 1;
+}
+.wl-add { border-top: 1.5px dotted #CDDAEA; padding-top: 14px; }
+.wl-add-title { font-size: 0.76rem; font-weight: 700; color: var(--muted); margin-bottom: 9px; }
+.wl-add-btn {
+  width: 100%; padding: 11px; border-radius: 10px; border: none; cursor: pointer;
+  font-family: inherit; font-size: 0.84rem; font-weight: 700;
+  background: var(--postit-2, #D4ECD8); color: var(--deep-green, #0E3401);
+}
+.wl-add-btn:active { transform: translateY(1px); }
+
 /* The One-Minute Bow */
 .ob-level-row { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
 .ob-level-btn {
@@ -1645,7 +1670,7 @@ header {
   <!-- The One-Minute Bow -->
   <div class="tool-block collapsible">
     <button class="tool-collapse-head" data-collapse="obow">
-      <span class="tool-block-title">🎻 The one-minute bow — how slow can you bow?</span>
+      <span class="tool-block-title">🐌 The one-minute bow — how slow can you bow?</span>
       <span class="tool-collapse-chevron">▾</span>
     </button>
     <div class="tool-body" id="body-obow" style="display:none">
@@ -1662,6 +1687,24 @@ header {
       <div class="ob-clock" id="obClock">0.0s</div>
       <div class="ob-sub" id="obSub">Choose a length, then press Start.</div>
       <button class="ob-btn" id="obStartBtn">▶ Start bow</button>
+    </div>
+  </div>
+
+  <!-- Warm-up library -->
+  <div class="tool-block collapsible">
+    <button class="tool-collapse-head" data-collapse="warmups">
+      <span class="tool-block-title">🔥 Warm-up library</span>
+      <span class="tool-collapse-chevron">▾</span>
+    </button>
+    <div class="tool-body" id="body-warmups" style="display:none">
+      <p class="pp-intro">A shelf of warm-ups to pick from. Tap one to send it to today's Warm-up section, ready to tick off. Add your own at the bottom.</p>
+      <div class="wl-list" id="wlList"></div>
+      <div class="wl-add">
+        <div class="wl-add-title">✎ Add your own</div>
+        <input class="sc-phrase-input" id="wlName" type="text" placeholder="Name — e.g. Slow scales, eyes closed" maxlength="60">
+        <input class="sc-phrase-input" id="wlHow" type="text" placeholder="How to do it (optional)" maxlength="120">
+        <button class="wl-add-btn" id="wlAddBtn">Add to my library</button>
+      </div>
     </div>
   </div>
 
@@ -1946,6 +1989,7 @@ function load(){
   if(!state.noteReading) state.noteReading = { attempts:0, correct:0, curStreak:0, bestStreak:0, byToday:{} };
   if(!state.sixCoins) state.sixCoins = { runs:0, totalAttempts:0, totalRequired:0, bestRun:null, recent:[] };
   if(!state.oneMinuteBow) state.oneMinuteBow = { bestSeconds:0, completions:0 };
+  if(!state.customWarmups) state.customWarmups = [];
   } catch(e){ state = {items:[],practiced:{},ticked:{},tickHistory:{},dailyNotes:{}}; }
 }
 function save(){
@@ -3287,6 +3331,84 @@ document.getElementById('dbBtn').addEventListener('click', function(){
   var ctx = getAudioCtx(); if(ctx && ctx.state==='suspended') ctx.resume();
   if(dbRunning) stopDbMeter(); else startDbMeter();
 });
+
+// ── Warm-up library ──
+// A curated starter shelf plus pupil-added warm-ups. Tapping one drops it into
+// today's Warm-up section as a tick-off item (how-to becomes its note).
+var WARMUP_STARTERS = [
+  { name: '🎻 Long Slow Bows', how: 'Use long, unhurried bows to warm up your sound and develop control of bow speed, weight and contact point. Listen for a smooth, even tone from frog to tip.' },
+  { name: '🎵 Scale with a Drone', how: 'Play a scale slowly alongside a drone on the tonic. Listen carefully to how each note relates to the key and aim for beautifully secure intonation.' },
+  { name: '⚡ Finger Taps & Trills', how: 'Gently tap or trill between two fingers to wake up finger speed, independence and coordination. Start slowly and stay relaxed — speed can come later.' }
+];
+function allWarmups(){
+  var custom = (state.customWarmups || []).map(function(w){
+    return { name: w.name, how: w.how || '', id: w.id, custom: true };
+  });
+  return WARMUP_STARTERS.map(function(w){ return { name:w.name, how:w.how, custom:false }; }).concat(custom);
+}
+function renderWarmupLibrary(){
+  var wrap = document.getElementById('wlList');
+  if(!wrap) return;
+  var list = allWarmups();
+  wrap._wlList = list; // keep for click lookup — avoids escaping into attributes
+  wrap.innerHTML = list.map(function(w, i){
+    var howHtml = w.how ? '<div class="wl-item-how">'+escHtml(w.how)+'</div>' : '';
+    var del = w.custom ? '<button class="wl-item-del" data-del="'+escHtml(w.id)+'" title="Remove">✕</button>' : '';
+    return '<div class="wl-item" data-i="'+i+'">'
+      + '<div class="wl-item-text"><div class="wl-item-name">'+escHtml(w.name)+'</div>'+howHtml+'</div>'
+      + '<span class="wl-item-add">＋</span>'
+      + del
+      + '</div>';
+  }).join('');
+  Array.prototype.forEach.call(wrap.querySelectorAll('.wl-item'), function(row){
+    row.addEventListener('click', function(e){
+      if(e.target.closest('.wl-item-del')) return; // delete handled separately
+      var w = wrap._wlList[parseInt(this.getAttribute('data-i'),10)];
+      if(w) sendWarmupToToday(w.name, w.how);
+    });
+  });
+  Array.prototype.forEach.call(wrap.querySelectorAll('.wl-item-del'), function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      removeCustomWarmup(this.getAttribute('data-del'));
+    });
+  });
+}
+function sendWarmupToToday(name, how){
+  if(!name) return;
+  // Avoid duplicating a warm-up that's already on today's list
+  var exists = state.items.some(function(it){ return it.category==='warmup' && it.title===name; });
+  if(exists){ showToast('Already in today\u2019s warm-up'); return; }
+  state.items.push({ id:uid(), category:'warmup', title:name, measures:(how||''), carryover:false });
+  save();
+  renderCategories();
+  showToast('Added to today\u2019s warm-up ✓');
+}
+function removeCustomWarmup(id){
+  if(!id) return;
+  state.customWarmups = (state.customWarmups || []).filter(function(w){ return w.id!==id; });
+  save();
+  renderWarmupLibrary();
+  showToast('Removed');
+}
+(function(){
+  var addBtn = document.getElementById('wlAddBtn');
+  if(!addBtn) return;
+  renderWarmupLibrary();
+  addBtn.addEventListener('click', function(){
+    var nameEl = document.getElementById('wlName');
+    var howEl = document.getElementById('wlHow');
+    var name = nameEl.value.trim();
+    var how = howEl.value.trim();
+    if(!name){ showToast('Give your warm-up a name first'); nameEl.focus(); return; }
+    if(!state.customWarmups) state.customWarmups = [];
+    state.customWarmups.push({ id:uid(), name:name, how:how });
+    save();
+    nameEl.value = ''; howEl.value = '';
+    renderWarmupLibrary();
+    showToast('Added to your library ✓');
+  });
+})();
 
 // ── The One-Minute Bow ──
 // One long down-bow, frog to tip. Marker travels left→right over the chosen
@@ -5737,7 +5859,7 @@ function renderDashboard(){
   // The One-Minute Bow — longest completed bow
   var obS = state.oneMinuteBow || { bestSeconds:0, completions:0 };
   if(obS.completions){
-    html += '<div class="dash-tile wide"><div class="dash-tile-title">The one-minute bow 🎻</div>';
+    html += '<div class="dash-tile wide"><div class="dash-tile-title">The one-minute bow 🐌</div>';
     html += '<div class="dash-ear-row">'
       + '<div class="dash-ear-stats" style="width:100%">'
       + '<div class="dash-ear-stat"><div class="dash-ear-num">'+obS.bestSeconds+'s</div><div class="dash-ear-slabel">Longest bow</div></div>'
