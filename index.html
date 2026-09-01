@@ -6466,6 +6466,7 @@ if(_lsw) _lsw.addEventListener('click', function(){
   save();
   syncLessonSwitch();
   renderLessonOverview();
+  renderCountdowns();   // <-- the next-lesson card lives here; must redraw on toggle
   renderDashboard();
   showToast(state.lesson.enabled ? 'Lesson mode on' : 'Lesson mode off');
 });
@@ -6516,6 +6517,7 @@ if(_psave) _psave.addEventListener('click', function(){
   save();
   renderProfile();
   renderLessonOverview();
+  renderCountdowns();   // next-lesson card reflects any lesson day/frequency change
   renderDashboard();
   closeProfileSheet();
   showToast('Saved');
