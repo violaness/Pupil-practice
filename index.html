@@ -664,6 +664,12 @@ header {
 }
 .countdown-days.soon { color: #C0392B; }
 .countdown-days.today { color: var(--forest); font-size: 1.4rem; }
+.lesson-countdown {
+  background: #DCF0FC; box-shadow: none; border: 1.5px solid #B9DFF6; cursor: default;
+}
+.lesson-countdown:active { transform: none; }
+.lesson-countdown .countdown-days { color: var(--navy); }
+.lesson-countdown .countdown-days.soon { color: var(--sky-blue); }
 .countdown-info { flex: 1; }
 .countdown-name {
   font-size: 0.9rem; color: var(--navy);
@@ -783,6 +789,105 @@ header {
   transition: transform 0.2s;
 }
 .emoji-switch.on .emoji-switch-knob { transform: translateX(20px); }
+
+/* Floating planner timer pill */
+.plan-pill {
+  position: sticky; z-index: 110; /* above the sticky header (z-index 100) */
+  top: 8px; /* updated live to sit just below the header via --pill-top */
+  top: calc(var(--pill-top, 64px) + 6px);
+  display: flex; align-items: center; gap: 10px;
+  background: var(--navy); color: #fff; border-radius: 999px;
+  padding: 8px 10px 8px 14px; box-shadow: 0 4px 14px rgba(5,41,127,0.3);
+  margin-bottom: 12px;
+}
+.plan-pill-dot { flex: 0 0 auto; width: 12px; height: 12px; border-radius: 50%; background: var(--sky-blue); }
+.plan-pill-body { flex: 1; display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.plan-pill-section {
+  font-size: 0.8rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.plan-pill-time { font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; margin-left: auto; }
+.plan-pill.paused .plan-pill-time { opacity: 0.55; }
+.plan-pill-btn {
+  flex: 0 0 auto; width: 32px; height: 32px; border-radius: 50%;
+  border: none; background: rgba(255,255,255,0.15); color: #fff;
+  font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.plan-pill-btn:active { background: rgba(255,255,255,0.3); }
+
+/* Questions for next lesson */
+.lesson-q {
+  background: #EEF3FB; border: 1.5px solid #CDDAEA; border-radius: var(--radius);
+  padding: 14px 16px 16px; margin-bottom: 16px;
+}
+.lesson-q-title { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.lesson-q-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 10px; }
+.lesson-q-items { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
+.lesson-q-item {
+  display: flex; align-items: flex-start; gap: 9px; padding: 6px 4px;
+  border-bottom: 1px dotted #DCE4F0;
+}
+.lesson-q-item:last-child { border-bottom: none; }
+.lesson-q-bullet { flex: 0 0 auto; color: var(--sky-blue); font-size: 1.1rem; line-height: 1.2; margin-top: 1px; }
+.lesson-q-text { flex: 1; font-size: 0.85rem; color: var(--ink); line-height: 1.35; padding-top: 1px; }
+.lesson-q-del {
+  flex: 0 0 auto; background: none; border: none; color: #9FB4D4; cursor: pointer;
+  font-size: 1rem; padding: 0 4px; line-height: 1;
+}
+.lesson-q-add-row { display: flex; gap: 6px; }
+.lesson-q-add-input {
+  flex: 1; padding: 8px 10px; border: 1.5px solid #CDDAEA; border-radius: 8px;
+  font-family: inherit; font-size: 0.82rem; background: #fff; color: var(--ink);
+}
+.lesson-q-add-btn {
+  flex: 0 0 auto; padding: 8px 14px; border: none; border-radius: 8px;
+  background: var(--navy); color: #fff; font-family: inherit; font-size: 0.82rem;
+  font-weight: 600; cursor: pointer;
+}
+
+/* Lesson Overview */
+.lesson-overview {
+  background: #FBF6E8; border: 1.5px solid #E8D9A8; border-radius: var(--radius);
+  padding: 14px 16px 16px; margin-bottom: 16px;
+}
+.lesson-ov-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.lesson-ov-title { font-size: 1rem; font-weight: 700; color: var(--navy); flex: 1; }
+.lesson-ov-cycle { font-size: 0.68rem; color: var(--muted); }
+.lesson-ov-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 10px; }
+.lesson-ov-items { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
+.lesson-ov-item {
+  display: flex; align-items: flex-start; gap: 9px; padding: 6px 4px;
+  border-bottom: 1px dotted #EADFBF;
+}
+.lesson-ov-item:last-child { border-bottom: none; }
+.lesson-ov-bullet {
+  flex: 0 0 auto; color: #C9A83F; font-size: 1.1rem; line-height: 1.2; margin-top: 1px;
+}
+.lesson-ov-text { flex: 1; font-size: 0.85rem; color: var(--ink); line-height: 1.35; padding-top: 1px; }
+.lesson-ov-del {
+  flex: 0 0 auto; background: none; border: none; color: #C9B677; cursor: pointer;
+  font-size: 1rem; padding: 0 4px; line-height: 1;
+}
+.lesson-ov-add-row { display: flex; gap: 6px; margin-bottom: 10px; }
+.lesson-ov-add-input {
+  flex: 1; padding: 8px 10px; border: 1.5px solid #E8D9A8; border-radius: 8px;
+  font-family: inherit; font-size: 0.82rem; background: #fff; color: var(--ink);
+}
+.lesson-ov-add-btn {
+  flex: 0 0 auto; padding: 8px 14px; border: none; border-radius: 8px;
+  background: var(--navy); color: #fff; font-family: inherit; font-size: 0.82rem;
+  font-weight: 600; cursor: pointer;
+}
+.lesson-ov-notes-label { font-size: 0.72rem; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+.lesson-ov-notes {
+  width: 100%; min-height: 60px; padding: 9px 11px; border: 1.5px solid #E8D9A8;
+  border-radius: 8px; font-family: inherit; font-size: 0.82rem; background: #fff;
+  color: var(--ink); resize: vertical; box-sizing: border-box; line-height: 1.4;
+}
+.lesson-ov-newlesson {
+  margin-top: 10px; width: 100%; padding: 8px; border: 1.5px solid #E8D9A8;
+  background: #fff; color: var(--muted); border-radius: 8px; font-family: inherit;
+  font-size: 0.74rem; cursor: pointer;
+}
 
 /* Today's Focus — coloured section boxes matching the practice planner */
 .category-section {
@@ -1398,6 +1503,9 @@ header {
   <!-- Countdowns -->
   <div id="countdownsWrap"></div>
 
+  <!-- Lesson Overview (only shows when lesson mode is on) -->
+  <div id="lessonOverviewWrap"></div>
+
   <!-- Calendar strip -->
   <div class="calendar-section">
     <div class="cal-strip-header">
@@ -1418,6 +1526,17 @@ header {
     <div class="catch-timer" id="catchTimer" style="display:none">0.0s</div>
   </div>
 
+  <!-- Floating planner timer pill (shows while a practice plan is running) -->
+  <div id="planPill" class="plan-pill" style="display:none">
+    <div class="plan-pill-dot" id="planPillDot"></div>
+    <div class="plan-pill-body">
+      <div class="plan-pill-section" id="planPillSection">Warm-up</div>
+      <div class="plan-pill-time" id="planPillTime">5:00</div>
+    </div>
+    <button class="plan-pill-btn" id="planPillPause" aria-label="Pause">⏸</button>
+    <button class="plan-pill-btn" id="planPillSkip" aria-label="Skip">▶▶</button>
+  </div>
+
   <div class="today-focus-heading">Today's Focus</div>
 
   <!-- Categories -->
@@ -1434,6 +1553,9 @@ header {
       <textarea class="daily-note-textarea" id="todayRealisations" placeholder="What did you notice or figure out?"></textarea>
     </div>
   </div>
+
+  <!-- Questions for next lesson -->
+  <div id="lessonQuestionsWrap"></div>
 
   <!-- Rating key -->
   <div id="ratingKey" class="rating-key"></div>
@@ -1852,6 +1974,7 @@ header {
         <input type="date" id="reportTo">
       </div>
       <div class="report-quick-row">
+        <button class="report-quick-btn" id="reportSinceLesson" data-since-lesson="1" style="display:none">Since last lesson</button>
         <button class="report-quick-btn" data-days="7">Last 7 days</button>
         <button class="report-quick-btn" data-days="14">Last 14 days</button>
         <button class="report-quick-btn" data-days="30">Last 30 days</button>
@@ -1865,7 +1988,7 @@ header {
     <!-- Step 2: pretty card to screenshot -->
     <div id="reportCardWrap" style="display:none">
       <div id="reportCard" class="roundup-card"></div>
-      <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin:12px 0 4px">📸 Screenshot this and send it to your teacher!</p>
+      <p style="text-align:center;font-size:0.78rem;color:var(--muted);margin:12px 0 4px">📸 If you would like to, take a screenshot and send it to your teacher.</p>
       <div class="sheet-actions" style="flex-direction:column;gap:8px">
         <button class="btn btn-ghost" id="reportBackBtn" style="width:100%">← Change dates</button>
       </div>
@@ -1906,6 +2029,31 @@ header {
           <div class="emoji-toggle-sub">Off by default — turn on for emoji faces after each section.</div>
         </div>
         <button class="emoji-switch" id="emojiSwitch" role="switch" aria-checked="false"><span class="emoji-switch-knob"></span></button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Lesson mode</label>
+      <div class="emoji-toggle-row">
+        <div class="emoji-toggle-text">
+          <div class="emoji-toggle-title">Turn on lesson mode</div>
+          <div class="emoji-toggle-sub">Adds a lesson overview and counts practice from your lesson day. Off by default.</div>
+        </div>
+        <button class="emoji-switch" id="lessonSwitch" role="switch" aria-checked="false"><span class="emoji-switch-knob"></span></button>
+      </div>
+      <div id="lessonSettings" style="display:none;margin-top:12px">
+        <label style="font-size:0.75rem;color:var(--muted);display:block;margin-bottom:5px">Lesson day</label>
+        <select id="fLessonDay" class="sc-phrase-input" style="margin-bottom:10px">
+          <option value="0">Sunday</option><option value="1">Monday</option>
+          <option value="2">Tuesday</option><option value="3">Wednesday</option>
+          <option value="4">Thursday</option><option value="5">Friday</option>
+          <option value="6">Saturday</option>
+        </select>
+        <label style="font-size:0.75rem;color:var(--muted);display:block;margin-bottom:5px">How often</label>
+        <select id="fLessonFreq" class="sc-phrase-input">
+          <option value="weekly">Every week</option>
+          <option value="fortnightly">Every 2 weeks</option>
+          <option value="occasional">Occasionally (I'll start each one myself)</option>
+        </select>
       </div>
     </div>
     <div class="sheet-actions">
@@ -2001,6 +2149,18 @@ function load(){
   if(!state.sixCoins) state.sixCoins = { runs:0, totalAttempts:0, totalRequired:0, bestRun:null, recent:[] };
   if(!state.oneMinuteBow) state.oneMinuteBow = { bestSeconds:0, completions:0 };
   if(!state.customWarmups) state.customWarmups = [];
+  if(!state.lessonQuestions) state.lessonQuestions = []; // [{id, text}] — questions for next lesson
+  // Lesson mode (opt-in). Off by default so the app is unchanged for anyone who
+  // doesn't turn it on. When on: lesson-day + frequency drive the weekly counter,
+  // and a Lesson Overview appears on the Today tab.
+  if(!state.lesson) state.lesson = {
+    enabled: false,
+    day: 1,            // 0=Sun … 6=Sat; the pupil's lesson day
+    frequency: 'weekly', // 'weekly' | 'fortnightly' | 'occasional'
+    cycleStart: null,  // YYYY-MM-DD the current lesson cycle began (for reset timing)
+    items: [],         // [{id, text, done}] — things to remember, ticks clear each cycle
+    notes: ''          // free text, carries over between cycles
+  };
   } catch(e){ state = {items:[],practiced:{},ticked:{},tickHistory:{},dailyNotes:{}}; }
 }
 function save(){
@@ -2025,6 +2185,91 @@ function daysUntil(dateStr){
   var t = dateStr.split('-');
   var targetUTC = Date.UTC(parseInt(t[0],10), parseInt(t[1],10)-1, parseInt(t[2],10));
   return Math.round((targetUTC - todayUTC) / 86400000);
+}
+
+// ── Lesson mode helpers ──
+function lessonOn(){ return !!(state.lesson && state.lesson.enabled); }
+// The most recent date on/before today that falls on the lesson day-of-week.
+function lastLessonDayOnOrBefore(){
+  var tk = todayKey().split('-');
+  var d = new Date(parseInt(tk[0],10), parseInt(tk[1],10)-1, parseInt(tk[2],10));
+  var target = state.lesson.day;
+  // step back until day-of-week matches (0-6 steps)
+  for(var i=0;i<7;i++){
+    if(d.getDay()===target) break;
+    d.setDate(d.getDate()-1);
+  }
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+}
+// Days between two YYYY-MM-DD dates (UTC midnights).
+function daysBetween(a, b){
+  var pa=a.split('-'), pb=b.split('-');
+  var ua=Date.UTC(+pa[0],+pa[1]-1,+pa[2]), ub=Date.UTC(+pb[0],+pb[1]-1,+pb[2]);
+  return Math.round((ub-ua)/86400000);
+}
+// When did the current lesson cycle start? For weekly/fortnightly this is derived
+// from the lesson day; for occasional it's whatever was last set manually.
+function currentCycleStart(){
+  var L = state.lesson;
+  if(L.frequency==='occasional'){
+    return L.cycleStart || todayKey();
+  }
+  var lastDay = lastLessonDayOnOrBefore();
+  if(L.frequency==='fortnightly'){
+    // anchor to a known cycleStart; if the gap isn't a multiple of 14, step back one week
+    if(L.cycleStart){
+      var gap = daysBetween(L.cycleStart, lastDay);
+      if(gap % 14 !== 0){
+        var d = lastDay.split('-');
+        var dt = new Date(+d[0],+d[1]-1,+d[2]);
+        dt.setDate(dt.getDate()-7);
+        return dt.getFullYear()+'-'+pad(dt.getMonth()+1)+'-'+pad(dt.getDate());
+      }
+    }
+    return lastDay;
+  }
+  return lastDay; // weekly
+}
+// The next lesson date (YYYY-MM-DD) for weekly/fortnightly pupils.
+// Returns null for occasional (no fixed schedule).
+function nextLessonDate(){
+  var L = state.lesson;
+  if(!L || L.frequency==='occasional') return null;
+  var start = currentCycleStart();           // the lesson day this cycle began
+  var len = (L.frequency==='fortnightly') ? 14 : 7;
+  var p = start.split('-');
+  var d = new Date(+p[0], +p[1]-1, +p[2]);
+  d.setDate(d.getDate() + len);              // add one cycle to reach the next lesson
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+}
+function syncLessonCycle(){
+  if(!lessonOn()) return;
+  var L = state.lesson;
+  if(L.frequency === 'occasional') return; // occasional only advances via the button
+  var start = currentCycleStart();
+  if(L.cycleStart !== start){
+    L.cycleStart = start;
+    save();
+  }
+}
+// Days practised in the current lesson cycle (for the "This week" counter).
+function lessonCycleCount(){
+  var start = currentCycleStart();
+  var today = todayKey();
+  var n = 0;
+  Object.keys(state.practiced || {}).forEach(function(k){
+    if(k >= start && k <= today) n++;
+  });
+  return n;
+}
+// Length of the current cycle in days (for the "of N days" note).
+function lessonCycleLength(){
+  var L = state.lesson;
+  if(L.frequency==='fortnightly') return 14;
+  if(L.frequency==='occasional'){
+    return daysBetween(currentCycleStart(), todayKey()) + 1;
+  }
+  return 7;
 }
 function dateKey(y,m,d){ return y+'-'+pad(m)+'-'+pad(d); }
 function friendlyDate(d){
@@ -2624,14 +2869,40 @@ if(_dsu) _dsu.addEventListener('click', function(){
 // ── Tools: Metronome & Drone ──
 var audioCtx = null;
 function getAudioCtx(){
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) return null;
+  // iOS can leave the context 'interrupted' (a call/notification/other app grabbed
+  // audio) or 'closed'. A plain resume() doesn't always recover those, which is what
+  // made the drone fall silent until the app was reopened. If we detect a stuck
+  // context, build a fresh one instead.
+  if(audioCtx && (audioCtx.state === 'interrupted' || audioCtx.state === 'closed')){
+    try { audioCtx.close(); } catch(e){}
+    audioCtx = null;
+  }
   if(!audioCtx){
-    var AC = window.AudioContext || window.webkitAudioContext;
-    if(AC) audioCtx = new AC();
+    audioCtx = new AC();
   }
-  if(audioCtx && audioCtx.state === 'suspended'){
-    audioCtx.resume();
+  if(audioCtx.state === 'suspended' || audioCtx.state === 'interrupted'){
+    // resume() returns a promise; if it rejects (rare), fall back to a rebuild next call
+    try { audioCtx.resume(); } catch(e){}
   }
+  watchAudioInterruption(audioCtx);
   return audioCtx;
+}
+// If iOS interrupts the audio context while the drone is playing, the old oscillator
+// is dead. Reset the flag so the pupil's next tap starts a fresh drone in one go
+// (rather than the first tap just clearing a stale 'playing' state).
+function watchAudioInterruption(ctx){
+  if(!ctx || ctx._interruptionWatched) return;
+  ctx._interruptionWatched = true;
+  ctx.addEventListener && ctx.addEventListener('statechange', function(){
+    if((ctx.state === 'interrupted' || ctx.state === 'suspended') &&
+       typeof dronePlaying !== 'undefined' && dronePlaying){
+      droneOsc = null; droneGain = null; dronePlaying = false;
+      var btn = document.getElementById('dronePlayBtn');
+      if(btn){ btn.textContent = '▶ Play drone'; btn.classList.remove('active'); }
+    }
+  });
 }
 
 // When leaving the Tools tab, stop any running audio tools
@@ -4335,20 +4606,165 @@ document.getElementById('timerPauseBtn').addEventListener('click', function(){
 });
 document.getElementById('timerStopBtn').addEventListener('click', stopPracticeTimer);
 
+// ── Questions for next lesson ──
+function renderLessonQuestions(){
+  var wrap = document.getElementById('lessonQuestionsWrap');
+  if(!wrap) return;
+  var qs = state.lessonQuestions || [];
+  var html = '<div class="lesson-q">';
+  html += '<div class="lesson-q-title">❓ My questions for next lesson</div>';
+  html += '<div class="lesson-q-sub">Jot down anything you want to ask — they\u2019ll be here ready for your lesson.</div>';
+  html += '<div class="lesson-q-items">';
+  if(qs.length === 0){
+    html += '<div class="lesson-q-sub" style="font-style:italic;margin:0">Nothing yet — add a question below.</div>';
+  } else {
+    qs.forEach(function(q, i){
+      html += '<div class="lesson-q-item">'
+        + '<span class="lesson-q-bullet">•</span>'
+        + '<span class="lesson-q-text">'+escHtml(q.text)+'</span>'
+        + '<button class="lesson-q-del" data-q-del="'+i+'" aria-label="Remove">×</button>'
+        + '</div>';
+    });
+  }
+  html += '</div>';
+  html += '<div class="lesson-q-add-row">'
+    + '<input class="lesson-q-add-input" id="lessonQAddInput" type="text" placeholder="Type a question…" maxlength="160">'
+    + '<button class="lesson-q-add-btn" id="lessonQAddBtn">Add</button>'
+    + '</div>';
+  html += '</div>';
+  wrap.innerHTML = html;
+
+  Array.prototype.forEach.call(wrap.querySelectorAll('[data-q-del]'), function(b){
+    b.addEventListener('click', function(){
+      var i = parseInt(this.getAttribute('data-q-del'),10);
+      state.lessonQuestions.splice(i,1); save(); renderLessonQuestions();
+    });
+  });
+  var addBtn = document.getElementById('lessonQAddBtn');
+  var addInput = document.getElementById('lessonQAddInput');
+  function addQ(){
+    var t = addInput.value.trim();
+    if(!t) return;
+    if(!state.lessonQuestions) state.lessonQuestions = [];
+    state.lessonQuestions.push({ id: 'q'+Date.now(), text: t });
+    save(); renderLessonQuestions();
+  }
+  if(addBtn) addBtn.addEventListener('click', addQ);
+  if(addInput) addInput.addEventListener('keydown', function(e){ if(e.key==='Enter') addQ(); });
+}
+
+// ── Lesson Overview ──
+function renderLessonOverview(){
+  var wrap = document.getElementById('lessonOverviewWrap');
+  if(!wrap) return;
+  if(!lessonOn()){ wrap.innerHTML = ''; return; }
+  syncLessonCycle();
+  var L = state.lesson;
+  var items = L.items || [];
+  var freqLabel = L.frequency==='fortnightly' ? 'fortnightly' : (L.frequency==='occasional' ? 'lesson to lesson' : 'weekly');
+
+  var html = '<div class="lesson-overview">';
+  html += '<div class="lesson-ov-head"><span class="lesson-ov-title">📋 Lesson overview</span>'
+        + '<span class="lesson-ov-cycle">'+freqLabel+'</span></div>';
+  html += '<div class="lesson-ov-sub">Things to remember this week.</div>';
+
+  html += '<div class="lesson-ov-items" id="lessonOvItems">';
+  if(items.length === 0){
+    html += '<div class="lesson-ov-sub" style="font-style:italic">Nothing yet — add something below.</div>';
+  } else {
+    items.forEach(function(it, i){
+      html += '<div class="lesson-ov-item">'
+        + '<span class="lesson-ov-bullet">•</span>'
+        + '<span class="lesson-ov-text">'+escHtml(it.text)+'</span>'
+        + '<button class="lesson-ov-del" data-ov-del="'+i+'" aria-label="Remove">×</button>'
+        + '</div>';
+    });
+  }
+  html += '</div>';
+
+  html += '<div class="lesson-ov-add-row">'
+    + '<input class="lesson-ov-add-input" id="lessonOvAddInput" type="text" placeholder="Add something to remember…" maxlength="120">'
+    + '<button class="lesson-ov-add-btn" id="lessonOvAddBtn">Add</button>'
+    + '</div>';
+
+  html += '<div class="lesson-ov-notes-label">Notes</div>';
+  html += '<textarea class="lesson-ov-notes" id="lessonOvNotes" placeholder="Anything else to remember… (carries over week to week)">'+escHtml(L.notes||'')+'</textarea>';
+
+  if(L.frequency==='occasional'){
+    html += '<button class="lesson-ov-newlesson" id="lessonOvNewLesson">↻ Had a lesson? Start a new week</button>';
+  }
+
+  html += '</div>';
+  wrap.innerHTML = html;
+
+  // wire interactions
+  Array.prototype.forEach.call(wrap.querySelectorAll('[data-ov-del]'), function(b){
+    b.addEventListener('click', function(){
+      var i = parseInt(this.getAttribute('data-ov-del'),10);
+      L.items.splice(i,1); save(); renderLessonOverview();
+    });
+  });
+  var addBtn = document.getElementById('lessonOvAddBtn');
+  var addInput = document.getElementById('lessonOvAddInput');
+  function addOvItem(){
+    var t = addInput.value.trim();
+    if(!t) return;
+    if(!L.items) L.items = [];
+    L.items.push({ id: 'ov'+Date.now(), text: t });
+    save(); renderLessonOverview();
+  }
+  if(addBtn) addBtn.addEventListener('click', addOvItem);
+  if(addInput) addInput.addEventListener('keydown', function(e){ if(e.key==='Enter') addOvItem(); });
+  var notes = document.getElementById('lessonOvNotes');
+  if(notes) notes.addEventListener('change', function(){ L.notes = this.value; save(); });
+  var newLesson = document.getElementById('lessonOvNewLesson');
+  if(newLesson) newLesson.addEventListener('click', function(){
+    L.cycleStart = todayKey();
+    save(); renderLessonOverview(); renderDashboard();
+    showToast('Fresh lesson week ✨');
+  });
+}
+
 // ── Countdowns ──
+// Builds the "next lesson" card (weekly/fortnightly lesson mode only).
+function lessonCountdownCardHTML(){
+  if(!lessonOn()) return '';
+  var nd = nextLessonDate();
+  if(!nd) return ''; // occasional: no fixed next date
+  var diff = daysUntil(nd);
+  var np = nd.split('-');
+  var dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(+np[0],+np[1]-1,+np[2]).getDay()];
+  var daysText, label, cls='countdown-days lesson';
+  if(diff <= 0){ daysText='🎵'; label='Lesson day!'; cls+=' today'; }
+  else if(diff === 1){ daysText='1'; label='day to next lesson'; cls+=' soon'; }
+  else { daysText=diff; label='days to next lesson'; if(diff<=2) cls+=' soon'; }
+  return '<div class="countdown-card lesson-countdown">'
+    + '<div class="'+cls+'">'+daysText+'</div>'
+    + '<div class="countdown-info">'
+    + '<div class="countdown-name">Next lesson · '+dayName+'</div>'
+    + '<div class="countdown-label">'+label+'</div>'
+    + '</div></div>';
+}
+
 function renderCountdowns(){
   var wrap = document.getElementById('countdownsWrap');
   var countdowns = state.countdowns || [];
   var active = countdowns.filter(function(c){ return c.name && c.date; });
+  var lessonCard = lessonCountdownCardHTML();
 
   if(active.length === 0){
-    wrap.innerHTML = '<button class="countdown-add-btn" id="countdownAddBtn">+ Add a countdown (concert, exam, audition…)</button>';
+    // No event countdowns — still show the lesson card if present, plus the add button.
+    var html0 = '';
+    if(lessonCard) html0 += '<div class="countdowns-wrap">'+lessonCard+'</div>';
+    html0 += '<button class="countdown-add-btn" id="countdownAddBtn">+ Add a countdown (concert, exam, audition…)</button>';
+    wrap.innerHTML = html0;
     var addBtn = document.getElementById('countdownAddBtn');
     if(addBtn) addBtn.addEventListener('click', openCountdownSheet);
     return;
   }
 
   var html = '<div class="countdowns-wrap">';
+  if(lessonCard) html += lessonCard;
   active.forEach(function(c){
     var diff = daysUntil(c.date);
     var daysText, label, cls='countdown-days';
@@ -4380,7 +4796,7 @@ function renderCountdowns(){
   html += '<div class="countdown-edit-hint">Tap a countdown to edit</div>';
   wrap.innerHTML = html;
 
-  Array.prototype.forEach.call(wrap.querySelectorAll('.countdown-card'), function(card){
+  Array.prototype.forEach.call(wrap.querySelectorAll('.countdown-card:not(.lesson-countdown)'), function(card){
     card.addEventListener('click', openCountdownSheet);
   });
 }
@@ -4424,10 +4840,20 @@ document.getElementById('countdownSaveBtn').addEventListener('click', function()
 // ── Report ──
 document.getElementById('reportBtn').addEventListener('click', function(){
   var today = new Date();
-  var weekAgo = new Date(today);
-  weekAgo.setDate(today.getDate()-6);
-  document.getElementById('reportFrom').value = weekAgo.getFullYear()+'-'+pad(weekAgo.getMonth()+1)+'-'+pad(weekAgo.getDate());
-  document.getElementById('reportTo').value = today.getFullYear()+'-'+pad(today.getMonth()+1)+'-'+pad(today.getDate());
+  var sinceBtn = document.getElementById('reportSinceLesson');
+  if(lessonOn()){
+    // Default to the pupil's actual lesson cycle (respects lesson day + frequency).
+    var start = currentCycleStart(); // YYYY-MM-DD
+    document.getElementById('reportFrom').value = start;
+    document.getElementById('reportTo').value = todayKey();
+    if(sinceBtn) sinceBtn.style.display = '';
+  } else {
+    var weekAgo = new Date(today);
+    weekAgo.setDate(today.getDate()-6);
+    document.getElementById('reportFrom').value = weekAgo.getFullYear()+'-'+pad(weekAgo.getMonth()+1)+'-'+pad(weekAgo.getDate());
+    document.getElementById('reportTo').value = today.getFullYear()+'-'+pad(today.getMonth()+1)+'-'+pad(today.getDate());
+    if(sinceBtn) sinceBtn.style.display = 'none';
+  }
   // Always open on the picker step
   document.getElementById('reportCardWrap').style.display = 'none';
   document.getElementById('reportPicker').style.display = 'block';
@@ -4441,6 +4867,12 @@ document.getElementById('reportSheet').addEventListener('click', function(e){ if
 
 Array.prototype.forEach.call(document.querySelectorAll('.report-quick-btn'), function(btn){
   btn.addEventListener('click', function(){
+    if(this.getAttribute('data-since-lesson')){
+      if(!lessonOn()) return;
+      document.getElementById('reportFrom').value = currentCycleStart();
+      document.getElementById('reportTo').value = todayKey();
+      return;
+    }
     var days = parseInt(this.getAttribute('data-days'),10);
     var today = new Date();
     var from = new Date(today);
@@ -5410,6 +5842,7 @@ function ppStartSection(){
   ppTimerPaused = false;
   ppTimerEndAt = Date.now() + ppTimerRemaining*1000;
   renderSectionTimerActive();
+  updatePlanPill();
   if(ppTimerRAF) cancelAnimationFrame(ppTimerRAF);
   ppTimerRAF = requestAnimationFrame(ppTimerFrame);
 }
@@ -5434,6 +5867,7 @@ function ppTimerFrame(){
 function ppUpdateTimerDisplay(){
   var big = document.getElementById('ppTimerBig');
   if(big) big.textContent = fmtTime(ppTimerRemaining);
+  updatePlanPill();
   var secs = ppActiveSections();
   var cur = secs[ppTimerIdx];
   if(cur){
@@ -5471,7 +5905,9 @@ function renderSectionTimerActive(){
 function renderSectionTimerBetween(){
   // pause between sections, wait for a tap to start the next
   ppTimerRunning = false;
+  ppBetween = true;
   if(ppTimerRAF){ cancelAnimationFrame(ppTimerRAF); ppTimerRAF=null; }
+  updatePlanPill();
   var host = document.getElementById('ppTimerHost');
   if(!host) return;
   var secs = ppActiveSections();
@@ -5505,14 +5941,18 @@ function ppTogglePause(){
 function ppStopSectionTimer(silent){
   ppTimerRunning = false;
   ppTimerPaused = false;
+  ppBetween = false;
   ppTimerIdx = 0;
   if(ppTimerRAF){ cancelAnimationFrame(ppTimerRAF); ppTimerRAF=null; }
+  updatePlanPill();
   if(!silent) renderSectionTimerIdle();
 }
 
 function ppFinishAll(){
   ppTimerRunning = false;
+  ppBetween = false;
   if(ppTimerRAF){ cancelAnimationFrame(ppTimerRAF); ppTimerRAF=null; }
+  updatePlanPill();
   var host = document.getElementById('ppTimerHost');
   if(host){
     host.innerHTML = '<div class="pp-timer">'
@@ -5556,6 +5996,70 @@ function ppFinishChime(){
     });
   } catch(e){}
 }
+
+// ── Planner pill (mirrors the active section timer onto the Today tab) ──
+var ppBetween = false; // true when waiting between sections
+function updatePlanPill(){
+  var pill = document.getElementById('planPill');
+  if(!pill) return;
+  var secs = ppActiveSections();
+  var cur = secs[ppTimerIdx];
+  if(ppTimerRunning && cur){
+    // mid-section
+    ppBetween = false;
+    pill.style.display = 'flex';
+    document.getElementById('planPillSection').textContent = cur.label;
+    document.getElementById('planPillTime').textContent = fmtTime(ppTimerRemaining);
+    document.getElementById('planPillDot').style.background = cur.color;
+    pill.classList.toggle('paused', ppTimerPaused);
+    var pb = document.getElementById('planPillPause');
+    if(pb){ pb.textContent = ppTimerPaused ? '▶' : '⏸'; pb.style.display=''; }
+    var sk = document.getElementById('planPillSkip'); if(sk) sk.style.display='';
+  } else if(ppBetween && cur){
+    // between sections: show the next one, ready to start from the pill
+    pill.style.display = 'flex';
+    document.getElementById('planPillSection').textContent = 'Next: ' + cur.label;
+    document.getElementById('planPillTime').textContent = cur.mins + ':00';
+    document.getElementById('planPillDot').style.background = cur.color;
+    pill.classList.remove('paused');
+    var pb2 = document.getElementById('planPillPause');
+    if(pb2){ pb2.textContent = '▶'; pb2.style.display=''; } // acts as "start next"
+    var sk2 = document.getElementById('planPillSkip'); if(sk2) sk2.style.display='none';
+  } else {
+    ppBetween = false;
+    pill.style.display = 'none';
+  }
+}
+(function(){
+  var pausePill = document.getElementById('planPillPause');
+  var skipPill = document.getElementById('planPillSkip');
+  if(pausePill) pausePill.addEventListener('click', function(){
+    if(ppBetween){
+      // start the next section straight from the pill
+      var ctx = getAudioCtx(); if(ctx && ctx.state==='suspended') ctx.resume();
+      ppStartSection();
+    } else {
+      ppTogglePause();
+      updatePlanPill();
+    }
+  });
+  if(skipPill) skipPill.addEventListener('click', function(){
+    ppTimerIdx++;
+    var s = ppActiveSections();
+    if(ppTimerIdx >= s.length){ ppFinishAll(); }
+    else renderSectionTimerBetween();
+    updatePlanPill();
+  });
+  // Keep the sticky pill sitting just below the header, whatever its height
+  // (the header grows by the safe-area inset on notched iPhones).
+  function setPillOffset(){
+    var hdr = document.querySelector('header');
+    if(hdr) document.documentElement.style.setProperty('--pill-top', hdr.offsetHeight + 'px');
+  }
+  setPillOffset();
+  window.addEventListener('resize', setPillOffset);
+  window.addEventListener('orientationchange', function(){ setTimeout(setPillOffset, 200); });
+})();
 
 function renderPlanner(){
   var input = document.getElementById('ppMins');
@@ -5632,13 +6136,21 @@ function renderDashboard(){
   var streak = calcStreak();
   var totalDays = Object.keys(state.practiced || {}).length;
 
-  // Days practised in the last 7 days
+  // Days practised in the last 7 days (or the current lesson cycle if lesson mode is on)
   var weekCount = 0;
-  var d = new Date();
-  for(var i=0;i<7;i++){
-    var k = d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
-    if(state.practiced[k]) weekCount++;
-    d.setDate(d.getDate()-1);
+  var weekLen = 7;
+  var weekLabel = 'This week';
+  if(lessonOn()){
+    weekCount = lessonCycleCount();
+    weekLen = lessonCycleLength();
+    weekLabel = 'Since lesson';
+  } else {
+    var d = new Date();
+    for(var i=0;i<7;i++){
+      var k = d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+      if(state.practiced[k]) weekCount++;
+      d.setDate(d.getDate()-1);
+    }
   }
 
   // Days practised this calendar month
@@ -5697,7 +6209,7 @@ function renderDashboard(){
     + '<div class="dash-readouts">'
     + '<div class="dash-readout"><div class="dash-rlabel">Day streak</div><div class="dash-rval">'+streak+'</div><div class="dash-rnote">'+(streak>0?'keep it going':'start today')+'</div></div>'
     + '<div class="dash-readout"><div class="dash-rlabel">Total days</div><div class="dash-rval">'+totalDays+'</div><div class="dash-rnote">practised in all</div></div>'
-    + '<div class="dash-readout"><div class="dash-rlabel">This week</div><div class="dash-rval">'+weekCount+'</div><div class="dash-rnote">of 7 days</div></div>'
+    + '<div class="dash-readout"><div class="dash-rlabel">'+weekLabel+'</div><div class="dash-rval">'+weekCount+'</div><div class="dash-rnote">of '+weekLen+' days</div></div>'
     + '<div class="dash-readout"><div class="dash-rlabel">This month</div><div class="dash-rval">'+monthCount+'</div><div class="dash-rnote">days logged</div></div>'
     + '</div></div>';
 
@@ -5906,7 +6418,7 @@ function renderDashboard(){
   var tickerBits = [];
   tickerBits.push('🎻 '+totalDays+' day'+(totalDays===1?'':'s')+' practised in all');
   tickerBits.push('🔥 Current streak: <b>'+streak+'</b>');
-  tickerBits.push('📅 '+weekCount+' day'+(weekCount===1?'':'s')+' this week');
+  tickerBits.push('📅 '+weekCount+' day'+(weekCount===1?'':'s')+(lessonOn()?' since lesson':' this week'));
   tickerBits.push('🌱 '+monthCount+' day'+(monthCount===1?'':'s')+' this month');
   if(upcoming.length){ tickerBits.push('⏳ '+upcoming[0].days+' day'+(upcoming[0].days===1?'':'s')+' until '+escHtml(upcoming[0].name||'your event')); }
   tickerBits.push('✨ Little and often wins every time');
@@ -5929,8 +6441,34 @@ function openProfileSheet(){
   document.getElementById('fProfileName').value = p.name || '';
   document.getElementById('fProfileInstrument').value = p.instrument || '';
   syncEmojiSwitch();
+  syncLessonSwitch();
+  var L = state.lesson || {};
+  var dsel = document.getElementById('fLessonDay'); if(dsel) dsel.value = String(L.day != null ? L.day : 1);
+  var fsel = document.getElementById('fLessonFreq'); if(fsel) fsel.value = L.frequency || 'weekly';
   document.getElementById('profileSheet').classList.add('show');
 }
+function syncLessonSwitch(){
+  var sw = document.getElementById('lessonSwitch');
+  if(!sw) return;
+  var on = lessonOn();
+  sw.classList.toggle('on', on);
+  sw.setAttribute('aria-checked', on ? 'true' : 'false');
+  var settings = document.getElementById('lessonSettings');
+  if(settings) settings.style.display = on ? 'block' : 'none';
+}
+var _lsw = document.getElementById('lessonSwitch');
+if(_lsw) _lsw.addEventListener('click', function(){
+  if(!state.lesson) state.lesson = { enabled:false, day:1, frequency:'weekly', cycleStart:null, items:[], notes:'' };
+  state.lesson.enabled = !lessonOn();
+  if(state.lesson.enabled && !state.lesson.cycleStart){
+    state.lesson.cycleStart = currentCycleStart();
+  }
+  save();
+  syncLessonSwitch();
+  renderLessonOverview();
+  renderDashboard();
+  showToast(state.lesson.enabled ? 'Lesson mode on' : 'Lesson mode off');
+});
 function syncEmojiSwitch(){
   var sw = document.getElementById('emojiSwitch');
   if(!sw) return;
@@ -5964,8 +6502,21 @@ if(_psave) _psave.addEventListener('click', function(){
   if(!state.profile) state.profile = { name:'', instrument:'' };
   state.profile.name = document.getElementById('fProfileName').value.trim();
   state.profile.instrument = document.getElementById('fProfileInstrument').value.trim();
+  if(state.lesson){
+    var dsel = document.getElementById('fLessonDay');
+    var fsel = document.getElementById('fLessonFreq');
+    var newDay = dsel ? parseInt(dsel.value,10) : state.lesson.day;
+    var newFreq = fsel ? fsel.value : state.lesson.frequency;
+    var changed = (newDay !== state.lesson.day) || (newFreq !== state.lesson.frequency);
+    state.lesson.day = newDay;
+    state.lesson.frequency = newFreq;
+    // If the schedule changed, re-anchor the current cycle so counts stay sensible.
+    if(changed && lessonOn()){ state.lesson.cycleStart = currentCycleStart(); }
+  }
   save();
   renderProfile();
+  renderLessonOverview();
+  renderDashboard();
   closeProfileSheet();
   showToast('Saved');
 });
@@ -5981,6 +6532,8 @@ function renderAll(){
   if(typeof renderTunerPrecision==='function') renderTunerPrecision();
   renderQuote();
   renderCountdowns();
+  renderLessonOverview();
+  renderLessonQuestions();
   renderBackupBanner();
   renderScaleWeek();
   renderFocusPicker();
