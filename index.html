@@ -2019,7 +2019,7 @@ header {
     </div>
     <div class="field">
       <label>Instrument</label>
-      <input type="text" id="fProfileInstrument" placeholder="e.g. Violin, Cello, Flute…">
+      <input type="text" id="fProfileInstrument" placeholder="e.g. Viola, Violin, Cello…">
     </div>
     <div class="field">
       <label>How did it go? ratings</label>
@@ -4411,7 +4411,7 @@ function renderFlashcards(){
 
 // ── Quick-fire recorder (ephemeral: RAM only, auto-purge) ──
 (function(){
-  var CATCH_MAX_MS = 20000;           // 20-second cap
+  var CATCH_MAX_MS = 20000;           // 20-second cap (matches the printed guide)
   var btn = document.getElementById('catchBtn');
   if(!btn) return;
   var label = document.getElementById('catchLabel');
@@ -4420,14 +4420,15 @@ function renderFlashcards(){
 
   var mediaRec = null, chunks = [], catchStream = null;
   var catchURL = null, catchAudio = null;
-  var mode = 'idle';                  // idle | recording | playing
+  var mode = 'idle';                  // idle | recording | ready | playing
   var startTs = 0, rafId = null, stopTimer = null;
+  var autoStopped = false;            // true if the 30s cap stopped it (no user gesture)
 
   function resetLabel(){
     label.textContent = 'Tap to catch a take';
     hint.textContent = "Records up to 20s · plays back once · then it's gone forever";
     timerEl.style.display = 'none';
-    btn.classList.remove('recording','playing');
+    btn.classList.remove('recording','playing','ready');
   }
 
   // Wipe every trace of the take from memory
@@ -4461,7 +4462,10 @@ function renderFlashcards(){
         purge(); resetLabel(); return;
       }
       mediaRec.ondataavailable = function(e){ if(e.data && e.data.size) chunks.push(e.data); };
-      mediaRec.onstop = function(){ playBack(); };
+      mediaRec.onstop = function(){
+        if(autoStopped) readyToPlay();  // cap hit → wait for a tap (iOS needs a gesture)
+        else playBack();                // user tapped Stop → gesture is live, play now
+      };
       mediaRec.start();
       mode = 'recording';
       startTs = Date.now();
@@ -4471,7 +4475,8 @@ function renderFlashcards(){
       timerEl.style.display = 'block';
       timerEl.textContent = '0.0s';
       updateTimer();
-      stopTimer = setTimeout(stopRecording, CATCH_MAX_MS); // hard cap
+      autoStopped = false;
+      stopTimer = setTimeout(function(){ autoStopped = true; stopRecording(); }, CATCH_MAX_MS); // hard cap
     }).catch(function(){
       hint.textContent = 'Microphone unavailable. Allow mic access and try again.';
       resetLabel();
@@ -4482,6 +4487,21 @@ function renderFlashcards(){
     if(stopTimer){ clearTimeout(stopTimer); stopTimer=null; }
     if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
     if(mediaRec && mediaRec.state!=='inactive'){ try{ mediaRec.stop(); }catch(e){} }
+  }
+
+  // Cap reached: hold the take and wait for a tap. iOS blocks audio that isn't
+  // started from a user gesture, so we can't auto-play here — the tap does it.
+  function readyToPlay(){
+    if(!chunks.length){ purge(); resetLabel(); mode='idle'; return; }
+    // release the mic; the audio is already captured in chunks
+    if(catchStream){ catchStream.getTracks().forEach(function(t){ t.stop(); }); catchStream=null; }
+    mode = 'ready';
+    if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
+    btn.classList.remove('recording');
+    btn.classList.add('ready');
+    label.textContent = '▶ Tap to hear it';
+    hint.textContent = 'Reached 20s — tap to listen (once, then it’s gone)';
+    timerEl.style.display = 'none';
   }
 
   function playBack(){
@@ -4512,6 +4532,7 @@ function renderFlashcards(){
   btn.addEventListener('click', function(){
     if(mode==='idle') startRecording();
     else if(mode==='recording') stopRecording();
+    else if(mode==='ready') playBack();  // play inside this tap so iOS allows audio
     else if(mode==='playing'){ purge(); mode='idle'; resetLabel(); } // tap during playback = discard now
   });
 
