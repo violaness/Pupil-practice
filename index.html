@@ -2054,6 +2054,10 @@ header {
           <option value="fortnightly">Every 2 weeks</option>
           <option value="occasional">Occasionally (I'll start each one myself)</option>
         </select>
+        <div id="fNextLessonWrap" style="display:none;margin-top:10px">
+          <label style="font-size:0.75rem;color:var(--muted);display:block;margin-bottom:5px">Your next lesson (helps get the countdown right)</label>
+          <input type="date" id="fNextLessonDate" class="sc-phrase-input countdown-date-fix">
+        </div>
       </div>
     </div>
     <div class="sheet-actions">
@@ -2158,9 +2162,11 @@ function load(){
     day: 1,            // 0=Sun … 6=Sat; the pupil's lesson day
     frequency: 'weekly', // 'weekly' | 'fortnightly' | 'occasional'
     cycleStart: null,  // YYYY-MM-DD the current lesson cycle began (for reset timing)
+    nextLesson: null,  // YYYY-MM-DD the pupil's actual next lesson (fortnightly/occasional anchor)
     items: [],         // [{id, text, done}] — things to remember, ticks clear each cycle
     notes: ''          // free text, carries over between cycles
   };
+  if(state.lesson && typeof state.lesson.nextLesson === 'undefined') state.lesson.nextLesson = null;
   } catch(e){ state = {items:[],practiced:{},ticked:{},tickHistory:{},dailyNotes:{}}; }
 }
 function save(){
@@ -2216,7 +2222,18 @@ function currentCycleStart(){
   }
   var lastDay = lastLessonDayOnOrBefore();
   if(L.frequency==='fortnightly'){
-    // anchor to a known cycleStart; if the gap isn't a multiple of 14, step back one week
+    // If the actual next lesson is known, the current cycle started one fortnight
+    // before whichever upcoming lesson we're counting to — exact, no week-guessing.
+    if(L.nextLesson){
+      var nd = nextLessonDate(); // rolled forward to today-or-later
+      if(nd){
+        var np = nd.split('-');
+        var s = new Date(+np[0], +np[1]-1, +np[2]);
+        s.setDate(s.getDate()-14);
+        return s.getFullYear()+'-'+pad(s.getMonth()+1)+'-'+pad(s.getDate());
+      }
+    }
+    // Fallback: anchor via cycleStart + 14-day stepping (previous behaviour)
     if(L.cycleStart){
       var gap = daysBetween(L.cycleStart, lastDay);
       if(gap % 14 !== 0){
@@ -2234,13 +2251,36 @@ function currentCycleStart(){
 // Returns null for occasional (no fixed schedule).
 function nextLessonDate(){
   var L = state.lesson;
-  if(!L || L.frequency==='occasional') return null;
-  var start = currentCycleStart();           // the lesson day this cycle began
+  if(!L || L.frequency==='occasional'){
+    // occasional: only a manually-set date gives a countdown
+    if(L && L.nextLesson){
+      var nd = L.nextLesson;
+      if(daysUntil(nd) < 0) return null; // passed and no schedule to roll to
+      return nd;
+    }
+    return null;
+  }
   var len = (L.frequency==='fortnightly') ? 14 : 7;
+  // If the teacher has set the actual next lesson, use it as the true anchor and
+  // roll it forward by whole cycles until it's today or later. Removes the
+  // "which week is it?" guesswork that made fortnightly unreliable.
+  if(L.nextLesson){
+    var parts = L.nextLesson.split('-');
+    var d = new Date(+parts[0], +parts[1]-1, +parts[2]);
+    var guard = 0;
+    while(daysUntilDate(d) < 0 && guard < 260){ d.setDate(d.getDate()+len); guard++; }
+    return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+  }
+  // Fallback (no explicit date): derive from the lesson weekday + cycle length.
+  var start = currentCycleStart();
   var p = start.split('-');
-  var d = new Date(+p[0], +p[1]-1, +p[2]);
-  d.setDate(d.getDate() + len);              // add one cycle to reach the next lesson
-  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+  var dd = new Date(+p[0], +p[1]-1, +p[2]);
+  dd.setDate(dd.getDate() + len);
+  return dd.getFullYear()+'-'+pad(dd.getMonth()+1)+'-'+pad(dd.getDate());
+}
+// days from today (1am-reset) to a Date object
+function daysUntilDate(dateObj){
+  return daysUntil(dateObj.getFullYear()+'-'+pad(dateObj.getMonth()+1)+'-'+pad(dateObj.getDate()));
 }
 function syncLessonCycle(){
   if(!lessonOn()) return;
@@ -6466,6 +6506,8 @@ function openProfileSheet(){
   var L = state.lesson || {};
   var dsel = document.getElementById('fLessonDay'); if(dsel) dsel.value = String(L.day != null ? L.day : 1);
   var fsel = document.getElementById('fLessonFreq'); if(fsel) fsel.value = L.frequency || 'weekly';
+  var ndInput = document.getElementById('fNextLessonDate'); if(ndInput) ndInput.value = L.nextLesson || '';
+  syncNextLessonFieldVisibility();
   document.getElementById('profileSheet').classList.add('show');
 }
 function syncLessonSwitch(){
@@ -6477,6 +6519,15 @@ function syncLessonSwitch(){
   var settings = document.getElementById('lessonSettings');
   if(settings) settings.style.display = on ? 'block' : 'none';
 }
+// The next-lesson date field only helps fortnightly/occasional pupils; hide it for weekly.
+function syncNextLessonFieldVisibility(){
+  var fsel = document.getElementById('fLessonFreq');
+  var wrap = document.getElementById('fNextLessonWrap');
+  if(!fsel || !wrap) return;
+  wrap.style.display = (fsel.value === 'fortnightly' || fsel.value === 'occasional') ? 'block' : 'none';
+}
+var _lfreq = document.getElementById('fLessonFreq');
+if(_lfreq) _lfreq.addEventListener('change', syncNextLessonFieldVisibility);
 var _lsw = document.getElementById('lessonSwitch');
 if(_lsw) _lsw.addEventListener('click', function(){
   if(!state.lesson) state.lesson = { enabled:false, day:1, frequency:'weekly', cycleStart:null, items:[], notes:'' };
@@ -6532,8 +6583,21 @@ if(_psave) _psave.addEventListener('click', function(){
     var changed = (newDay !== state.lesson.day) || (newFreq !== state.lesson.frequency);
     state.lesson.day = newDay;
     state.lesson.frequency = newFreq;
-    // If the schedule changed, re-anchor the current cycle so counts stay sensible.
-    if(changed && lessonOn()){ state.lesson.cycleStart = currentCycleStart(); }
+    // Explicit next-lesson date (fortnightly/occasional). This is the true anchor.
+    var ndInput = document.getElementById('fNextLessonDate');
+    var ndVal = ndInput ? ndInput.value : '';
+    if(newFreq === 'weekly'){
+      state.lesson.nextLesson = null; // weekly derives from the day picker
+    } else if(ndVal){
+      state.lesson.nextLesson = ndVal;
+    }
+    // If the schedule changed, re-anchor from scratch. Clear the old cycleStart first
+    // so the fortnightly maths doesn't step off a stale weekly anchor — then set it to
+    // the most recent lesson day, which is the correct start of the current cycle.
+    if(changed && lessonOn()){
+      state.lesson.cycleStart = null;
+      state.lesson.cycleStart = currentCycleStart();
+    }
   }
   save();
   renderProfile();
